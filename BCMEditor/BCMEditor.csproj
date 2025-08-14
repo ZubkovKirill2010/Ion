@@ -1,0 +1,47 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net9.0-windows</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <UseWPF>true</UseWPF>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Resources\TabList\Resources\**" />
+    <EmbeddedResource Remove="Resources\TabList\Resources\**" />
+    <None Remove="Resources\TabList\Resources\**" />
+    <Page Remove="Resources\TabList\Resources\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="Resources\TabList\Graphics\Add.png" />
+    <None Remove="Resources\TabList\Graphics\Close.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="NHotkey" Version="3.0.0" />
+    <PackageReference Include="NHotkey.Wpf" Version="3.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="BinaryCodeMarkup">
+      <HintPath>..\..\Library\BinaryCodeMarkup\BinaryCodeMarkup\bin\Debug\net9.0\BinaryCodeMarkup.dll</HintPath>
+    </Reference>
+    <Reference Include="HotKeyManagement">
+      <HintPath>..\..\Library\HotKeyManagement\bin\Debug\net9.0-windows\HotKeyManagement.dll</HintPath>
+    </Reference>
+    <Reference Include="Zion">
+      <HintPath>..\..\Library\Zion\bin\Debug\net9.0\Zion.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Resources\TabList\Graphics\Add.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\TabList\Graphics\Close.png" />
+  </ItemGroup>
+
+</Project>

@@ -1,0 +1,444 @@
+﻿<Window x:Class="BCMEditor.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:BCMEditor"
+        mc:Ignorable="d"
+        WindowStyle="None"
+        AllowsTransparency="False"
+        Height="450" Width="800"
+        SizeToContent="Manual" ResizeMode="CanResize">
+
+    <WindowChrome.WindowChrome>
+        <WindowChrome x:Name="WindowChrome"
+            CaptionHeight="0"
+            ResizeBorderThickness="6"
+            GlassFrameThickness="0"
+            UseAeroCaptionButtons="False"/>
+    </WindowChrome.WindowChrome>
+
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+
+                <ResourceDictionary Source="/Resources/Settings/ErrorLogsStyle.xaml"/>
+                <ResourceDictionary Source="/Resources/Settings/TextBoxStyle.xaml"/>
+                <ResourceDictionary Source="/Resources/Settings/TextBlockStyle.xaml"/>
+                <ResourceDictionary Source="/Resources/Settings/CheckBoxStyle.xaml"/>
+                <ResourceDictionary Source="/Resources/Settings/RadioButtonStyle.xaml"/>
+                <ResourceDictionary Source="/Resources/Settings/ButtonStyle.xaml"/>
+
+                <ResourceDictionary Source="/Resources/WindowsControl/WindowControlButtonStyle.xaml"/>
+                <ResourceDictionary Source="/Resources/TabList/Tab.xaml"/>
+                
+                <ResourceDictionary Source="/Resources/Menu/SeparatorStyle.xaml"/>
+                <ResourceDictionary Source="/Resources/Menu/MenuItemStyle.xaml"/>
+                <ResourceDictionary Source="/Resources/Menu/SubMenuItemStyle.xaml"/>
+                
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Window.Resources>
+
+    <Window.Background>
+        <ImageBrush x:Name="BackgroundImage" ImageSource="E:\Basic\Image\Night-Sky-Colorful-Beautiful-Clouds-Mountain-4k-Wallpaper-scaled.jpg" Stretch="Uniform"/>
+    </Window.Background>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <Grid Grid.Row="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+
+            <Grid Grid.Column="0">
+
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*" MinWidth="150"/>
+                </Grid.ColumnDefinitions>
+
+                <Border Grid.Column="0" ClipToBounds="True">
+                    <TabControl x:Name="TabList"
+                        ItemsSource="{Binding Tabs}"
+                        SelectedItem="{Binding SelectedTab, Mode=TwoWay}"
+                        SelectionChanged="SelectTab">
+
+                        <TabControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <StackPanel Orientation="Horizontal"/>
+                            </ItemsPanelTemplate>
+                        </TabControl.ItemsPanel>
+
+                        <TabControl.Template>
+                            <ControlTemplate TargetType="TabControl">
+                                <Grid>
+
+                                    <ScrollViewer Background="#111111"
+                                        HorizontalScrollBarVisibility="Auto"
+                                        VerticalScrollBarVisibility="Disabled">
+                                        <StackPanel Orientation="Horizontal">
+                                            <ItemsPresenter/>
+                                            <Button Style="{StaticResource AddTabButtonStyle}" Click="AddTab"/>
+                                        </StackPanel>
+                                    </ScrollViewer>
+
+                                </Grid>
+                            </ControlTemplate>
+                        </TabControl.Template>
+
+                        <TabControl.ItemContainerStyle>
+                            <Style TargetType="TabItem">
+                                <Setter Property="Template">
+                                    <Setter.Value>
+                                        <ControlTemplate TargetType="TabItem">
+                                            <Border Style="{StaticResource TabItemStyle}">
+                                                <Grid Style="{StaticResource TabContentStyle}">
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="*"/>
+                                                        <ColumnDefinition Width="Auto"/>
+                                                        <ColumnDefinition Width="Auto"/>
+                                                    </Grid.ColumnDefinitions>
+
+                                                    <TextBlock Grid.Column="0" 
+                                                        Text="{Binding Header, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                                                        Style="{StaticResource TabHeaderStyle}"/>
+
+                                                    <TextBlock Grid.Column="1" 
+                                                        Text="{Binding SavedIndicator, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                                                        Style="{StaticResource TabSavedIndicatorStyle}"/>
+
+                                                    <Button Grid.Column="2"
+                                                        Click="CloseTab"
+                                                        Tag="{Binding}" Style="{StaticResource CloseTabButtonStyle}"/>
+                                                </Grid>
+                                            </Border>
+                                        </ControlTemplate>
+                                    </Setter.Value>
+                                </Setter>
+                            </Style>
+                        </TabControl.ItemContainerStyle>
+                    </TabControl>
+                </Border>
+
+                <Border x:Name="DragArea" Grid.Column="1" MinWidth="150" Margin="-1 0 0 0"
+                    Background="#111111" MouseLeftButtonDown="DragWindow"/>
+            </Grid>
+
+            <StackPanel Grid.Column="1" Orientation="Horizontal"
+                HorizontalAlignment="Right" VerticalAlignment="Top">
+
+                <Border Grid.Column="1" MinWidth="150"
+                    Background="#111111" MouseLeftButtonDown="DragWindow"/>
+
+                <Button x:Name="MinimizeButton" 
+                    Style="{StaticResource WindowControlButton}"
+                    Content="─" 
+                    Click="MinimizeWindow" FontSize="16"/>
+
+                <Button x:Name="MaximizeButton" 
+                    Style="{StaticResource WindowControlButton}"
+                    Content="❐" 
+                    Click="MaximizeWindow" FontSize="13"/>
+
+                <Button x:Name="CloseButton" 
+                    Style="{StaticResource WindowControlButton}"
+                    Content="✕" 
+                    Click="Exit"/>
+            </StackPanel>
+        </Grid>
+
+        <Menu x:Name="Menu" Grid.Row="1" Background="#2F2F2F" Foreground="White" FontSize="17" Margin="0 -1 0 0">
+            <Menu.Resources>
+                <Style TargetType="MenuItem" BasedOn="{StaticResource MenuItemStyle}"/>
+
+                <Style TargetType="ContextMenu">
+                    <Setter Property="Background" Value="#1E1E1E"/>
+                    <Setter Property="BorderBrush" Value="#454545"/>
+                    <Setter Property="BorderThickness" Value="1"/>
+                    <Setter Property="Foreground" Value="White"/>
+                    <Setter Property="Padding" Value="0"/>
+                </Style>
+            </Menu.Resources>
+
+            <MenuItem Header="File">
+                <MenuItem Header="New..." InputGestureText="Ctrl+N" Style="{StaticResource ResourceKey=SubMenuItemStyle}">
+
+                    <MenuItem Header="Text formats" Style="{StaticResource ResourceKey=SubMenuItemStyle}">
+                        <MenuItem Header=".txt" InputGestureText="Text file" Click="New"/>
+                        <MenuItem Header=".log" InputGestureText="Log file" Click="New"/>
+                        <MenuItem Header=".ini" InputGestureText="Configuration file" Click="New"/>
+                        <MenuItem Header=".cfg" InputGestureText="Configuration file" Click="New"/>
+                        <MenuItem Header=".conf" InputGestureText="Configuration file" Click="New"/>
+                    </MenuItem>
+
+                    <MenuItem Header="Programming languages" Style="{StaticResource ResourceKey=SubMenuItemStyle}">
+                        <MenuItem Header=".bcm" InputGestureText="Binary code markup" Click="New"/>
+                        <Separator Style="{StaticResource SeparatorStyle}"/>
+                        <MenuItem Header=".cs" InputGestureText="C# source code" Click="New"/>
+                        <MenuItem Header=".cpp" InputGestureText="C++ source code" Click="New"/>
+                        <MenuItem Header=".java" InputGestureText="Java source code" Click="New"/>
+                        <MenuItem Header=".js" InputGestureText="JavaScript file" Click="New"/>
+                        <MenuItem Header=".py" InputGestureText="Python script" Click="New"/>
+                        <MenuItem Header=".kt" InputGestureText="Kotlin source file" Click="New"/>
+                        <MenuItem Header=".swift" InputGestureText="Swift source file" Click="New"/>
+                        <MenuItem Header=".go" InputGestureText="Go source file" Click="New"/>
+                        <MenuItem Header=".rs" InputGestureText="Rust source file" Click="New"/>
+                        <MenuItem Header=".lua" InputGestureText="Lua script" Click="New"/>
+                        <MenuItem Header=".rb" InputGestureText="Ruby script" Click="New"/>
+                        <Separator Style="{StaticResource SeparatorStyle}"/>
+                        <MenuItem Header=".html" InputGestureText="HyperText Markup Language" Click="New"/>
+                        <MenuItem Header=".css" InputGestureText="Cascading Style Sheets" Click="New"/>
+                        <MenuItem Header=".sh" InputGestureText="Bash shell script" Click="New"/>
+                        <MenuItem Header=".ps1" InputGestureText="PowerShell script" Click="New"/>
+                        <MenuItem Header=".sql" InputGestureText="Structured Query Language" Click="New"/>
+                    </MenuItem>
+
+                    <MenuItem Header="Structure data" Style="{StaticResource ResourceKey=SubMenuItemStyle}">
+                        <MenuItem Header=".struct" InputGestureText="Text structure" Click="New"/>
+                        <Separator Style="{StaticResource SeparatorStyle}"/>
+                        <MenuItem Header=".json" InputGestureText="JavaScript Object Notation" Click="New"/>
+                        <MenuItem Header=".xaml" InputGestureText="eXtensible Application Markup Language" Click="New"/>
+                        <MenuItem Header=".xml" InputGestureText="eXtensible Markup Language" Click="New"/>
+                        <MenuItem Header=".csv" InputGestureText="Comma-separated values" Click="New"/>
+                        <MenuItem Header=".yaml" InputGestureText="YAML Ain't Markup Language" Click="New"/>
+                        <MenuItem Header=".yml" InputGestureText="YAML configuration file" Click="New"/>
+                    </MenuItem>
+
+                </MenuItem>
+                <MenuItem Header="Open..." InputGestureText="Ctrl+O" Click="Open"/>
+                    <Separator Style="{StaticResource SeparatorStyle}"/>
+                <MenuItem Header="Save" InputGestureText="Ctrl+S" Click="Save"/>
+                <MenuItem Header="Save As..." InputGestureText="Ctrl+Shift+S" Click="SaveAs"/>
+                    <Separator Style="{StaticResource SeparatorStyle}"/>
+                <MenuItem Header="Save all" InputGestureText="Alt+S" Click="SaveAll"/>
+                <MenuItem Header="Close all" InputGestureText="Alt+C" Click="CloseAll"/>
+                <Separator Style="{StaticResource SeparatorStyle}"/>
+                <MenuItem Header="Reload" InputGestureText="Ctrl+R" Click="Reload" Name="ReloadButton"/>
+                <MenuItem Header="Print..." InputGestureText="Ctrl+P" Click="Print"/>
+                <MenuItem Header="Send" InputGestureText="Ctrl+M" Click="Send"/>
+                    <Separator Style="{StaticResource SeparatorStyle}"/>
+                <MenuItem Header="Exit" InputGestureText="Alt+F4" Click="Exit"/>
+            </MenuItem>
+
+            <MenuItem Header="Edit">
+                <MenuItem Header="To lower" InputGestureText="Ctrl+Shift+L" Click="ToLower"/>
+                <MenuItem Header="To upper" InputGestureText="Ctrl+Shift+U" Click="ToUpper"/>
+                <MenuItem Header="Capitalize" InputGestureText="Ctrl+Shift+C" Click="Capitalize"/>
+                    <Separator Style="{StaticResource SeparatorStyle}"/>
+                <MenuItem Header="Duplicate line" InputGestureText="Ctrl+D" Click="DuplicateLine"/>
+                    <Separator Style="{StaticResource SeparatorStyle}"/>
+                <MenuItem Header="Find..." InputGestureText="Ctrl+F" Click="Find"/>
+                <MenuItem Header="Replace..." InputGestureText="Ctrl+H" Click="Replace"/>
+                <!--<MenuItem Header="Go to..." InputGestureText="Ctrl+G" Click="GoTo"/>-->
+                    <Separator Style="{StaticResource SeparatorStyle}"/>
+                <MenuItem Header="Select All" InputGestureText="Ctrl+A" Command="SelectAll"/>
+            </MenuItem>
+
+            <MenuItem Header="Inserts">
+                <MenuItem Header="Time/date" InputGestureText="F5" Click="InsertTimeDate"/>
+                <MenuItem Header="Only date" Click="InsertDate"/>
+                <MenuItem Header="Only time" Click="InsertTime"/>
+                <MenuItem Header="Calendar" Click="InsertCalendar"/>
+                    <Separator Style="{StaticResource SeparatorStyle}"/>
+                <MenuItem Header="Email" InputGestureText="Ctrl+E" Click="InsertEmail"/>
+
+            </MenuItem>
+
+            <MenuItem Header="Punctuation">
+                <MenuItem Header="Trim" InputGestureText="Ctrl+Shift+T" Click="Trim"/>
+                <MenuItem Header="Remove empty lines" InputGestureText="Ctrl+Shift+Delete" Click="RemoveEmptyLines"/>
+                    <Separator Style="{StaticResource SeparatorStyle}"/>
+                <MenuItem Header="Check brackets" InputGestureText="Ctrl+Shift+B" Click="CheckBrackets"/>
+                <MenuItem Header="Correct spaces" InputGestureText="Ctrl+Shift+K" Click="CorrectSpaces"/>
+                <MenuItem Header="Correct punctuation" InputGestureText="Ctrl+Shift+P" Click="CorrectPunctuation"/>
+            </MenuItem>
+
+            <MenuItem Header="Structuring">
+                <MenuItem Header="Enumerate" InputGestureText="Ctrl+L" Click="Enumerate"/>
+                <MenuItem Header="De enumerate" InputGestureText="Ctrl+Shift+L" Click="Enumerate"/>
+                    <Separator Style="{StaticResource SeparatorStyle}"/>
+                <MenuItem Header="To structure" InputGestureText="Ctrl+W" Click="ToStructure"/>
+                <MenuItem Header="From structure" InputGestureText="Ctrl+Shift+W" Click="FromStructure"/>
+            </MenuItem>
+
+            <MenuItem Header="Clipboard">
+                <MenuItem Header="Undo" InputGestureText="Ctrl+Z" Command="Undo"/>
+                <MenuItem Header="Redo" InputGestureText="Ctrl+Y" Command="Redo"/>
+                    <Separator Style="{StaticResource SeparatorStyle}"/>
+                <MenuItem Header="Cut" InputGestureText="Ctrl+X" Command="Cut"/>
+                <MenuItem Header="Copy" InputGestureText="Ctrl+C" Command="Copy"/>
+                <MenuItem Header="Paste" InputGestureText="Ctrl+V" Command="Paste"/>
+                <MenuItem Header="Delete" InputGestureText="Del" Click="Delete" Name="DeleteButton" IsEnabled="False"/>
+            </MenuItem>
+
+            <MenuItem Header="View">
+                <MenuItem Header="Zoom in" InputGestureText="Ctrl+Plus" Click="ZoomIn"/>
+                <MenuItem Header="Zoom out" InputGestureText="Ctrl+Minus" Click="ZoomOut"/>
+                <MenuItem Header="Set default zoom" InputGestureText="Ctrl+0" Click="SetDefaultZoom"/>
+                    <Separator Style="{StaticResource SeparatorStyle}"/>
+                <MenuItem Header="Close side bar" InputGestureText="Ctrl+B" Click="CloseSideBar"/>
+                    <Separator Style="{StaticResource SeparatorStyle}"/>
+                <MenuItem Header="Logs" Click="OpenLoggingMenu"/>
+                <MenuItem Header="Settings" Click="OpenSettingsMenu"/>
+            </MenuItem>
+
+            <MenuItem Header="Help">
+                <MenuItem Header="View Help"/>
+                <Separator Style="{StaticResource SeparatorStyle}"/>
+                <MenuItem Header="About BCMEditor"/>
+            </MenuItem>
+        </Menu>
+
+        <Grid Grid.Row="2" Background="#EE1F1F1F">
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+            
+            <RichTextBox x:Name="TextEditor" Grid.Column="0"
+                Background="Transparent" Foreground="White" CaretBrush="White"
+                FontSize="20" FontFamily="Consolas"
+                Block.LineHeight="1" AcceptsReturn="True" AcceptsTab="True"
+                HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto"
+                BorderThickness="0" Padding="6 10 6 10" PreviewKeyDown="RichTextBoxKeyDown">
+                <RichTextBox.Resources>
+                    <Style TargetType="RichTextBox">
+                        <Setter Property="Template">
+                            <Setter.Value>
+                                <ControlTemplate TargetType="RichTextBox">
+                                    <Border 
+                                        BorderThickness="{TemplateBinding BorderThickness}"
+                                        Background="{TemplateBinding Background}">
+                                        <ScrollViewer x:Name="PART_ContentHost"
+                                            HorizontalScrollBarVisibility="Auto"
+                                            VerticalScrollBarVisibility="Auto"/>
+                                    </Border>
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+                    </Style>
+                </RichTextBox.Resources>
+            </RichTextBox>
+
+            <Border x:Name="SideBar" Grid.Column="1"
+                    HorizontalAlignment="Right" Width="350"
+                    Background="Transparent" Visibility="Collapsed"
+                    CornerRadius="12 0 0 12" BorderThickness="2 2 0 2" BorderBrush="#2F2F2F">
+
+                <Border.RenderTransform>
+                    <TranslateTransform X="350"/>
+                </Border.RenderTransform>
+
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+
+                    <TextBlock x:Name="SideBarHeader" Grid.Row="0" Margin="8 4 4 4"
+                        Foreground="White" FontSize="18" FontWeight="Bold"/>
+
+                    <Separator Grid.Row="1" Style="{StaticResource SeparatorStyle}" Background="#2F2F2F"/>
+
+                    <Grid Grid.Row="2" Margin="6 -2 0 0">
+                        <StackPanel x:Name="SettingsMenu" Visibility="Collapsed">
+                            <TextBlock Text="Email:" Style="{StaticResource TextBlockStyle}"/>
+                            <TextBox x:Name="Settings_Email" 
+                                Text="{Binding Email, Mode=TwoWay, UpdateSourceTrigger=Default}"
+                                Style="{StaticResource TextBoxStyle}"/>
+                            
+                            <CheckBox x:Name="Settings_SpellCheck" Content="Проверка орфографии" Style="{StaticResource CheckBoxStyle}" Margin="0 7 0 0"/>
+                        </StackPanel>
+
+                        
+                        <StackPanel x:Name="SearchingMenu" Margin="10" Visibility="Collapsed">
+                            <TextBox Style="{StaticResource TextBoxStyle}" Margin="0 0 0 15"/>
+                            <CheckBox Content="Учитывать регистр" Style="{StaticResource CheckBoxStyle}"/>
+                            <CheckBox Content="Слово целиком" Style="{StaticResource CheckBoxStyle}"/>
+                            <CheckBox Content="Использовать экранированные символы" Style="{StaticResource CheckBoxStyle}"/>
+                        </StackPanel>
+
+                        
+                        <StackPanel x:Name="ReplacingMenu" Margin="10" Visibility="Collapsed">
+                            <TextBox Style="{StaticResource TextBoxStyle}" Margin="0 0 0 4"/>
+                            <TextBlock Text="Заменить на:" Style="{StaticResource TextBlockStyle}" Margin="10 0 0 2.5"/>
+                            <TextBox Style="{StaticResource TextBoxStyle}" Margin="0 4 0 15"/>
+
+                            <CheckBox Content="Учитывать регистр" Style="{StaticResource CheckBoxStyle}"/>
+                            <CheckBox Content="Слово целиком" Style="{StaticResource CheckBoxStyle}"/>
+                            <CheckBox Content="Использовать экранированные символы" Style="{StaticResource CheckBoxStyle}"/>
+                        </StackPanel>
+
+                        
+                        <StackPanel x:Name="SendingMenu" Margin="10" Visibility="Collapsed">
+                            <TextBlock Text="Заголовок:" Style="{StaticResource TextBlockStyle}"/>
+                            <TextBox x:Name="MessageHeader" Style="{StaticResource TextBoxStyle}" Margin="0 5 0 5"/>
+                            
+                            <TextBlock Text="Отправить:" Style="{StaticResource TextBlockStyle}"/>
+                            <RadioButton x:Name="SendAllText"
+                                Style="{StaticResource RadioButtonStyle}"
+                                GroupName="SendGroup"
+                                Content="Весь текст"
+                                IsChecked="True"/>
+
+                            <RadioButton x:Name="SendSelection"
+                                Style="{StaticResource RadioButtonStyle}"
+                                GroupName="SendGroup"
+                                Content="Выделенный текст"/>
+                        </StackPanel>
+
+                        
+                        <StackPanel x:Name="LoggingMenu" Margin="10" Visibility="Collapsed">
+                            <ListView x:Name="ErrorListView" Focusable="False"
+                                Style="{StaticResource ErrorListViewStyle}"
+                                ItemContainerStyle="{StaticResource ErrorListItemStyle}"
+                                ItemsSource="{Binding ErrorLogs, RelativeSource={RelativeSource AncestorType=Window}}"
+                                MaxHeight="300">
+                                <ListView.ItemTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding Message}" 
+                                           TextWrapping="Wrap"
+                                           Padding="10 5"/>
+                                    </DataTemplate>
+                                </ListView.ItemTemplate>
+                            </ListView>
+                        </StackPanel>
+
+                        
+                        <StackPanel x:Name="GoToMenu" Grid.Row="1" Margin="10" Visibility="Collapsed">
+                            <TextBlock Text="Номер строки:" Style="{StaticResource TextBlockStyle}"/>
+                            <TextBox x:Name="GoTo_LineIndex" Style="{StaticResource TextBoxStyle}"/>
+                        </StackPanel>
+
+                    </Grid>
+
+                    <Grid Grid.Row="3" Height="34">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+
+                        <Button x:Name="CancelButton" Grid.Column="0" Style="{StaticResource CancelButtonStyle}" Click="CancelButtonClick"/>
+                        <Button x:Name="ApplyButton" Grid.Column="1" Style="{StaticResource ApplyButtonStyle}" Click="ApplyButtonClick"/>
+                    </Grid>
+                </Grid>
+            </Border>
+        </Grid>
+
+        <TextBlock x:Name="MessageBox" Grid.Row="3"
+            Height="Auto" Padding="2 2 0 2"
+            Background="#424242" Foreground="White"
+            FontSize="14" FontFamily="Segoe UI" />
+    </Grid>
+</Window>
