@@ -9,7 +9,7 @@
 //        private readonly RichTextBox _TextBox;
 //        private readonly TextBox _IndexBox;
 
-//        public override string _Header => "Перейти";
+//        public override string _HeaderField => "Перейти";
 //        public override string _CancelButtonText => "Отмена";
 //        public override string _ApplyButtonText => "Перейти";
 

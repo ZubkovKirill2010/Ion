@@ -16,6 +16,7 @@ namespace BCMEditor
             InitalizeInsertsHotKeys();
             InitalizePunctuationHotKeys();
             InitalizeStructuringHotKeys();
+            InitalizeClipboardHotKeys();
             InitalizeViewHotKeys();
         }
 
@@ -64,6 +65,10 @@ namespace BCMEditor
             AddKey("ToStructure", Key.W, ModifierKeys.Control, ToStructure);
             AddKey("ToStructure", Key.W, ModifierKeys.Control | ModifierKeys.Shift, FromStructure);
         }
+        private void InitalizeClipboardHotKeys()
+        {
+            AddKey("Paste", Key.V, ModifierKeys.Control, Paste);
+        }
         private void InitalizeViewHotKeys()
         {
             AddKey("ZoomIn", Key.OemPlus, ModifierKeys.Control, ZoomIn);
@@ -97,6 +102,11 @@ namespace BCMEditor
             if (E.Key == Key.Tab && Keyboard.Modifiers == ModifierKeys.None)
             {
                 InsertText("\t");
+                E.Handled = true;
+            }
+            if (E.Key == Key.V && Keyboard.Modifiers == ModifierKeys.Control)
+            {
+                Paste(Sender, E);
                 E.Handled = true;
             }
 

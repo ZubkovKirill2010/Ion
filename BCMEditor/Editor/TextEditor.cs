@@ -1,12 +1,15 @@
 ﻿using BCMEditor.Tabs;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Documents;
 using System.Windows.Input;
 
 namespace BCMEditor
 {
     public sealed class TextEditor
     {
+        private bool _TextChanged = true;
+
         private readonly MainWindow _Window;
         public readonly RichTextBox _TextField;
         public Tab _CurrentTab;
@@ -35,10 +38,20 @@ namespace BCMEditor
         public void Save() => _CurrentTab.SaveFile();
         public void SaveAs() => _CurrentTab.SaveAs();
 
+        public void SetDocument(FlowDocument Document)
+        {
+            _TextChanged = false;
+            _TextField.Document = Document;
+            _TextChanged = true;
+        }
+
         public void TextChanged(object Sender, TextChangedEventArgs E)
         {
-            _CurrentTab._IsSaved = false;
-            _CurrentTab.TextChanged(Sender, E);
+            if (_TextChanged)
+            {
+                _CurrentTab._IsSaved = false;
+                _CurrentTab.TextChanged(Sender, E);
+            }
         }
     }
 }

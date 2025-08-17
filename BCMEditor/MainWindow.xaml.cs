@@ -28,6 +28,8 @@ namespace BCMEditor
             _SideBar = new SideBar(this);
             _MessageBox = MessageBox;
 
+            Tab.Initialize(this);
+
             string[] Arguments = App._Arguments;
 
             if (Arguments.IsNullOrEmpty())

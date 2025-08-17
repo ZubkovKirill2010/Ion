@@ -5,16 +5,25 @@ namespace BCMEditor.Tabs
 {
     public sealed class TxtTab : Tab
     {
-        public TxtTab() : base() { }
+        public TxtTab() { }
         public TxtTab(string Text) : base(Text) { }
         public TxtTab(FlowDocument Document) : base(Document) { }
 
         public override void ReadFile()
         {
-            SetDocument
-            (
-                File.ReadAllText(_CurrentFile)
-            );
+            try
+            {
+                SetDocument
+                (
+                    File.ReadAllText(_CurrentFile)
+                );
+                _IsSaved = true;
+            }
+            catch (Exception Exception)
+            {
+                MainWindow.Log($"Ошибка при чтении файла \"{_CurrentFile}\"");
+                MainWindow.LogError(Exception);
+            }
         }
 
 

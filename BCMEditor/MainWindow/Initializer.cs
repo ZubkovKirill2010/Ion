@@ -1,4 +1,6 @@
-﻿namespace BCMEditor
+﻿using BCMEditor.Tabs;
+
+namespace BCMEditor
 {
     public partial class MainWindow
     {

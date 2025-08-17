@@ -1,8 +1,10 @@
 ﻿using Microsoft.Win32;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.IO;
 using System.Runtime.CompilerServices;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Documents;
 
@@ -38,41 +40,35 @@ namespace BCMEditor.Tabs
         }
 
         private bool _IsSavedField;
-        public bool _IsSaved
+        public virtual bool _IsSaved
         {
             get => _IsSavedField;
             set
             {
-                if (_IsSavedField != value)
-                {
-                    _IsSavedField = value;
-                    SavedIndicator = value ? " " : "*";
-                }
+                _IsSavedField = value;
+                _SavedIndicator = value ? Visibility.Hidden : Visibility.Visible;
             }
         }
 
-        private string _Header = "Без имени";
-        public string Header
-        {
-            get => _Header;
-            set
-            {
-                _Header = value;
-                OnPropertyChanged(nameof(Header));
-            }
-        }
-
-        private string _SavedIndicatorField = "*";
-        public string SavedIndicator
+        private Visibility _SavedIndicatorField;
+        public Visibility _SavedIndicator
         {
             get => _SavedIndicatorField;
-            private set
+            set
             {
-                if (_SavedIndicatorField != value)
-                {
-                    _SavedIndicatorField = value;
-                    OnPropertyChanged(nameof(SavedIndicator));
-                }
+                _SavedIndicatorField = value;
+                OnPropertyChanged();
+            }
+        }
+
+        private string _HeaderField = "Без имени";
+        public string _Header
+        {
+            get => _HeaderField;
+            set
+            {
+                _HeaderField = value;
+                OnPropertyChanged(nameof(_Header));
             }
         }
 
@@ -85,23 +81,32 @@ namespace BCMEditor.Tabs
             //#reserve saving
         }
 
+        public static void Initialize(MainWindow Window)
+        {
+            if (_TextEditor is null)
+            {
+                _TextEditor = Window._Editor;
+            }   
+        }
+
 
         public void SaveFile()
         {
             if (_CurrentFile is null)
             {
                 _CurrentFile = GetFilePath();
-            }
 
-            if (_CurrentFile is not null)
-            {
-                Save();
+                if (_CurrentFile is not null)
+                {
+                    Save();
+                }               
             }
         }
 
         protected virtual void Save()
         {
             MainWindow.Log($"Сохранение файла \"{_CurrentFile}\"");
+
             Task.Run(async () =>
             {
                 try
@@ -110,9 +115,10 @@ namespace BCMEditor.Tabs
                     _IsSaved = true;
                     MainWindow.Log($"Файл \"{_CurrentFile}\" сохранён");
                 }
-                catch
+                catch (Exception Exception)
                 {
                     MainWindow.Log($"Ошибка при сохранении \"{_CurrentFile}\"");
+                    MainWindow.LogError(Exception);
                 }
             });
         }
@@ -209,10 +215,10 @@ namespace BCMEditor.Tabs
 
         private void UpdateHeader()
         {
-            Header = Path.GetFileName(_CurrentFile) ?? "Без имени";
+            _Header = Path.GetFileName(_CurrentFile) ?? "Без имени";
         }
 
-        private void OnPropertyChanged([CallerMemberName] string? PropertyName = null)
+        protected void OnPropertyChanged([CallerMemberName] string? PropertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(PropertyName));
         }

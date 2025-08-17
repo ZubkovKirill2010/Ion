@@ -1,8 +1,10 @@
-﻿using BCMEditor.SideBarMenu;
+﻿using BCMEditor.Extensions;
+using BCMEditor.SideBarMenu;
 using BCMEditor.Tabs;
 using Microsoft.Win32;
 using System.Collections.ObjectModel;
 using System.IO;
+using System.Reflection;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
@@ -59,11 +61,11 @@ namespace BCMEditor
 
                         NewTab._CurrentFile = FilePath;
                         NewTab.ReadFile();
+                        NewTab._IsSaved = true;
 
                         AddTab(NewTab);
 
-                        NewTab._IsSaved = true;
-
+                        TextEditor.CaretPosition = TextEditor.Document.ContentEnd;
                     }
                     catch (Exception Exception)
                     {
@@ -113,7 +115,7 @@ namespace BCMEditor
             }
 
             SelectedTab.ReadFile();
-            TextEditor.Document = SelectedTab._Document;
+            _Editor.SetDocument(SelectedTab._Document);
         }
         private void Print(object Sender, RoutedEventArgs E)
         {
@@ -302,6 +304,39 @@ namespace BCMEditor
             InsertText(Email.Length == 0 ? "{Укажите почту в настройках}" : Email);
         }
 
+        private void SpecialChars(object Sender, RoutedEventArgs E)
+        {
+            string Text =
+@"──────
+━━━━━━
+╌╌╌╌╌╌
+╍╍╍╍╍╍
+┄┄┄┄┄┄
+┅┅┅┅┅┅
+┈┈┈┈┈┈
+┉┉┉┉┉┉
+
+│┃╎╏┆┇┊┋
+│┃╎╏┆┇┊┋
+
+┌┐┍┑┎┒┏┓╭╮
+└┘┕┙┖┚┗┛╰╯
+
+├ ┤┝ ┥┞ ┦┟ ┧
+
+┼ ┽ ┾ ┿ ╂ ╋
+
+╱ ╲ ╳
+
+◈ ◆ ◇ ■ □ ▣ ▤ ▥ ▦ ● ○ ◎ ★ ☆";
+
+            var Tab = new ConstTab(Text)
+            {
+                _Header = "Special chars"
+            };
+            AddTab(Tab);
+        }
+
         #endregion
 
         #region Punctuation
@@ -385,18 +420,23 @@ namespace BCMEditor
             string Text = GetRange().Text;
             string Result = Structure.Parse(Text).ToString();
 
-            if (Text.CountOf('\n') > Result.CountOf('\n'))
+            int LastLinesCount = Text.CountOf('\n');
+            int NewLinesCount = Result.CountOf('\n');
+
+            if (LastLinesCount - 1 > NewLinesCount)
             {
-                LogError("Ошибка преобразования структуры");
-                LogError($"Ошибка преобразования структуры : {Text.CountOf('\n')}/{Result.CountOf('\n')}");
+                Log($"Ошибка преобразования структуры");
+                LogError($"Ошибка преобразования структуры [To] : {LastLinesCount}/{NewLinesCount}");
                 return;
             }
 
             TextEditor.Selection.Text = Result;
+            TextEditor.DeSelect();
         }
         private void FromStructure(object Sender, RoutedEventArgs E)
         {
-            if (TextEditor.Selection.IsEmpty)
+            TextSelection Selection = TextEditor.Selection;
+            if (Selection.IsEmpty)
             {
                 TextEditor.SelectAll();
             }
@@ -416,13 +456,18 @@ namespace BCMEditor
 
             string Result = Builder.ToString();
 
-            if (Text.CountOf('\n') != Result.CountOf('\n'))
+            int LastLinesCount = Text.CountOf('\n');
+            int NewLinesCount = Result.CountOf('\n');
+
+            if (LastLinesCount - 1 > NewLinesCount)
             {
-                Log("Ошибка преобразования структуры");
+                Log($"Ошибка преобразования структуры");
+                LogError($"Ошибка преобразования структуры [From] : {LastLinesCount}/{NewLinesCount}");
                 return;
             }
 
-            TextEditor.Selection.Text = Result;
+            Selection.Text = Result;
+            TextEditor.DeSelect();
         }
 
         #endregion
@@ -444,6 +489,12 @@ namespace BCMEditor
                 },
                 DispatcherPriority.Input
             );
+        }
+
+        private void Paste(object Sender, RoutedEventArgs E)
+        {
+            Log("Paste");
+            InsertText(Clipboard.GetText());
         }
 
         #endregion

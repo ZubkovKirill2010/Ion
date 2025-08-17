@@ -20,5 +20,10 @@ namespace BCMEditor.Extensions
         {
             return TextBox.GetAllText().Text.CountOf('\n') + 1;
         }
+
+        public static void DeSelect(this RichTextBox TextBox)
+        {
+            TextBox.Selection.Select(TextBox.CaretPosition, TextBox.CaretPosition);
+        }
     }
 }

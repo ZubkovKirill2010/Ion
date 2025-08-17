@@ -33,16 +33,15 @@ namespace BCMEditor
         public void AddTab(Tab Tab)
         {
             Tabs.Add(Tab);
-            SelectTab(_Tabs.Count - 1);
+            SelectTab(Tab);
         }
 
 
         public void AddTab(object Sender, RoutedEventArgs E)
         {
             TextEditor.Focus();
-            Tabs.Add(new TxtTab());
-            SelectTab(_Tabs.Count - 1);
-            TextEditor.Document = Tabs[0]._Document;
+
+            AddTab(new TxtTab());
         }
 
         public void CloseTab(object Sender, RoutedEventArgs E)
@@ -58,12 +57,11 @@ namespace BCMEditor
             if (TabList.SelectedItem is Tab SelectedTab)
             {
                 SelectTab(SelectedTab);
-
                 Log(SelectedTab._CurrentFile ?? "Не сохранённый файл");
             }
             else
             {
-                TextEditor.Document = new FlowDocument();
+                _Editor.SetDocument(new FlowDocument());
             }
         }
 
@@ -72,7 +70,7 @@ namespace BCMEditor
         {
             _Editor._CurrentTab = Tab;
 
-            TextEditor.Document = Tab._Document;
+            _Editor.SetDocument(Tab._Document);
             TabList.SelectedItem = Tab;
 
             ReloadButton.IsEnabled = Tab.IsSaved();
@@ -101,7 +99,7 @@ namespace BCMEditor
             //#Temp
             MessageBoxResult Result = System.Windows.MessageBox.Show
             (
-                $"Сохранить изменения в \"{Tab.Header}\" перед закрытием?",
+                $"Сохранить изменения в \"{Tab._Header}\" перед закрытием?",
                 "Подтверждение",
                 MessageBoxButton.YesNoCancel,
                 MessageBoxImage.Question
