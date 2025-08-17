@@ -1,7 +1,10 @@
 ﻿using HotKeyManagement;
+using System.Configuration;
+using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using System.Windows.Interop;
 using System.Windows.Media;
 
 namespace BCMEditor
@@ -23,10 +26,10 @@ namespace BCMEditor
 
         private void InitializeWindowParameters()
         {
-            HotKeyInterceptor.Initialize(this);
-
             _NormalThinkes = WindowChrome.ResizeBorderThickness;
             _NormalCornerRadius = WindowChrome.CornerRadius;
+
+            HotKeyInterceptor.Initialize(this);
 
             HotKeyInterceptor.OverwriteGlobalHotKey
             (
@@ -43,6 +46,8 @@ namespace BCMEditor
                 GlobalHotKey.Alt_F4,
                 Exit
             );
+
+            StateChanged += OnStateChanged;
         }
 
 
@@ -130,6 +135,15 @@ namespace BCMEditor
             MaximizeButton.Content = "□";
         }
 
+
+        public void OnStateChanged(object Sender, EventArgs E)
+        {
+            if (WindowState == WindowState.Maximized)
+            {
+                WindowState = WindowState.Normal;
+                MaximizeWindow();
+            }
+        }
 
         private void SaveWindowRect()
             => _NormalWindowRect = new Rect(Left, Top, Width, Height);

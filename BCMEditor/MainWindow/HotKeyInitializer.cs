@@ -1,6 +1,8 @@
 ﻿using HotKeyManagement;
+using System.Diagnostics;
 using System.Windows;
 using System.Windows.Input;
+using Zion;
 
 namespace BCMEditor
 {
@@ -18,6 +20,7 @@ namespace BCMEditor
             InitalizeStructuringHotKeys();
             InitalizeClipboardHotKeys();
             InitalizeViewHotKeys();
+            InitalizeTabsKeys();
         }
 
         private void InitalizeFileHotKeys()
@@ -91,9 +94,23 @@ namespace BCMEditor
 
             AddKey("CloseSideBar", Key.B, ModifierKeys.Control, CloseSideBar);
         }
+        private void InitalizeTabsKeys()
+        {
+            AddKey("NextTab", Key.Right, ModifierKeys.Alt, NextTab);
+            AddKey("PreviousTab", Key.Left, ModifierKeys.Alt, PreviousTab);
+            AddKey("OpenLastTab", Key.D0, ModifierKeys.Alt, OpenLastTab);
+
+            for (int i = 0; i < 9; i++)
+            {
+                int TabIndex = i;
+                AddKey($"OpenTab[{TabIndex}]", (Key)(TabIndex + 35), ModifierKeys.Alt, () => OpenTab(TabIndex));
+            }
+        }
 
 
-        private void AddKey(string Name, Key Key, ModifierKeys Modifiers, RoutedEventHandler Handler)
+private void AddKey(string Name, Key Key, ModifierKeys Modifiers, RoutedEventHandler Handler)
+            => LocalHotKeys.AddKey(Name, Key, Modifiers, Handler);
+        private void AddKey(string Name, Key Key, ModifierKeys Modifiers, Action Handler)
             => LocalHotKeys.AddKey(Name, Key, Modifiers, Handler);
 
 
