@@ -36,6 +36,52 @@ namespace BCMEditor
             SelectTab(Tab);
         }
 
+        public void OpenTab(int Index)
+        {
+            SelectTab(int.Clamp(Index, 0, Tabs.Count - 1));
+        }
+        public void OpenLastTab()
+        {
+            SelectTab(Tabs.Count - 1);
+        }
+
+
+        public void NextTab(object Sender, RoutedEventArgs E)
+        {
+            if (Tabs.Count == 1)
+            {
+                return;
+            }
+
+            int TargetTab = TabList.SelectedIndex + 1;
+            if (TargetTab >= Tabs.Count)
+            {
+                TargetTab = 0;
+            }
+
+            SelectTab(TargetTab);
+        }
+        public void PreviousTab(object Sender, RoutedEventArgs E)
+        {
+            if (Tabs.Count == 1)
+            {
+                return;
+            }
+
+            if (Tabs.Count == 1)
+            {
+                return;
+            }
+
+            int TargetTab = TabList.SelectedIndex - 1;
+            if (TargetTab < 0)
+            {
+                TargetTab = Tabs.Count - 1;
+            }
+
+            SelectTab(TargetTab);
+        }
+
 
         public void AddTab(object Sender, RoutedEventArgs E)
         {
