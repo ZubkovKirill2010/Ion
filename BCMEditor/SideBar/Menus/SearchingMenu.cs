@@ -77,7 +77,6 @@ namespace BCMEditor.SideBarMenu
                 {
                     TextPointer Navigator = _Editor.Document.ContentStart;
                     int CurrentOffset = 0;
-                    bool Found = false;
 
                     while (Navigator is not null && Navigator.CompareTo(_Editor.Document.ContentEnd) < 0)
                     {
@@ -99,7 +98,6 @@ namespace BCMEditor.SideBarMenu
                                 if (Start is not null && End is not null)
                                 {
                                     Highlight(new TextRange(Start, End));
-                                    Found = true;
 
                                     if (LengthInRun < Match.Length)
                                     {
@@ -135,11 +133,6 @@ namespace BCMEditor.SideBarMenu
                             CurrentOffset += ElementLength;
                             Navigator = Navigator.GetNextContextPosition(LogicalDirection.Forward);
                         }
-                    }
-
-                    if (!Found)
-                    {
-                        MainWindow.Log($"Совпадение не найдено в документе: {Match.Value}");
                     }
                 }
 

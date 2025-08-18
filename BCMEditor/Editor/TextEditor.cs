@@ -1,5 +1,4 @@
 ﻿using BCMEditor.Tabs;
-using System.Reflection.Metadata;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Documents;
@@ -50,7 +49,7 @@ namespace BCMEditor
         }
         public void SetDocument(string Text)
         {
-            var Document = new FlowDocument();
+            FlowDocument Document = new FlowDocument();
             Document.Blocks.Add(new Paragraph(new Run(Text)));
 
             SetDocument(Document);

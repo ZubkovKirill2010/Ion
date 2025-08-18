@@ -126,7 +126,7 @@ namespace BCMEditor
             E.Handled = (E.Key, Keyboard.Modifiers) switch
             {
                 (Key.Tab, ModifierKeys.None) => HandleAction(WriteTab),
-                (Key.Enter, _) => HandleAction(() => WriteEnter(Keyboard.Modifiers)),
+                (Key.Enter, _) => HandleAction(() => WriteNewLine(Keyboard.Modifiers)),
                 (Key.I, ModifierKeys.Control) => HandleAction(InsertSeparator, E),
                 (Key.Tab, ModifierKeys.Shift) => HandleAction(LevelDown, E),
                 (Key.V, ModifierKeys.Control) => HandleAction(Paste, E),

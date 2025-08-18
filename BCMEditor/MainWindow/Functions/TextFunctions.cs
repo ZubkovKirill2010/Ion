@@ -4,6 +4,7 @@ using System.Text;
 using System.Windows;
 using System.Windows.Documents;
 using System.Windows.Input;
+using System.Windows.Threading;
 using Zion;
 using Zion.Text;
 
@@ -263,17 +264,27 @@ namespace BCMEditor
             }
         }
 
-        private void WriteEnter(ModifierKeys Modifier)
+        private void WriteNewLine(ModifierKeys Modifier)
         {
-            TextRange Range = GetLine();
-
-            if (Range.IsEmpty)
+            if (TextEditor.Document.Blocks.Count == 0)
             {
-                InsertText(_NewLine);
+                Dispatcher.Invoke(() =>
+                {
+                    TextEditor.Document.Blocks.Add(new Paragraph(new Run(_NewLine)));
+                    TextEditor.CaretPosition = TextEditor.Document.ContentEnd;
+                }, DispatcherPriority.Input);
                 return;
             }
 
+            TextRange Range = GetLine();
             string String = Range.Text;
+
+            if (String.Length == 0)
+            {
+                AppendText(_NewLine);
+                return;
+            }
+
             string Prefix = string.Empty;
 
             if (Accessor.Out(String.GetLevel(), out int Level) != 0)
@@ -289,16 +300,14 @@ namespace BCMEditor
 
             switch (Modifier)
             {
-                case ModifierKeys.None:
-                    InsertText(Prefix);
-                    break;
-
                 case ModifierKeys.Control:
-                    // Новая строка ВЫШЕ текущей с сохранением отступа
                     break;
 
                 case ModifierKeys.Shift:
-                    // Новая строка НИЖЕ текущей с сохранением отступа
+                    break;
+
+                default:
+                    InsertText(Prefix);
                     break;
             }
         }

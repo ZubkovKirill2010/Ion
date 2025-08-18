@@ -55,7 +55,8 @@ namespace BCMEditor.SideBarMenu
             return
 $@"[Type] {Exception.GetType().FullName}
 [Source] {Exception.Source}
-[Message] {Exception.Message}";
+[Message] {Exception.Message}
+[Stack] {Exception.StackTrace}";
         }
     }
 }
