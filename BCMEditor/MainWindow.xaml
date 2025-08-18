@@ -389,21 +389,23 @@
 
                         
                         <StackPanel x:Name="SearchingMenu" Margin="10" Visibility="Collapsed">
-                            <TextBox Style="{StaticResource TextBoxStyle}" Margin="0 0 0 15"/>
-                            <CheckBox Content="Учитывать регистр" Style="{StaticResource CheckBoxStyle}"/>
-                            <CheckBox Content="Слово целиком" Style="{StaticResource CheckBoxStyle}"/>
-                            <CheckBox Content="Использовать экранированные символы" Style="{StaticResource CheckBoxStyle}"/>
+                            <TextBox  x:Name="SearchingMenu_Target"                  Style="{StaticResource TextBoxStyle}" Margin="0 0 0 15"/>
+                            <CheckBox x:Name="SearchingMenu_CaseSensitive"           Content="Учитывать регистр" Style="{StaticResource CheckBoxStyle}"/>
+                            <CheckBox x:Name="SearchingMenu_WholeWord"               Content="Слово целиком" Style="{StaticResource CheckBoxStyle}"/>
+                            <CheckBox x:Name="SearchingMenu_UsingUnicodeChars"       Content="Использовать экранированные символы" Style="{StaticResource CheckBoxStyle}"/>
+                            <CheckBox x:Name="SearchingMenu_UsingRegulatExpressions" Content="Использовать регулярные выражения" Style="{StaticResource CheckBoxStyle}"/>
                         </StackPanel>
 
                         
                         <StackPanel x:Name="ReplacingMenu" Margin="10" Visibility="Collapsed">
-                            <TextBox Style="{StaticResource TextBoxStyle}" Margin="0 0 0 4"/>
-                            <TextBlock Text="Заменить на:" Style="{StaticResource TextBlockStyle}" Margin="10 0 0 2.5"/>
-                            <TextBox Style="{StaticResource TextBoxStyle}" Margin="0 4 0 15"/>
+                            <TextBox x:Name="ReplacingMenu_From" Style="{StaticResource TextBoxStyle}" Margin="0 0 0 4"/>
+                            <TextBlock Text="Заменить на:"       Style="{StaticResource TextBlockStyle}" Margin="10 0 0 2.5"/>
+                            <TextBox x:Name="ReplacingMenu_To"   Style="{StaticResource TextBoxStyle}" Margin="0 4 0 15"/>
 
-                            <CheckBox Content="Учитывать регистр" Style="{StaticResource CheckBoxStyle}"/>
-                            <CheckBox Content="Слово целиком" Style="{StaticResource CheckBoxStyle}"/>
-                            <CheckBox Content="Использовать экранированные символы" Style="{StaticResource CheckBoxStyle}"/>
+                            <CheckBox x:Name="ReplacingMenu_CaseSensitive"           Content="Учитывать регистр" Style="{StaticResource CheckBoxStyle}"/>
+                            <CheckBox x:Name="ReplacingMenu_WholeWord"               Content="Слово целиком" Style="{StaticResource CheckBoxStyle}"/>
+                            <CheckBox x:Name="ReplacingMenu_UsingUnicodeChars"       Content="Использовать экранированные символы" Style="{StaticResource CheckBoxStyle}"/>
+                            <CheckBox x:Name="ReplacingMenu_UsingRegulatExpressions" Content="Использовать регулярные выражения" Style="{StaticResource CheckBoxStyle}"/>
                         </StackPanel>
 
                         

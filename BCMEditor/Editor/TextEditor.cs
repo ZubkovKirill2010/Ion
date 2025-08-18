@@ -1,4 +1,5 @@
 ﻿using BCMEditor.Tabs;
+using System.Reflection.Metadata;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Documents;
@@ -46,6 +47,13 @@ namespace BCMEditor
             _TextChanged = false;
             _TextField.Document = Document;
             _TextChanged = true;
+        }
+        public void SetDocument(string Text)
+        {
+            var Document = new FlowDocument();
+            Document.Blocks.Add(new Paragraph(new Run(Text)));
+
+            SetDocument(Document);
         }
 
         public void TextChanged(object Sender, TextChangedEventArgs E)

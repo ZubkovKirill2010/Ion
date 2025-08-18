@@ -80,8 +80,8 @@ namespace BCMEditor.SideBarMenu
 
         public void Cancel()
         {
-            OpenMenu(SideBarType.None);
             _CurrentMenu?.Cancel();
+            OpenMenu(SideBarType.None);
         }
 
         public void Apply()
