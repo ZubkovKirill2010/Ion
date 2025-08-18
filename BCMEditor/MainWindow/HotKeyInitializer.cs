@@ -1,8 +1,6 @@
 ﻿using HotKeyManagement;
-using System.Diagnostics;
 using System.Windows;
 using System.Windows.Input;
-using Zion;
 
 namespace BCMEditor
 {
@@ -40,16 +38,22 @@ namespace BCMEditor
         }
         private void InitalizeEditHotKeys()
         {
+            AddKey("ToLower", Key.L, ModifierKeys.Control | ModifierKeys.Shift, ToLower);
+            AddKey("ToUpper", Key.U, ModifierKeys.Control | ModifierKeys.Shift, ToUpper);
+            AddKey("Capitalize", Key.C, ModifierKeys.Control | ModifierKeys.Shift, Capitalize);
+
             AddKey("Find", Key.F, ModifierKeys.Control, Find);
             AddKey("Replace", Key.H, ModifierKeys.Control, Replace);
             //AddKey("GoTo", Key.G, ModifierKeys.Control, GoTo);
 
-            AddKey("DuplicateLine", Key.D, ModifierKeys.Control, DuplicateLine);
+            AddKey("Do", Key.D, ModifierKeys.Control, Do);
+            AddKey("DuplicateLine", Key.D, ModifierKeys.Control | ModifierKeys.Shift, DuplicateLine);
         }
         private void InitalizeInsertsHotKeys()
         {
             AddKey("Time/Date", Key.F5, ModifierKeys.None, InsertTimeDate);
             AddKey("Email", Key.E, ModifierKeys.Control, InsertEmail);
+            AddKey("Separator", Key.I, ModifierKeys.Control, InsertSeparator);
         }
         private void InitalizePunctuationHotKeys()
         {
@@ -67,6 +71,9 @@ namespace BCMEditor
 
             AddKey("ToStructure", Key.W, ModifierKeys.Control, ToStructure);
             AddKey("ToStructure", Key.W, ModifierKeys.Control | ModifierKeys.Shift, FromStructure);
+
+            AddKey("Group", Key.G, ModifierKeys.Control, Group);
+            AddKey("Ungroup", Key.G, ModifierKeys.Control | ModifierKeys.Shift, Ungroup);
         }
         private void InitalizeClipboardHotKeys()
         {
@@ -108,52 +115,42 @@ namespace BCMEditor
         }
 
 
-private void AddKey(string Name, Key Key, ModifierKeys Modifiers, RoutedEventHandler Handler)
+        private void AddKey(string Name, Key Key, ModifierKeys Modifiers, RoutedEventHandler Handler)
             => LocalHotKeys.AddKey(Name, Key, Modifiers, Handler);
         private void AddKey(string Name, Key Key, ModifierKeys Modifiers, Action Handler)
             => LocalHotKeys.AddKey(Name, Key, Modifiers, Handler);
 
 
-        private void RichTextBoxKeyDown(object Sender, KeyEventArgs E)
+        private void RichTextBoxKeyDown(object sender, KeyEventArgs E)
         {
-            if (E.Key == Key.Tab && Keyboard.Modifiers == ModifierKeys.None)
+            E.Handled = (E.Key, Keyboard.Modifiers) switch
             {
-                InsertText("\t");
-                E.Handled = true;
-            }
-            if (E.Key == Key.V && Keyboard.Modifiers == ModifierKeys.Control)
-            {
-                Paste(Sender, E);
-                E.Handled = true;
-            }
+                (Key.Tab, ModifierKeys.None) => HandleAction(WriteTab),
+                (Key.Enter, _) => HandleAction(() => WriteEnter(Keyboard.Modifiers)),
+                (Key.I, ModifierKeys.Control) => HandleAction(InsertSeparator, E),
+                (Key.Tab, ModifierKeys.Shift) => HandleAction(LevelDown, E),
+                (Key.V, ModifierKeys.Control) => HandleAction(Paste, E),
+                (Key.B, ModifierKeys.Control) => HandleAction(CloseSideBar, E),
+                (Key.R, ModifierKeys.Control) => HandleAction(Reload, E),
+                (Key.E, ModifierKeys.Control) => HandleAction(InsertEmail, E),
+                (Key.L, ModifierKeys.Control | ModifierKeys.Shift) => HandleAction(ToLower, E),
+                (Key.C, ModifierKeys.Control | ModifierKeys.Shift) => HandleAction(Capitalize, E),
+                (Key.T, ModifierKeys.Control | ModifierKeys.Shift) => HandleAction(Trim, E),
+                (Key.OemSemicolon, ModifierKeys.Control) => HandleAction(() => Enumerate(this, E)),
+                (Key.OemSemicolon, ModifierKeys.Control | ModifierKeys.Shift) => HandleAction(DeEnumerate, E),
+                _ => false
+            };
+        }
 
-            if (E.Key == Key.B && Keyboard.Modifiers == ModifierKeys.Control)
-            {
-                CloseSideBar(Sender, E);
-                E.Handled = true;
-            }
-
-            if (E.Key == Key.R && Keyboard.Modifiers == ModifierKeys.Control)
-            {
-                Reload(Sender, E);
-                E.Handled = true;
-            }
-            if (E.Key == Key.E && Keyboard.Modifiers == ModifierKeys.Control)
-            {
-                InsertEmail(Sender, E);
-                E.Handled = true;
-            }
-
-            if (E.Key == Key.T && Keyboard.Modifiers == (ModifierKeys.Control | ModifierKeys.Shift))
-            {
-                Trim(Sender, E);
-                E.Handled = true;
-            }
-
-            if (E.Key == Key.L && Keyboard.Modifiers == ModifierKeys.Control)
-            {
-                E.Handled = true;
-            }
+        private bool HandleAction(Action Action)
+        {
+            Action();
+            return true;
+        }
+        private bool HandleAction(RoutedEventHandler Action, KeyEventArgs E)
+        {
+            Action(this, E);
+            return true;
         }
     }
 }

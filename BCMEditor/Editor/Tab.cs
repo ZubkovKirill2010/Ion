@@ -1,7 +1,6 @@
 ﻿using Microsoft.Win32;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Diagnostics;
 using System.IO;
 using System.Runtime.CompilerServices;
 using System.Windows;
@@ -86,7 +85,7 @@ namespace BCMEditor.Tabs
             if (_TextEditor is null)
             {
                 _TextEditor = Window._Editor;
-            }   
+            }
         }
 
 
@@ -99,7 +98,7 @@ namespace BCMEditor.Tabs
                 if (_CurrentFile is not null)
                 {
                     Save();
-                }               
+                }
             }
         }
 

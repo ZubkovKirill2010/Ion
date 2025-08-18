@@ -1,10 +1,7 @@
 ﻿using HotKeyManagement;
-using System.Configuration;
-using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using System.Windows.Interop;
 using System.Windows.Media;
 
 namespace BCMEditor
@@ -17,10 +14,12 @@ namespace BCMEditor
         private CornerRadius _MaximizedCornerRadius = new CornerRadius(0);
         private CornerRadius _NormalCornerRadius;
 
+        private Rect _NormalWindowRect;
+        private Rect _WorkArea => SystemParameters.WorkArea;
+
         private double _MaximizedFontSize = 13d;
         private double _NormalFontSize = 19d;
 
-        private Rect _NormalWindowRect;
         private bool _IsMaximized;
 
 
@@ -48,6 +47,7 @@ namespace BCMEditor
             );
 
             StateChanged += OnStateChanged;
+            Closing += OnClosing;
         }
 
 
@@ -89,6 +89,30 @@ namespace BCMEditor
             }
         }
 
+        public void CenteringWindow(object Sender, RoutedEventArgs E)
+        {
+            if (_IsMaximized)
+            {
+                NormalizeWindow();
+            }
+
+            Left = _WorkArea.Left + (_WorkArea.Width - ActualWidth) / 2;
+            Top = _WorkArea.Top + (_WorkArea.Height - ActualHeight) / 2;
+        }
+
+        public void MarginMaximizeWindow(object Sender, RoutedEventArgs E)
+        {
+            if (_IsMaximized)
+            {
+                NormalizeWindow();
+            }
+
+            Left = _WorkArea.Left + 10;
+            Top = _WorkArea.Top + 10;
+            Width = _WorkArea.Width - 20;
+            Height = _WorkArea.Height - 20;
+        }
+
 
         public void MaximizeWindow()
         {
@@ -96,6 +120,7 @@ namespace BCMEditor
             {
                 return;
             }
+            _IsMaximized = true;
 
             SaveWindowRect();
 
@@ -103,14 +128,10 @@ namespace BCMEditor
             WindowChrome.CornerRadius = _MaximizedCornerRadius;
             MaximizeButton.FontSize = _MaximizedFontSize;
 
-            Rect WorkArea = SystemParameters.WorkArea;
-
-            _IsMaximized = true;
-
-            Left = WorkArea.Left;
-            Top = WorkArea.Top;
-            Width = WorkArea.Width;
-            Height = WorkArea.Height;
+            Left = _WorkArea.Left;
+            Top = _WorkArea.Top;
+            Width = _WorkArea.Width;
+            Height = _WorkArea.Height;
 
             MaximizeButton.Content = "❐";
         }
@@ -136,6 +157,12 @@ namespace BCMEditor
         }
 
 
+        private void SaveWindowRect()
+        {
+            _NormalWindowRect = new Rect(Left, Top, Width, Height);
+        }
+
+
         public void OnStateChanged(object Sender, EventArgs E)
         {
             if (WindowState == WindowState.Maximized)
@@ -145,7 +172,9 @@ namespace BCMEditor
             }
         }
 
-        private void SaveWindowRect()
-            => _NormalWindowRect = new Rect(Left, Top, Width, Height);
+        public void OnClosing(object Sender, EventArgs E)
+        {
+            Exit();
+        }
     }
 }

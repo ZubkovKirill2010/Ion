@@ -17,6 +17,7 @@ namespace BCMEditor
             private set
             {
                 _Tabs = value;
+
                 OnPropertyChanged(nameof(Tabs));
             }
         }
@@ -28,21 +29,6 @@ namespace BCMEditor
                 _SelectedTab = value;
                 OnPropertyChanged(nameof(SelectedTab));
             }
-        }
-
-        public void AddTab(Tab Tab)
-        {
-            Tabs.Add(Tab);
-            SelectTab(Tab);
-        }
-
-        public void OpenTab(int Index)
-        {
-            SelectTab(int.Clamp(Index, 0, Tabs.Count - 1));
-        }
-        public void OpenLastTab()
-        {
-            SelectTab(Tabs.Count - 1);
         }
 
 
@@ -83,6 +69,30 @@ namespace BCMEditor
         }
 
 
+        public void OpenLastTabClick(object Sender, RoutedEventArgs E)
+        {
+            OpenLastTab();
+        }
+
+        public void CloseSavedTabs(object Sender, RoutedEventArgs E)
+        {
+            int Index = 0;
+
+            while (Index < Tabs.Count)
+            {
+                if (Tabs[Index]._IsSaved)
+                {
+                    Tabs.RemoveAt(Index);
+
+                }
+                else
+                {
+                    Index++;
+                }
+            }
+        }
+
+
         public void AddTab(object Sender, RoutedEventArgs E)
         {
             TextEditor.Focus();
@@ -112,6 +122,26 @@ namespace BCMEditor
         }
 
 
+        public void OpenTab(int Index)
+        {
+            SelectTab(int.Clamp(Index, 0, Tabs.Count - 1));
+        }
+        public void OpenLastTab()
+        {
+            SelectTab(Tabs.Count - 1);
+        }
+
+        public void AddTab(Tab Tab)
+        {
+            Tabs.Add(Tab);
+            SelectTab(Tab);
+        }
+
+
+        private void SelectTab(int Index)
+        {
+            SelectTab(Tabs[Index]);
+        }
         private void SelectTab(Tab Tab)
         {
             _Editor._CurrentTab = Tab;
@@ -123,12 +153,6 @@ namespace BCMEditor
 
             TextEditor.Focus();
         }
-
-        private void SelectTab(int Index)
-        {
-            SelectTab(Tabs[Index]);
-        }
-
 
         private void CloseTab(Tab Tab)
         {

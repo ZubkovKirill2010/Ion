@@ -5,11 +5,11 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:BCMEditor"
         mc:Ignorable="d"
-        WindowStyle="None"
-        AllowsTransparency="True"
+        WindowStyle="None" AllowsTransparency="True"
+        SizeToContent="Manual" ResizeMode="CanResize" 
         Width="800" Height="450"
         MinWidth="650" MinHeight="400"
-        SizeToContent="Manual" ResizeMode="CanResize" Background="Transparent">
+        Background="Transparent">
 
     <WindowChrome.WindowChrome>
         <WindowChrome x:Name="WindowChrome"
@@ -237,7 +237,11 @@
                 <MenuItem Header="To upper" InputGestureText="Ctrl+Shift+U" Click="ToUpper"/>
                 <MenuItem Header="Capitalize" InputGestureText="Ctrl+Shift+C" Click="Capitalize"/>
                     <Separator Style="{StaticResource SeparatorStyle}"/>
-                <MenuItem Header="Duplicate line" InputGestureText="Ctrl+D" Click="DuplicateLine"/>
+                <MenuItem Header="Do" InputGestureText="Ctrl+D" Click="Do"/>
+                <MenuItem Header="Duplicate line" InputGestureText="Ctrl+Shift+D" Click="DuplicateLine"/>
+                    <Separator Style="{StaticResource SeparatorStyle}"/>
+                <MenuItem Header="Level up" InputGestureText="Tab" Click="LevelUp"/>
+                <MenuItem Header="Level down" InputGestureText="Shift+Tab" Click="LevelDown"/>
                     <Separator Style="{StaticResource SeparatorStyle}"/>
                 <MenuItem Header="Find..." InputGestureText="Ctrl+F" Click="Find"/>
                 <MenuItem Header="Replace..." InputGestureText="Ctrl+H" Click="Replace"/>
@@ -253,6 +257,7 @@
                 <MenuItem Header="Calendar" Click="InsertCalendar"/>
                     <Separator Style="{StaticResource SeparatorStyle}"/>
                 <MenuItem Header="Email" InputGestureText="Ctrl+E" Click="InsertEmail"/>
+                <MenuItem Header="Separator" InputGestureText="Ctrl+I" Click="InsertSeparator"/>
                     <Separator Style="{StaticResource SeparatorStyle}"/>
                 <MenuItem Header="SpecialChars"  Click="SpecialChars"/>
 
@@ -268,11 +273,14 @@
             </MenuItem>
 
             <MenuItem Header="Structuring">
-                <MenuItem Header="Enumerate" InputGestureText="Ctrl+L" Click="Enumerate"/>
-                <MenuItem Header="De enumerate" InputGestureText="Ctrl+Shift+L" Click="Enumerate"/>
+                <MenuItem Header="Enumerate" InputGestureText="Ctrl+;" Click="Enumerate"/>
+                <MenuItem Header="De enumerate" InputGestureText="Ctrl+Shift+;" Click="Enumerate"/>
                     <Separator Style="{StaticResource SeparatorStyle}"/>
                 <MenuItem Header="To structure" InputGestureText="Ctrl+W" Click="ToStructure"/>
                 <MenuItem Header="From structure" InputGestureText="Ctrl+Shift+W" Click="FromStructure"/>
+                    <Separator Style="{StaticResource SeparatorStyle}"/>
+                <MenuItem Header="Group" InputGestureText="Ctrl+G" Click="Group"/>
+                <MenuItem Header="Ungroup" InputGestureText="Ctrl+Shift+G" Click="Ungroup"/>
             </MenuItem>
 
             <MenuItem Header="Clipboard">
@@ -285,12 +293,24 @@
                 <MenuItem Header="Delete" InputGestureText="Del" Click="Delete" Name="DeleteButton" IsEnabled="False"/>
             </MenuItem>
 
+            <MenuItem Header="Tabs">
+                <MenuItem Header="Next tab" InputGestureText="Ctrl+Right" Click="NextTab"/>
+                <MenuItem Header="Previous tab" InputGestureText="Ctrl+Left" Click="PreviousTab"/>
+                    <Separator Style="{StaticResource SeparatorStyle}"/>
+                <MenuItem Header="Open last tab" InputGestureText="Ctrl+0" Click="OpenLastTabClick"/>
+                    <Separator Style="{StaticResource SeparatorStyle}"/>
+                <MenuItem Header="Close saved" InputGestureText="Ctrl+Alt+C" Click="CloseSavedTabs"/>
+            </MenuItem>
+
             <MenuItem Header="View">
-                <MenuItem Header="Zoom in" InputGestureText="Ctrl+Plus" Click="ZoomInX5"/>
-                <MenuItem Header="Zoom out" InputGestureText="Ctrl+Minus" Click="ZoomOutX5"/>
+                <MenuItem Header="Zoom in" x:Name="ZoomInButton" InputGestureText="Ctrl+Plus" Click="ZoomInX5"/>
+                <MenuItem Header="Zoom out" x:Name="ZoomOutButton" InputGestureText="Ctrl+Minus" Click="ZoomOutX5"/>
                 <MenuItem Header="Set default zoom" InputGestureText="Ctrl+0" Click="SetDefaultZoom"/>
                     <Separator Style="{StaticResource SeparatorStyle}"/>
                 <MenuItem Header="Close side bar" InputGestureText="Ctrl+B" Click="CloseSideBar"/>
+                    <Separator Style="{StaticResource SeparatorStyle}"/>
+                <MenuItem Header="Centering" Click="CenteringWindow"/>
+                <MenuItem Header="Margin maximize" Click="MarginMaximizeWindow"/>
                     <Separator Style="{StaticResource SeparatorStyle}"/>
                 <MenuItem Header="Logs" Click="OpenLoggingMenu"/>
                 <MenuItem Header="Settings" Click="OpenSettingsMenu"/>

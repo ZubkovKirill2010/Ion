@@ -8,6 +8,7 @@ namespace BCMEditor
 {
     public sealed class TextEditor
     {
+        private const double _MinLineHeight = 0.0034d;
         private bool _TextChanged = true;
 
         private readonly MainWindow _Window;
@@ -40,6 +41,8 @@ namespace BCMEditor
 
         public void SetDocument(FlowDocument Document)
         {
+            Document.LineHeight = _MinLineHeight;
+
             _TextChanged = false;
             _TextField.Document = Document;
             _TextChanged = true;
