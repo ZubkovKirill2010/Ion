@@ -18,6 +18,12 @@ namespace BCMEditor.SideBar
         public ReplacingMenu(MainWindow Window)
             : base(Window, Window.ReplacingMenu) { }
 
+
+        //public override void Start()
+        //{
+        //    _Window.ReplacingMenu_OnlySelection.IsChecked = !_Editor.Selection.IsEmpty;
+        //}
+
         public override void Apply()
         {
             ClearHighlights();
@@ -38,15 +44,32 @@ namespace BCMEditor.SideBar
                 return;
             }
 
-            TextRange FullRange = _Editor.GetAllText();
-            string Text = FullRange.Text;
+            TextRange TextRange = _Editor.GetAllText();
+
+
+            //TextRange TextRange = null;
+            //if (_Window.ReplacingMenu_OnlySelection.IsChecked == true)
+            //{
+            //    if (_Editor.Selection.IsEmpty)
+            //    {
+            //        MainWindow.Log("Опция \"Только в выделенном\" активна, но текст не выделен");
+            //        return;
+            //    }
+            //    TextRange = _Editor.Selection;
+            //}
+            //else
+            //{
+            //    TextRange = _Editor.GetAllText();
+            //}
+
+            string Text = TextRange.Text;
 
             RegexOptions Options = GetOptions
             (
                 Target, out string Pattern,
                 _Window.ReplacingMenu_CaseSensitive,
                 _Window.ReplacingMenu_WholeWord,
-                _Window.ReplacingMenu_UsingRegulatExpressions
+                _Window.ReplacingMenu_UsingRegularExpressions
             );
 
             if (_Window.ReplacingMenu_UsingUnicodeChars.IsChecked.GetValueOrDefault())

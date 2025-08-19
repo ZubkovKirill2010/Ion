@@ -75,6 +75,8 @@ namespace BCMEditor.SideBar
                 _Header.Text = _CurrentMenu._Header;
                 _CancelButton.Content = _CurrentMenu._CancelButtonText;
                 _ApplyButton.Content = _CurrentMenu._ApplyButtonText;
+
+                _CurrentMenu.Start();
             }
         }
 
@@ -106,15 +108,18 @@ namespace BCMEditor.SideBar
             _MenuIsOpen = true;
 
             _SideBar.Visibility = Visibility.Visible;
-            DoubleAnimation openAnimation = new DoubleAnimation
+            DoubleAnimation OpenAnimation = new DoubleAnimation
             {
                 From = 300,
                 To = 0,
                 Duration = TimeSpan.FromSeconds(0.3),
-                EasingFunction = new CubicEase { EasingMode = EasingMode.EaseOut }
+                EasingFunction = new CubicEase()
+                {
+                    EasingMode = EasingMode.EaseOut
+                }
             };
 
-            _SideBar.RenderTransform.BeginAnimation(TranslateTransform.XProperty, openAnimation);
+            _SideBar.RenderTransform.BeginAnimation(TranslateTransform.XProperty, OpenAnimation);
         }
 
         private void Close()

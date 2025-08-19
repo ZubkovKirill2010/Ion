@@ -393,7 +393,8 @@
                             <CheckBox x:Name="SearchingMenu_CaseSensitive"           Content="Учитывать регистр" Style="{StaticResource CheckBoxStyle}"/>
                             <CheckBox x:Name="SearchingMenu_WholeWord"               Content="Слово целиком" Style="{StaticResource CheckBoxStyle}"/>
                             <CheckBox x:Name="SearchingMenu_UsingUnicodeChars"       Content="Использовать экранированные символы" Style="{StaticResource CheckBoxStyle}"/>
-                            <CheckBox x:Name="SearchingMenu_UsingRegulatExpressions" Content="Использовать регулярные выражения" Style="{StaticResource CheckBoxStyle}"/>
+                            <CheckBox x:Name="SearchingMenu_UsingRegularExpressions" Content="Использовать регулярные выражения" Style="{StaticResource CheckBoxStyle}"/>
+                            <!--<CheckBox x:Name="SearchingMenu_OnlySelection"           Content="Только выделенный текст" Style="{StaticResource CheckBoxStyle}"/>-->
                         </StackPanel>
 
                         
@@ -405,7 +406,8 @@
                             <CheckBox x:Name="ReplacingMenu_CaseSensitive"           Content="Учитывать регистр" Style="{StaticResource CheckBoxStyle}"/>
                             <CheckBox x:Name="ReplacingMenu_WholeWord"               Content="Слово целиком" Style="{StaticResource CheckBoxStyle}"/>
                             <CheckBox x:Name="ReplacingMenu_UsingUnicodeChars"       Content="Использовать экранированные символы" Style="{StaticResource CheckBoxStyle}"/>
-                            <CheckBox x:Name="ReplacingMenu_UsingRegulatExpressions" Content="Использовать регулярные выражения" Style="{StaticResource CheckBoxStyle}"/>
+                            <CheckBox x:Name="ReplacingMenu_UsingRegularExpressions" Content="Использовать регулярные выражения" Style="{StaticResource CheckBoxStyle}"/>
+                            <!--<CheckBox x:Name="ReplacingMenu_OnlySelection"           Content="Только выделенный текст" Style="{StaticResource CheckBoxStyle}"/>-->
                         </StackPanel>
 
                         
