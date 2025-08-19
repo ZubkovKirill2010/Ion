@@ -19,6 +19,7 @@ namespace BCMEditor.SideBar
             : base(Window, Window.ReplacingMenu) { }
 
 
+
         //public override void Start()
         //{
         //    _Window.ReplacingMenu_OnlySelection.IsChecked = !_Editor.Selection.IsEmpty;

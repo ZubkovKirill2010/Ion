@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:BCMEditor"
         mc:Ignorable="d"
-        WindowStyle="None" AllowsTransparency="True"
+        WindowStyle="None" AllowsTransparency="False"
         SizeToContent="Manual" ResizeMode="CanResize" 
         Width="800" Height="450"
         MinWidth="650" MinHeight="400"
