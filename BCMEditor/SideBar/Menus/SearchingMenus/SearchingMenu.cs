@@ -18,6 +18,12 @@ namespace BCMEditor.SideBar
         public SearchingMenu(MainWindow Window)
             : base(Window, Window.SearchingMenu) { }
 
+
+        public override void Start()
+        {
+            _Window.SearchingMenu_OnlySelection.IsChecked = !_Editor.Selection.IsEmpty;
+        }
+
         public override void Apply()
         {
             ClearHighlights();
@@ -35,15 +41,30 @@ namespace BCMEditor.SideBar
                 return;
             }
 
-            TextRange FullTextRange = _Editor.GetAllText();
-            string Text = FullTextRange.Text;
+            TextRange TextRange = null;
+
+            if (_Window.SearchingMenu_OnlySelection.IsChecked == true)
+            {
+                if (_Editor.Selection.IsEmpty)
+                {
+                    MainWindow.Log("Опция \"Только в выделенном\" активна, но текст не выделен");
+                    return;
+                }
+                TextRange = _Editor.Selection;
+            }
+            else
+            {
+                TextRange = _Editor.GetAllText();
+            }
+
+            string Text = TextRange.Text;
 
             RegexOptions Options = GetOptions
             (
                 Target, out string Pattern,
                 _Window.SearchingMenu_CaseSensitive,
                 _Window.SearchingMenu_WholeWord,
-                _Window.SearchingMenu_UsingRegulatExpressions
+                _Window.SearchingMenu_UsingRegularExpressions
             );
 
             if (_Window.SearchingMenu_UsingUnicodeChars.IsChecked.GetValueOrDefault())
