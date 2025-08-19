@@ -1,4 +1,4 @@
-using BCMEditor.SideBarMenu;
+using BCMEditor.SideBar;
 using System.Windows;
 
 namespace BCMEditor

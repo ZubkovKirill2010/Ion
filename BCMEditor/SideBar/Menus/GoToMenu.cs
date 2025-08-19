@@ -2,9 +2,9 @@
 //using System.Windows.Documents;
 //using System.Windows.Input;
 
-//namespace BCMEditor.SideBarMenu
+//namespace BCMEditor.SideBar
 //{
-//    public sealed class GoToMenu : SideBarMenu
+//    public sealed class GoToMenu : SideBar
 //    {
 //        private readonly RichTextBox _TextBox;
 //        private readonly TextBox _IndexBox;

@@ -1,4 +1,4 @@
-﻿namespace BCMEditor.SideBarMenu
+﻿namespace BCMEditor.SideBar
 {
     public sealed class SettingsMenu : SideBarMenu
     {

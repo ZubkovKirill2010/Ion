@@ -1,33 +1,26 @@
-﻿using System.Text.RegularExpressions;
+﻿using BCMEditor.Extensions;
+using System.Text.RegularExpressions;
 using System.Windows.Controls;
 using System.Windows.Documents;
 using System.Windows.Media;
 
-namespace BCMEditor.SideBarMenu
+namespace BCMEditor.SideBar
 {
-    public sealed class SearchingMenu : SideBarMenu
+    public sealed class SearchingMenu : SearchReplaceBaseMenu
     {
-        private SolidColorBrush _HighlightingBrush = new SolidColorBrush(Color.FromArgb(100, 16, 232, 30));
-
-        private int _MatchesCount = 0;
-
-        private RichTextBox _Editor;
-        private TextRange _PreviousHighlight;
-        private MainWindow _Window;
+        protected override SolidColorBrush _HighlightingBrush { get; init; }
+            = new SolidColorBrush(Color.FromArgb(100, 16, 232, 30));
 
         public override string _Header => "Поиск";
         public override string _CancelButtonText => "Выйти";
         public override string _ApplyButtonText => "Искать";
 
-        public SearchingMenu(MainWindow Window) : base(Window.SearchingMenu)
-        {
-            _Editor = Window.TextEditor;
-            _Window = Window;
-        }
+        public SearchingMenu(MainWindow Window)
+            : base(Window, Window.SearchingMenu) { }
 
         public override void Apply()
         {
-            ClearPreviousHighlight();
+            ClearHighlights();
 
             string Target = _Window.SearchingMenu_Target.Text;
             if (string.IsNullOrEmpty(Target))
@@ -36,24 +29,22 @@ namespace BCMEditor.SideBarMenu
                 return;
             }
 
-            TextRange FullTextRange = new TextRange(_Editor.Document.ContentStart, _Editor.Document.ContentEnd);
-            string FullText = FullTextRange.Text;
-
-            RegexOptions Options = RegexOptions.None;
-
-            if (!_Window.SearchingMenu_CaseSensitive.IsChecked.GetValueOrDefault())
+            if (_Editor.Document.IsEmpty())
             {
-                Options |= RegexOptions.IgnoreCase;
+                MainWindow.Log("Пустой текст");
+                return;
             }
 
-            if (_Window.SearchingMenu_WholeWord.IsChecked.GetValueOrDefault())
-            {
-                Target = $"\\b{Regex.Escape(Target)}\\b";
-            }
-            else if (!_Window.SearchingMenu_UsingRegulatExpressions.IsChecked.GetValueOrDefault())
-            {
-                Target = Regex.Escape(Target);
-            }
+            TextRange FullTextRange = _Editor.GetAllText();
+            string Text = FullTextRange.Text;
+
+            RegexOptions Options = GetOptions
+            (
+                Target, out string Pattern,
+                _Window.SearchingMenu_CaseSensitive,
+                _Window.SearchingMenu_WholeWord,
+                _Window.SearchingMenu_UsingRegulatExpressions
+            );
 
             if (_Window.SearchingMenu_UsingUnicodeChars.IsChecked.GetValueOrDefault())
             {
@@ -63,10 +54,9 @@ namespace BCMEditor.SideBarMenu
             try
             {
                 Regex Regex = new Regex(Target, Options);
-                MatchCollection Matches = Regex.Matches(FullText);
+                List<Match> Matches = Regex.Matches(Text).Cast<Match>().ToList();
                 _MatchesCount = Matches.Count;
 
-                // Если нет совпадений, выходим
                 if (_MatchesCount == 0)
                 {
                     MainWindow.Log("Совпадений не найдено");
@@ -97,7 +87,9 @@ namespace BCMEditor.SideBarMenu
 
                                 if (Start is not null && End is not null)
                                 {
-                                    Highlight(new TextRange(Start, End));
+                                    TextRange range = new TextRange(Start, End);
+                                    Highlight(range);
+                                    _HighlightedRanges.Add(range);
 
                                     if (LengthInRun < Match.Length)
                                     {
@@ -109,7 +101,9 @@ namespace BCMEditor.SideBarMenu
                                             TextPointer NextEnd = NextRunStart.GetPositionAtOffset(RemainingLength);
                                             if (NextEnd is not null)
                                             {
-                                                Highlight(new TextRange(NextRunStart, NextEnd));
+                                                TextRange nextRange = new TextRange(NextRunStart, NextEnd);
+                                                Highlight(nextRange);
+                                                _HighlightedRanges.Add(nextRange);
                                             }
                                         }
                                     }
@@ -146,35 +140,8 @@ namespace BCMEditor.SideBarMenu
             catch (Exception Exception)
             {
                 MainWindow.Log("При поиске произошла ошибка");
-                MainWindow.LogError(Exception.Message);
+                MainWindow.LogError(Exception);
             }
-        }
-
-        public override void Cancel()
-        {
-            if (_MatchesCount > 0)
-            {
-                TextRange FullRange = new TextRange(_Editor.Document.ContentStart, _Editor.Document.ContentEnd);
-
-                FullRange.ApplyPropertyValue(TextElement.BackgroundProperty, null);
-            }
-            _MatchesCount = 0;
-        }
-
-        private void ClearPreviousHighlight()
-        {
-            if (_PreviousHighlight is not null)
-            {
-                _PreviousHighlight.ApplyPropertyValue(TextElement.BackgroundProperty, Brushes.Transparent);
-            }
-
-            TextRange FullRange = new TextRange(_Editor.Document.ContentStart, _Editor.Document.ContentEnd);
-            FullRange.ApplyPropertyValue(TextElement.BackgroundProperty, Brushes.Transparent);
-        }
-
-        private void Highlight(TextRange Range)
-        {
-            Range.ApplyPropertyValue(TextElement.BackgroundProperty, _HighlightingBrush);
         }
     }
 }

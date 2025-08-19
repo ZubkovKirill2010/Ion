@@ -1,5 +1,5 @@
 using BCMEditor.Extensions;
-using BCMEditor.SideBarMenu;
+using BCMEditor.SideBar;
 using System.Windows;
 using System.Windows.Documents;
 using Zion.Text;

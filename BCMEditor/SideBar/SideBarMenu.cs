@@ -1,6 +1,6 @@
 ﻿using System.Windows;
 
-namespace BCMEditor.SideBarMenu
+namespace BCMEditor.SideBar
 {
     public abstract class SideBarMenu
     {

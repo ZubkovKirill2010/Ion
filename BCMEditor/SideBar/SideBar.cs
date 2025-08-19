@@ -3,7 +3,7 @@ using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
 
-namespace BCMEditor.SideBarMenu
+namespace BCMEditor.SideBar
 {
     public enum SideBarType
     {

@@ -1,4 +1,4 @@
-using BCMEditor.SideBarMenu;
+using BCMEditor.SideBar;
 using BCMEditor.Tabs;
 using Microsoft.Win32;
 using System.Collections.ObjectModel;

@@ -1,7 +1,7 @@
 ﻿using BCMEditor.Extensions;
 using System.Windows.Controls;
 
-namespace BCMEditor.SideBarMenu
+namespace BCMEditor.SideBar
 {
     public sealed class SendingMenu : SideBarMenu
     {

@@ -1,4 +1,4 @@
-﻿using BCMEditor.SideBarMenu;
+﻿using BCMEditor.SideBar;
 using BCMEditor.Tabs;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
@@ -17,7 +17,7 @@ namespace BCMEditor
 
         public readonly Settings _Settings = Settings.Load();
 
-        public SideBar _SideBar { get; private set; }
+        public SideBar.SideBar _SideBar { get; private set; }
         public TextEditor _Editor { get; private set; }
 
         public MainWindow()
@@ -25,7 +25,7 @@ namespace BCMEditor
             Initialize();
 
             _Editor = new TextEditor(this);
-            _SideBar = new SideBar(this);
+            _SideBar = new SideBar.SideBar(this);
             _MessageBox = MessageBox;
 
             Tab.Initialize(this);
