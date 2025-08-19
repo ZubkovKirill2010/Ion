@@ -285,18 +285,7 @@ namespace BCMEditor
                 return;
             }
 
-            string Prefix = string.Empty;
-
-            if (Accessor.Out(String.GetLevel(), out int Level) != 0)
-            {
-                Prefix = new string('\t', Level);
-            }
-            if (String.Begins(Level, "│ "))
-            {
-                Prefix += "│ ";
-            }
-
-            Prefix = _NewLine + Prefix;
+            string Prefix = GetStart(String);
 
             switch (Modifier)
             {
@@ -307,9 +296,33 @@ namespace BCMEditor
                     break;
 
                 default:
-                    InsertText(Prefix);
+                    InsertText(_NewLine + Prefix);
                     break;
             }
+        }
+
+
+        private static string GetStart(string Line)
+        {
+            int Index = 0;
+
+            while (Index < Line.Length)
+            {
+                if (Line[Index] == '\t')
+                {
+                    Index++;
+                }
+                else if (Line.Begins(Index, "│ "))
+                {
+                    Index += 2;
+                }
+                else
+                {
+                    break;
+                }
+            }
+
+            return Line[..Index];
         }
     }
 }

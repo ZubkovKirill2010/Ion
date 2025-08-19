@@ -95,8 +95,6 @@ namespace BCMEditor
 
             string Text = Range.Text;
 
-            LogError(Text);
-
             string[] Lines = Text.SplitIntoLines().TrimEmptyLines();
             StringBuilder Builder = new StringBuilder(Text.Length + Lines.Length * 2 + 27);
 
