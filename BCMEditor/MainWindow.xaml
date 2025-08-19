@@ -397,7 +397,7 @@
                             <!--<CheckBox x:Name="SearchingMenu_OnlySelection"           Content="Только выделенный текст" Style="{StaticResource CheckBoxStyle}"/>-->
                         </StackPanel>
 
-                        
+
                         <StackPanel x:Name="ReplacingMenu" Margin="10" Visibility="Collapsed">
                             <TextBox x:Name="ReplacingMenu_From" Style="{StaticResource TextBoxStyle}" Margin="0 0 0 4"/>
                             <TextBlock Text="Заменить на:"       Style="{StaticResource TextBlockStyle}" Margin="10 0 0 2.5"/>
@@ -410,7 +410,7 @@
                             <!--<CheckBox x:Name="ReplacingMenu_OnlySelection"           Content="Только выделенный текст" Style="{StaticResource CheckBoxStyle}"/>-->
                         </StackPanel>
 
-                        
+
                         <StackPanel x:Name="SendingMenu" Margin="10" Visibility="Collapsed">
                             <TextBlock Text="Заголовок:" Style="{StaticResource TextBlockStyle}"/>
                             <TextBox x:Name="MessageHeader" Style="{StaticResource TextBoxStyle}" Margin="0 5 0 5"/>
