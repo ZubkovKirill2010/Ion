@@ -41,25 +41,8 @@ namespace BCMEditor.SideBar
                 return;
             }
 
-            TextRange TextRange = _Editor.GetAllText();
-
-
-            //TextRange TextRange = null;
-            //if (_Window.ReplacingMenu_OnlySelection.IsChecked == true)
-            //{
-            //    if (_Editor.Selection.IsEmpty)
-            //    {
-            //        MainWindow.Log("Опция \"Только в выделенном\" активна, но текст не выделен");
-            //        return;
-            //    }
-            //    TextRange = _Editor.Selection;
-            //}
-            //else
-            //{
-            //    TextRange = _Editor.GetAllText();
-            //}
-
-            string Text = TextRange.Text;
+            TextRange FullTextRange = _Editor.GetAllText();
+            string Text = FullTextRange.Text;
 
             RegexOptions Options = GetOptions
             (
