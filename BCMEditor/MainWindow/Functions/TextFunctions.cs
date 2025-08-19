@@ -287,18 +287,21 @@ namespace BCMEditor
 
             string Prefix = GetStart(String);
 
-            switch (Modifier)
-            {
-                case ModifierKeys.Control:
-                    break;
 
-                case ModifierKeys.Shift:
-                    break;
+            InsertText(_NewLine + Prefix);
+            //#Update
+            //switch (Modifier)
+            //{
+            //    case ModifierKeys.Control:
+            //        break;
 
-                default:
-                    InsertText(_NewLine + Prefix);
-                    break;
-            }
+            //    case ModifierKeys.Shift:
+            //        break;
+
+            //    default:
+            //        InsertText(_NewLine + Prefix);
+            //        break;
+            //}
         }
 
 

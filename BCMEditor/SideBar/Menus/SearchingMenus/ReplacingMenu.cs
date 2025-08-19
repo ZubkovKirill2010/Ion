@@ -53,7 +53,7 @@ namespace BCMEditor.SideBar
                 Target, out string Pattern,
                 _Window.ReplacingMenu_CaseSensitive,
                 _Window.ReplacingMenu_WholeWord,
-                _Window.ReplacingMenu_UsingRegularExpressions
+                _Window.ReplacingMenu_UsingRegulatExpressions
             );
 
             if (_Window.ReplacingMenu_UsingUnicodeChars.IsChecked.GetValueOrDefault())

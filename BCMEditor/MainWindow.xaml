@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:BCMEditor"
         mc:Ignorable="d"
-        WindowStyle="None" AllowsTransparency="False"
+        WindowStyle="None" AllowsTransparency="True"
         SizeToContent="Manual" ResizeMode="CanResize" 
         Width="800" Height="450"
         MinWidth="650" MinHeight="400"
@@ -380,9 +380,7 @@
                     <Grid Grid.Row="2" Margin="6 -2 0 0">
                         <StackPanel x:Name="SettingsMenu" Visibility="Collapsed">
                             <TextBlock Text="Email:" Style="{StaticResource TextBlockStyle}"/>
-                            <TextBox x:Name="Settings_Email" 
-                                Text="{Binding Email, Mode=TwoWay, UpdateSourceTrigger=Default}"
-                                Style="{StaticResource TextBoxStyle}"/>
+                            <TextBox x:Name="Settings_Email"/>
                             
                             <CheckBox x:Name="Settings_SpellCheck" Content="Проверка орфографии" Style="{StaticResource CheckBoxStyle}" Margin="0 7 0 0"/>
                         </StackPanel>

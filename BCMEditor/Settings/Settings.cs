@@ -7,8 +7,9 @@ namespace BCMEditor
     {
         private static readonly string _ProgramDirectory = Directory.CreateDirectory
         (
-            Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "BCNEditor")
+            Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "BCMEditor")
         ).FullName;
+        //C:\Users\%UserName%\AppData\Roaming\BCNEditor\Settings.settings
         private static readonly string _SettingsPath = Path.Combine(_ProgramDirectory, "Settings.settings");
 
         #region Properties
