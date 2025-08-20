@@ -1,9 +1,9 @@
-﻿using BCMEditor.Tabs;
+﻿using Ion.Tabs;
 using System.Text;
 using System.Windows;
 using Zion;
 
-namespace BCMEditor
+namespace Ion
 {
     public partial class MainWindow : Window
     {

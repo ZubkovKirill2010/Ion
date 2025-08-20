@@ -1,7 +1,7 @@
 ﻿using System.Security.Cryptography;
 using System.Text;
 
-namespace BCMEditor
+namespace Ion
 {
     public static class SecurePasswordStorage
     {

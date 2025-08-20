@@ -5,7 +5,7 @@ using System.Windows.Controls;
 using System.Windows.Documents;
 using Zion;
 
-namespace BCMEditor.Tabs
+namespace Ion.Tabs
 {
     public sealed class BCMTab : Tab
     {

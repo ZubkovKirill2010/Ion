@@ -2,7 +2,7 @@
 using System.Windows.Documents;
 using Zion;
 
-namespace BCMEditor.Extensions
+namespace Ion.Extensions
 {
     public static class RichTextBoxExtensions
     {

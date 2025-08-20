@@ -1,7 +1,7 @@
-using BCMEditor.SideBar;
+using Ion.SideBar;
 using System.Windows;
 
-namespace BCMEditor
+namespace Ion
 {
     public partial class MainWindow : Window
     {

@@ -7,7 +7,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Documents;
 
-namespace BCMEditor.Tabs
+namespace Ion.Tabs
 {
     public abstract class Tab : INotifyPropertyChanged
     {

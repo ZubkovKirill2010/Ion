@@ -4,7 +4,7 @@ using System.Windows.Controls;
 using System.Windows.Documents;
 using System.Windows.Media;
 
-namespace BCMEditor.SideBar
+namespace Ion.SideBar
 {
     public abstract class SearchReplaceBaseMenu : SideBarMenu
     {

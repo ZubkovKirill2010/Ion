@@ -1,6 +1,6 @@
 ﻿using System.Windows.Documents;
 
-namespace BCMEditor.Extensions
+namespace Ion.Extensions
 {
     public static class FlowDocumentExceptions
     {

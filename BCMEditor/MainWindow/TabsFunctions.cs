@@ -1,10 +1,10 @@
-﻿using BCMEditor.Tabs;
+﻿using Ion.Tabs;
 using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Documents;
 
-namespace BCMEditor
+namespace Ion
 {
     public partial class MainWindow : Window
     {

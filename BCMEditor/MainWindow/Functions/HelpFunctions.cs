@@ -1,7 +1,7 @@
-﻿using BCMEditor.Tabs;
+﻿using Ion.Tabs;
 using System.Windows;
 
-namespace BCMEditor
+namespace Ion
 {
     public partial class MainWindow : Window
     {

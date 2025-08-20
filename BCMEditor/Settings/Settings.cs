@@ -1,7 +1,7 @@
 ﻿using System.IO;
 using Zion;
 
-namespace BCMEditor
+namespace Ion
 {
     public sealed class Settings
     {

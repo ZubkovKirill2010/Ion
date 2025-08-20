@@ -1,7 +1,7 @@
-﻿using BCMEditor.Extensions;
+﻿using Ion.Extensions;
 using System.Windows.Controls;
 
-namespace BCMEditor.SideBar
+namespace Ion.SideBar
 {
     public sealed class SendingMenu : SideBarMenu
     {

@@ -4,7 +4,7 @@ using System.Windows.Controls;
 using System.Windows.Documents;
 using System.Windows.Media;
 
-namespace BCMEditor.Tabs
+namespace Ion.Tabs
 {
     public sealed class CSharpTab : LanguageTab
     {

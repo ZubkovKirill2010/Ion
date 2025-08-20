@@ -2,7 +2,7 @@ using System.Windows;
 using System.Windows.Documents;
 using Zion;
 
-namespace BCMEditor
+namespace Ion
 {
     public partial class MainWindow : Window
     {

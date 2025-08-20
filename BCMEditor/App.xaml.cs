@@ -1,7 +1,7 @@
 ﻿using System.Windows;
 using System.Windows.Threading;
 
-namespace BCMEditor
+namespace Ion
 {
     public partial class App : Application
     {
@@ -38,8 +38,8 @@ namespace BCMEditor
 
         private void HandleException(Exception? Exception)
         {
-            BCMEditor.MainWindow.LogError(Exception ?? new Exception("Null exception"));
-            BCMEditor.MainWindow.Log($"Произошла неизвестная ошибка типа {Exception?.GetType().FullName}");
+            Ion.MainWindow.LogError(Exception ?? new Exception("Null exception"));
+            Ion.MainWindow.Log($"Произошла неизвестная ошибка типа {Exception?.GetType().FullName}");
         }
     }
 }

@@ -1,7 +1,7 @@
 using System.Net;
 using System.Net.Mail;
 
-namespace BCMEditor.Network
+namespace Ion.Network
 {
     public static class Email
     {

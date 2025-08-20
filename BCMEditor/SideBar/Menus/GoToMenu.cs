@@ -2,7 +2,7 @@
 //using System.Windows.Documents;
 //using System.Windows.Input;
 
-//namespace BCMEditor.SideBar
+//namespace Ion.SideBar
 //{
 //    public sealed class GoToMenu : SideBar
 //    {

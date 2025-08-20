@@ -1,10 +1,10 @@
-﻿using BCMEditor.Tabs;
+﻿using Ion.Tabs;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Documents;
 using System.Windows.Input;
 
-namespace BCMEditor
+namespace Ion
 {
     public sealed class TextEditor
     {

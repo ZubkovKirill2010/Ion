@@ -1,4 +1,4 @@
-﻿namespace BCMEditor
+﻿namespace Ion
 {
     public partial class MainWindow
     {

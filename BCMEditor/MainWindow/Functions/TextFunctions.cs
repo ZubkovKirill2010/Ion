@@ -1,4 +1,4 @@
-﻿using BCMEditor.Extensions;
+﻿using Ion.Extensions;
 using System.IO;
 using System.Text;
 using System.Windows;
@@ -7,7 +7,7 @@ using System.Windows.Input;
 using System.Windows.Threading;
 using Zion;
 
-namespace BCMEditor
+namespace Ion
 {
     public partial class MainWindow : Window
     {

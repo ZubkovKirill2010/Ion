@@ -1,6 +1,6 @@
 ﻿using System.Windows;
 
-namespace BCMEditor.SideBar
+namespace Ion.SideBar
 {
     public abstract class SideBarMenu
     {

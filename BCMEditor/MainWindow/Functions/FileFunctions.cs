@@ -1,5 +1,5 @@
-using BCMEditor.SideBar;
-using BCMEditor.Tabs;
+using Ion.SideBar;
+using Ion.Tabs;
 using Microsoft.Win32;
 using System.Collections.ObjectModel;
 using System.IO;
@@ -7,7 +7,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Documents;
 
-namespace BCMEditor
+namespace Ion
 {
     public partial class MainWindow : Window
     {

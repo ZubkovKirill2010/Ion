@@ -1,4 +1,4 @@
-﻿using BCMEditor.Tabs;
+﻿using Ion.Tabs;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Windows;
@@ -6,7 +6,7 @@ using System.Windows.Controls;
 using System.Windows.Threading;
 using Zion;
 
-namespace BCMEditor
+namespace Ion
 {
     public partial class MainWindow : Window, INotifyPropertyChanged
     {

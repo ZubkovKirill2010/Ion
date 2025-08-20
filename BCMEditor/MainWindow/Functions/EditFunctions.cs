@@ -1,11 +1,11 @@
-using BCMEditor.Extensions;
-using BCMEditor.SideBar;
+using Ion.Extensions;
+using Ion.SideBar;
 using System.Text;
 using System.Windows;
 using System.Windows.Documents;
 using Zion;
 
-namespace BCMEditor
+namespace Ion
 {
     public partial class MainWindow : Window
     {
@@ -15,8 +15,6 @@ namespace BCMEditor
             {
                 TextEditor.SelectAll();
             }
-
-            Log("ToLower");
 
             TextRange Range = TextEditor.Selection;
             Range.Text = Range.Text.ToLower();
@@ -28,8 +26,6 @@ namespace BCMEditor
             {
                 TextEditor.SelectAll();
             }
-
-            Log("ToUpper");
 
             TextRange Range = TextEditor.Selection;
             Range.Text = Range.Text.ToUpper();
@@ -64,7 +60,6 @@ namespace BCMEditor
 
             return string.Join(_NewLine, Lines);
         }
-
         private string CapitalizeWordsInLine(string Line)
         {
             if (string.IsNullOrEmpty(Line))

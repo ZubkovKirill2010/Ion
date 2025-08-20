@@ -1,7 +1,7 @@
 ﻿using System.IO;
 using System.Windows.Documents;
 
-namespace BCMEditor.Tabs
+namespace Ion.Tabs
 {
     public abstract class LanguageTab : Tab
     {

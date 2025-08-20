@@ -2,7 +2,7 @@ using System.Windows;
 using System.Windows.Documents;
 using System.Windows.Threading;
 
-namespace BCMEditor
+namespace Ion
 {
     public partial class MainWindow : Window
     {

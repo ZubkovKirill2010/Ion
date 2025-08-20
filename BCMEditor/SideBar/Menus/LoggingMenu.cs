@@ -1,7 +1,7 @@
 ﻿using System.Collections.ObjectModel;
 using System.IO;
 
-namespace BCMEditor.SideBar
+namespace Ion.SideBar
 {
     public sealed class LoggingMenu : SideBarMenu
     {

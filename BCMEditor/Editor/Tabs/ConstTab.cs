@@ -1,7 +1,7 @@
 ﻿using System.Windows;
 using System.Windows.Documents;
 
-namespace BCMEditor.Tabs
+namespace Ion.Tabs
 {
     public sealed class ConstTab : Tab
     {

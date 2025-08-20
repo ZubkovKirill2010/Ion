@@ -1,4 +1,4 @@
-﻿namespace BCMEditor.SideBar
+﻿namespace Ion.SideBar
 {
     public sealed class SettingsMenu : SideBarMenu
     {

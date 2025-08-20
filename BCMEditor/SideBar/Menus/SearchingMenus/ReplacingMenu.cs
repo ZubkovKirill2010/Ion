@@ -1,9 +1,9 @@
-﻿using BCMEditor.Extensions;
+﻿using Ion.Extensions;
 using System.Text.RegularExpressions;
 using System.Windows.Documents;
 using System.Windows.Media;
 
-namespace BCMEditor.SideBar
+namespace Ion.SideBar
 {
     public sealed class ReplacingMenu : SearchReplaceBaseMenu
     {
