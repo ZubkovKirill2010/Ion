@@ -3,7 +3,6 @@ using System.Text;
 using System.Windows;
 using System.Windows.Documents;
 using Zion;
-using Zion.Text;
 
 namespace BCMEditor
 {

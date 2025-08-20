@@ -379,10 +379,17 @@
 
                     <Grid Grid.Row="2" Margin="6 -2 0 0">
                         <StackPanel x:Name="SettingsMenu" Visibility="Collapsed">
-                            <TextBlock Text="Email:" Style="{StaticResource TextBlockStyle}"/>
-                            <TextBox x:Name="Settings_Email"/>
+                            <TextBlock Text="Стандартное расширение файла:" Style="{StaticResource TextBlockStyle}"/>
+                                <TextBox x:Name="Settings_BaseFileExtension" Style="{StaticResource TextBoxStyle}"/>
+
+
+                            <TextBlock Text="Email:" Style="{StaticResource TextBlockStyle}" Margin="5 20 0 0"/>
+                                <TextBox x:Name="Settings_Email" Style="{StaticResource TextBoxStyle}"/>
+                            <TextBlock Text="Пароль приложения почты:" Style="{StaticResource TextBlockStyle}"/>
+                                <TextBox x:Name="Settings_EmailPassword" Style="{StaticResource TextBoxStyle}"/>
+
                             
-                            <CheckBox x:Name="Settings_SpellCheck" Content="Проверка орфографии" Style="{StaticResource CheckBoxStyle}" Margin="0 7 0 0"/>
+                            <CheckBox x:Name="Settings_SpellCheck" Content="Проверка орфографии" Style="{StaticResource CheckBoxStyle}" Margin="5 20 0 0"/>
                         </StackPanel>
 
                         

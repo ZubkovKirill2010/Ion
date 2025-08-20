@@ -1,6 +1,6 @@
 ﻿using System.Windows.Controls;
 using System.Windows.Documents;
-using Zion.Text;
+using Zion;
 
 namespace BCMEditor.Extensions
 {
