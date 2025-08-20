@@ -94,11 +94,11 @@ namespace BCMEditor.Tabs
             if (_CurrentFile is null)
             {
                 _CurrentFile = GetFilePath();
+            }
 
-                if (_CurrentFile is not null)
-                {
-                    Save();
-                }
+            if (_CurrentFile is not null)
+            {
+                Save();
             }
         }
 

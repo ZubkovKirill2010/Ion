@@ -317,9 +317,9 @@
             </MenuItem>
 
             <MenuItem Header="Help">
-                <MenuItem Header="View Help"/>
+                <MenuItem Header="View help"/>
                 <Separator Style="{StaticResource SeparatorStyle}"/>
-                <MenuItem Header="About BCMEditor"/>
+                <MenuItem Header="About editor" Click="AboutEditor"/>
             </MenuItem>
         </Menu>
 

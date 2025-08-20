@@ -169,6 +169,7 @@ namespace BCMEditor
 
             Tab NewTab = Tab.GetEditor(Path.GetExtension(FilePath));
             NewTab._CurrentFile = FilePath;
+            NewTab._IsSaved = true;
             NewTab.ReadFile();
 
             AddTab(NewTab);

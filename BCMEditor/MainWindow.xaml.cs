@@ -1,5 +1,4 @@
-﻿using BCMEditor.SideBar;
-using BCMEditor.Tabs;
+﻿using BCMEditor.Tabs;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Windows;

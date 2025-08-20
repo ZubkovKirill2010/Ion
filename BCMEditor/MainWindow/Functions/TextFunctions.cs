@@ -6,7 +6,6 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Threading;
 using Zion;
-using Zion;
 
 namespace BCMEditor
 {

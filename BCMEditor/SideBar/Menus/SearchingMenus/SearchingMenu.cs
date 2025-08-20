@@ -1,6 +1,5 @@
 ﻿using BCMEditor.Extensions;
 using System.Text.RegularExpressions;
-using System.Windows.Controls;
 using System.Windows.Documents;
 using System.Windows.Media;
 
