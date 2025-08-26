@@ -10,11 +10,83 @@ namespace Ion
     {
         private void Enumerate(object Sender, RoutedEventArgs E)
         {
+            if (TextEditor.Selection.IsEmpty)
+            {
+                TextEditor.SelectAll();
+            }
 
+            TextRange Range = GetLines();
+
+            if (Range.IsEmpty)
+            {
+                Log("Пустой текст");
+                return;
+            }
+
+            string Text = Range.Text;
+            string[] Lines = Text.SplitIntoLines();
+
+            StringBuilder Builder = new StringBuilder(Text.Length + Lines.Length * 4);
+
+            string CommonStart = Enumerable.Where(Lines, String => !string.IsNullOrWhiteSpace(String)).GetCommonStart();
+
+            for (int i = 0; i < Lines.Length; i++)
+            {
+                string Line = Lines[i];
+
+                if (Line.Length > CommonStart.Length)
+                {
+                    Builder.AppendLine($"{CommonStart}{i + 1}. {Line[CommonStart.Length..]}");
+                }
+                else
+                {
+                    Builder.AppendLine();
+                }
+            }
+
+            Range.Text = Builder.ToString();
+            TextEditor.DeSelect();
         }
         private void DeEnumerate(object Sender, RoutedEventArgs E)
         {
+            if (TextEditor.Selection.IsEmpty)
+            {
+                TextEditor.SelectAll();
+            }
 
+            TextRange Range = GetLines();
+
+            if (Range.IsEmpty)
+            {
+                Log("Пустой текст");
+                return;
+            }
+
+            string Text = Range.Text;
+            string[] Lines = Text.SplitIntoLines();
+
+            StringBuilder Builder = new StringBuilder(Text.Length + Lines.Length * 4);
+
+            string CommonStart = Enumerable.Where(Lines, String => !string.IsNullOrWhiteSpace(String)).GetCommonStart();
+            int Start = CommonStart.Length + 1;
+
+            foreach (string Line in Lines)
+            {
+                if (Line.Length > Start &&
+                    Accessor.Out(Line.IndexOf(". ", CommonStart.Length), out int DotIndex) != -1
+                    && Line.TrueFor(Start, DotIndex, char.IsDigit))
+                {
+                    Builder.Append(CommonStart);
+                    Builder.AppendLine(Line[(DotIndex + 2)..]);
+                }
+                else
+                {
+                    Builder.AppendLine(Line);
+                }
+            }
+
+            Range.Text = Builder.ToString();
+            TextEditor.DeSelect();
         }
 
         private void ToStructure(object Sender, RoutedEventArgs E)

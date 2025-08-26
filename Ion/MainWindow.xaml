@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Ion"
         mc:Ignorable="d"
-        WindowStyle="None" AllowsTransparency="True"
+        WindowStyle="None" AllowsTransparency="False"
         SizeToContent="Manual" ResizeMode="CanResize" 
         Width="800" Height="450"
         MinWidth="650" MinHeight="400"
@@ -273,8 +273,8 @@
             </MenuItem>
 
             <MenuItem Header="Structuring">
-                <MenuItem Header="Enumerate" InputGestureText="Ctrl+;" Click="Enumerate"/>
-                <MenuItem Header="De enumerate" InputGestureText="Ctrl+Shift+;" Click="Enumerate"/>
+                <MenuItem Header="Enumerate" InputGestureText="Ctrl+ ;" Click="Enumerate"/>
+                <MenuItem Header="De enumerate" InputGestureText="Ctrl+Shift+ ;" Click="Enumerate"/>
                     <Separator Style="{StaticResource SeparatorStyle}"/>
                 <MenuItem Header="To structure" InputGestureText="Ctrl+W" Click="ToStructure"/>
                 <MenuItem Header="From structure" InputGestureText="Ctrl+Shift+W" Click="FromStructure"/>

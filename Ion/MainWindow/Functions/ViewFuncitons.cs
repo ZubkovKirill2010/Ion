@@ -33,13 +33,21 @@ namespace Ion
         }
 
         private void OpenSettingsMenu(object Sender, RoutedEventArgs E)
-        {
-            _SideBar.OpenMenu(SideBarType.Settings);
-        }
+            => _SideBar.OpenMenu(SideBarType.Settings);
 
         private void OpenLoggingMenu(object Sender, RoutedEventArgs E)
+            => _SideBar.OpenMenu(SideBarType.Logging);
+
+
+        private void MoveToStart()
         {
-            _SideBar.OpenMenu(SideBarType.Logging);
+            TextEditor.CaretPosition = TextEditor.Document.ContentStart;
+            TextEditor.ScrollToHome();
+        }
+        private void MoveToEnd()
+        {
+            TextEditor.CaretPosition = TextEditor.Document.ContentEnd;
+            TextEditor.ScrollToEnd();
         }
     }
 }

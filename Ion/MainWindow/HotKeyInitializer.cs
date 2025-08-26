@@ -100,6 +100,12 @@ namespace Ion
 
 
             AddKey("CloseSideBar", Key.B, ModifierKeys.Control, CloseSideBar);
+
+
+            AddKey("MoveUp", Key.Up, ModifierKeys.Alt, TextEditor.LineUp);
+            AddKey("MoveDown", Key.Down, ModifierKeys.Alt, TextEditor.LineDown);
+            AddKey("MoveToStart", Key.Up, ModifierKeys.Control | ModifierKeys.Alt, MoveToStart);
+            AddKey("MoveToEnd", Key.Down, ModifierKeys.Control | ModifierKeys.Alt, MoveToEnd);
         }
         private void InitalizeTabsKeys()
         {
