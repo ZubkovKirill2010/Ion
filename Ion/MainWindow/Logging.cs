@@ -44,6 +44,10 @@ namespace Ion
         {
             _ErrorLogs.Add(Exception);
         }
+        public static void LogError(object? Message)
+        {
+            _ErrorLogs.Add(new Exception(Message?.ToString() ?? "null"));
+        }
         public static void LogError(string Message)
         {
             _ErrorLogs.Add(new Exception(Message));

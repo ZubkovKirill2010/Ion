@@ -82,10 +82,39 @@ namespace Ion
                 return GetAllText(Editor);
             }
 
-            TextPointer StartOfFirstLine = Editor.Selection.Start.GetLineStartPosition(0) ?? Editor.Document.ContentStart;
-            TextPointer EndOfLastLine = Editor.Selection.End.GetLineStartPosition(1) ?? Editor.Document.ContentEnd;
+            TextPointer selectionStart = Editor.Selection.Start;
+            TextPointer startOfFirstLine = selectionStart.GetLineStartPosition(0);
 
-            return new TextRange(StartOfFirstLine, EndOfLastLine);
+            if (startOfFirstLine is null)
+            {
+                startOfFirstLine = Editor.Document.ContentStart;
+            }
+            else
+            {
+                TextPointer lineStart = selectionStart.GetLineStartPosition(0);
+                if (lineStart is not null && lineStart.CompareTo(selectionStart) == 0)
+                {
+                    startOfFirstLine = selectionStart;
+                }
+            }
+   
+            TextPointer selectionEnd = Editor.Selection.End;
+            TextPointer endOfLastLine = selectionEnd.GetLineStartPosition(1);
+
+            if (endOfLastLine is null)
+            {
+                endOfLastLine = Editor.Document.ContentEnd;
+            }
+            else
+            {
+                TextPointer nextLineStart = selectionEnd.GetLineStartPosition(1);
+                if (nextLineStart is not null && nextLineStart.CompareTo(selectionEnd) == 0)
+                {
+                    endOfLastLine = nextLineStart;
+                }
+            }
+
+            return new TextRange(startOfFirstLine, endOfLastLine);
         }
 
 
