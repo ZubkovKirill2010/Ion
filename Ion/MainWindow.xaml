@@ -289,7 +289,7 @@
                     <Separator Style="{StaticResource SeparatorStyle}"/>
                 <MenuItem Header="Cut" InputGestureText="Ctrl+X" Command="Cut"/>
                 <MenuItem Header="Copy" InputGestureText="Ctrl+C" Command="Copy"/>
-                <MenuItem Header="Paste" InputGestureText="Ctrl+V" Command="Paste"/>
+                <MenuItem Header="Paste" InputGestureText="Ctrl+V" Click="Paste"/>
                 <MenuItem Header="Delete" InputGestureText="Del" Click="Delete" Name="DeleteButton" IsEnabled="False"/>
             </MenuItem>
 

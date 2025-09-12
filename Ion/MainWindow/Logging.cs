@@ -1,11 +1,18 @@
 ﻿using System.Collections.ObjectModel;
+using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Controls;
+using Zion;
 
 namespace Ion
 {
     public partial class MainWindow : Window
     {
+        private const int _MessageDisplayTime = 600;
+        private const int _TimeBeforeClearing = 5000;
+        private const bool _ClearAfterLogging = true;
+
+        private static readonly Queue<string> _Messages = new Queue<string>();
         private static TextBlock _MessageBox;
 
         public static ObservableCollection<Exception> _ErrorLogs
@@ -25,18 +32,43 @@ namespace Ion
 
         public static void Log(object? Message)
         {
-            try
-            {
-                string Text = Message?.ToString() ?? "null";
+            _Messages.Enqueue(Message.ToNotNullString());
 
-                Application.Current.Dispatcher.Invoke(() =>
-                {
-                    _MessageBox.Text = Text;
-                });
-            }
-            catch (Exception Exception)
+            if (_Messages.Count != 1)
             {
-                LogError(Exception);
+                return;
+            }
+
+            Task.Run
+            (
+                async () =>
+                {
+                    while (_Messages.Count != 0)
+                    {
+                        try
+                        {
+                            SetMessageText(_Messages.Dequeue());
+                        }
+                        catch (Exception Exception)
+                        {
+                            LogError(Exception);
+                        }
+
+                        await Task.Delay(_MessageDisplayTime);
+                    }
+                }
+            );
+
+            if (_ClearAfterLogging)
+            {
+                Task.Run(async () =>
+                {
+                    await Task.Delay(_TimeBeforeClearing);
+                    if (_Messages.Count == 0)
+                    {
+                        SetMessageText(string.Empty);
+                    }
+                });   
             }
         }
 
@@ -46,11 +78,16 @@ namespace Ion
         }
         public static void LogError(object? Message)
         {
-            _ErrorLogs.Add(new Exception(Message?.ToString() ?? "null"));
+            _ErrorLogs.Add(new Exception(Message.ToNotNullString()));
         }
-        public static void LogError(string Message)
+
+
+        private static void SetMessageText(string Text)
         {
-            _ErrorLogs.Add(new Exception(Message));
+            Application.Current.Dispatcher.Invoke(() =>
+            {
+                _MessageBox.Text = Text;
+            });
         }
     }
 }
