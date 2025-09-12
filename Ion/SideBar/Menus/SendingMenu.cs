@@ -24,7 +24,7 @@ namespace Ion.SideBar
             string Text =
             (
                 (_Window.SendSelection.IsChecked ?? false && !_TextField.Selection.IsEmpty) ?
-                _TextField.Selection : _TextField.GetAllText()
+                _TextField.Selection : _TextField.GetAll()
             ).Text;
 
             //Email.Send

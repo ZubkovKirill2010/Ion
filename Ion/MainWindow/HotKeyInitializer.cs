@@ -46,6 +46,8 @@ namespace Ion
             AddKey("Replace", Key.H, ModifierKeys.Control, Replace);
             //AddKey("GoTo", Key.G, ModifierKeys.Control, GoTo);
 
+            AddKey("Highlight", Key.H, ModifierKeys.Alt, Highlight);
+
             AddKey("Do", Key.D, ModifierKeys.Control, Do);
             AddKey("DuplicateLine", Key.D, ModifierKeys.Control | ModifierKeys.Shift, DuplicateLine);
         }

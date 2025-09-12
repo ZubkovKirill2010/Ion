@@ -240,6 +240,8 @@
                 <MenuItem Header="Do" InputGestureText="Ctrl+D" Click="Do"/>
                 <MenuItem Header="Duplicate line" InputGestureText="Ctrl+Shift+D" Click="DuplicateLine"/>
                     <Separator Style="{StaticResource SeparatorStyle}"/>
+                <MenuItem Header="Highlight" InputGestureText="Alt+H" Click="Highlight"/>
+                    <Separator Style="{StaticResource SeparatorStyle}"/>
                 <MenuItem Header="Level up" InputGestureText="Tab" Click="LevelUp"/>
                 <MenuItem Header="Level down" InputGestureText="Shift+Tab" Click="LevelDown"/>
                     <Separator Style="{StaticResource SeparatorStyle}"/>
@@ -305,7 +307,7 @@
             <MenuItem Header="View">
                 <MenuItem Header="Zoom in" x:Name="ZoomInButton" InputGestureText="Ctrl+Plus" Click="ZoomInX5"/>
                 <MenuItem Header="Zoom out" x:Name="ZoomOutButton" InputGestureText="Ctrl+Minus" Click="ZoomOutX5"/>
-                <MenuItem Header="Set default zoom" InputGestureText="Ctrl+0" Click="SetDefaultZoom"/>
+                <MenuItem Header="Default zoom" InputGestureText="Ctrl+0" Click="SetDefaultZoom"/>
                     <Separator Style="{StaticResource SeparatorStyle}"/>
                 <MenuItem Header="Close side bar" InputGestureText="Ctrl+B" Click="CloseSideBar"/>
                     <Separator Style="{StaticResource SeparatorStyle}"/>

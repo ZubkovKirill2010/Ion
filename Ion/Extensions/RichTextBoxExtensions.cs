@@ -6,7 +6,7 @@ namespace Ion.Extensions
 {
     public static class RichTextBoxExtensions
     {
-        public static TextRange GetAllText(this RichTextBox TextBox)
+        public static TextRange GetAll(this RichTextBox TextBox)
         {
             FlowDocument Document = TextBox.Document;
             return new TextRange
@@ -18,7 +18,7 @@ namespace Ion.Extensions
 
         public static int GetLinesCount(this RichTextBox TextBox)
         {
-            return TextBox.GetAllText().Text.CountOf('\n') + 1;
+            return TextBox.GetAll().Text.CountOf('\n') + 1;
         }
 
         public static void DeSelect(this RichTextBox TextBox)

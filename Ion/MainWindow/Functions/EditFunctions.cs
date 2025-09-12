@@ -3,12 +3,15 @@ using Ion.SideBar;
 using System.Text;
 using System.Windows;
 using System.Windows.Documents;
+using System.Windows.Media;
 using Zion;
 
 namespace Ion
 {
     public partial class MainWindow : Window
     {
+        private static readonly Brush _HighlightBrush = new SolidColorBrush(System.Windows.Media.Color.FromArgb(160, 85, 55, 155));
+
         private void ToLower(object Sender, RoutedEventArgs E)
         {
             if (TextEditor.Selection.IsEmpty)
@@ -121,6 +124,23 @@ namespace Ion
         private void Do(object Sender, RoutedEventArgs E)
         {
             Log("Функция пока не реализована");
+        }
+
+        private void Highlight(object Sender, RoutedEventArgs E)
+        {
+            TextRange Range = TextEditor.Selection;
+            if (Range.IsEmpty)
+            {
+                //Clear formating
+                TextEditor.GetAll().ApplyPropertyValue(TextElement.BackgroundProperty, Brushes.Transparent);
+            }
+            else
+            {
+                //Highlight
+                Range.ApplyPropertyValue(TextElement.BackgroundProperty, _HighlightBrush);
+                TextEditor.DeSelect();
+                TextEditor.CaretPosition = Range.End;
+            }
         }
 
         private void Find(object Sender, RoutedEventArgs E)

@@ -40,7 +40,7 @@ namespace Ion.SideBar
                 return;
             }
 
-            TextRange FullTextRange = _Editor.GetAllText();
+            TextRange FullTextRange = _Editor.GetAll();
             string Text = FullTextRange.Text;
 
             RegexOptions Options = GetOptions
