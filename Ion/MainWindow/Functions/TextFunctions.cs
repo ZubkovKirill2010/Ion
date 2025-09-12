@@ -206,12 +206,12 @@ namespace Ion
                 return;
             }
 
-            string[] Lines = Range.Text.Split(new[] { _NewLine }, StringSplitOptions.None).ConvertAll
+            string[] Lines = Range.Text.Split(_NewLine, StringSplitOptions.None).ConvertAll
             (
                 Line => string.IsNullOrEmpty(Line) ? Line : '\t' + Line
             );
 
-            Range.Text = string.Join(_NewLine, Lines);
+            Range.Text = FixRangeText(Range, Lines.JoinTrimEnd(_NewLine));
             TextEditor.DeSelect();
         }
 
@@ -245,8 +245,8 @@ namespace Ion
                     return Line;
                 }
             );
-
-            Range.Text = string.Join(_NewLine, Lines);
+            
+            Range.Text = FixRangeText(Range, Lines.JoinTrimEnd(_NewLine));
             TextEditor.DeSelect();
         }
 
@@ -259,7 +259,7 @@ namespace Ion
             }
             else
             {
-                LevelUp(null, null);
+                LevelUp(this, null);
             }
         }
 

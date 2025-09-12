@@ -2,8 +2,8 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
     <Style x:Key="WindowControlButton" TargetType="Button">
-        
-        <Setter Property="Background" Value="#111111"/>
+
+        <Setter Property="Background" Value="#111113"/>
         <Setter Property="Foreground" Value="#CCCCCC"/>
         
         <Setter Property="BorderThickness" Value="0"/>
@@ -24,7 +24,7 @@
         </Setter>
         <Style.Triggers>
             <Trigger Property="IsMouseOver" Value="True">
-                <Setter Property="Background" Value="#454545"/>
+                <Setter Property="Background" Value="#45454A"/>
                 <Setter Property="Foreground" Value="White"/>
             </Trigger>
         </Style.Triggers>

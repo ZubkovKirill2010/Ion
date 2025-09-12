@@ -1,4 +1,6 @@
 ﻿using Ion.Extensions;
+using Microsoft.VisualBasic;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Windows;
 using System.Windows.Documents;
@@ -27,8 +29,9 @@ namespace Ion
             string[] Lines = Text.SplitIntoLines();
 
             StringBuilder Builder = new StringBuilder(Text.Length + Lines.Length * 4);
+            FixRangeText(Range, Builder);
 
-            string CommonStart = Enumerable.Where(Lines, String => !string.IsNullOrWhiteSpace(String)).GetCommonStart();
+            string CommonStart = GetCommonStart(Enumerable.Where(Lines, String => !string.IsNullOrWhiteSpace(String)));
 
             for (int i = 0; i < Lines.Length; i++)
             {
@@ -44,7 +47,7 @@ namespace Ion
                 }
             }
 
-            Range.Text = Builder.ToString();
+            Range.Text = Builder.ToString().TrimEnd();
             TextEditor.DeSelect();
         }
         private void DeEnumerate(object Sender, RoutedEventArgs E)
@@ -66,8 +69,9 @@ namespace Ion
             string[] Lines = Text.SplitIntoLines();
 
             StringBuilder Builder = new StringBuilder(Text.Length + Lines.Length * 4);
+            FixRangeText(Range, Builder);
 
-            string CommonStart = Enumerable.Where(Lines, String => !string.IsNullOrWhiteSpace(String)).GetCommonStart();
+            string CommonStart = GetCommonStart(Enumerable.Where(Lines, String => !string.IsNullOrWhiteSpace(String)));
             int Start = CommonStart.Length + 1;
 
             foreach (string Line in Lines)
@@ -85,7 +89,7 @@ namespace Ion
                 }
             }
 
-            Range.Text = Builder.ToString();
+            Range.Text = Builder.ToString().TrimEnd();
             TextEditor.DeSelect();
         }
 
@@ -96,7 +100,8 @@ namespace Ion
                 TextEditor.SelectAll();
             }
 
-            string Text = GetRange().Text;
+            var Range = GetLines();
+            string Text = Range.Text;
             string Result = Structure.Parse(Text).ToString();
 
             int LastLinesCount = Text.CountOf('\n');
@@ -109,7 +114,7 @@ namespace Ion
                 return;
             }
 
-            TextEditor.Selection.Text = Result;
+            TextEditor.Selection.Text = FixRangeText(Range, Result).TrimEnd();
             TextEditor.DeSelect();
         }
         private void FromStructure(object Sender, RoutedEventArgs E)
@@ -145,7 +150,7 @@ namespace Ion
                 return;
             }
 
-            Selection.Text = Result;
+            Selection.Text = Result.TrimEnd();
             TextEditor.DeSelect();
         }
 
@@ -168,6 +173,7 @@ namespace Ion
 
             string[] Lines = Text.SplitIntoLines().TrimEmptyLines();
             StringBuilder Builder = new StringBuilder(Text.Length + Lines.Length * 2 + 27);
+            FixRangeText(Range, Builder);
 
             Builder.AppendLine("╭──────┤ Header");
             if (Lines.Length > 0)
@@ -185,8 +191,8 @@ namespace Ion
             Builder.Append("╰──────────┘");
 
 
-            Range.Text = Builder.ToString();
-            TextEditor.Selection.Select(Range.Start, Range.End);
+            Range.Text = Builder.ToString().TrimEnd();
+            TextEditor.DeSelect();
         }
         private void Ungroup(object Sender, RoutedEventArgs E)
         {
@@ -212,7 +218,7 @@ namespace Ion
                 return;
             }
 
-            Range.Text = UnGroup(Lines, Text.Length, Level);
+            Range.Text = UnGroup(Range, Lines, Text.Length, Level).TrimEnd();
             TextEditor.DeSelect();
         }
 
@@ -243,9 +249,10 @@ namespace Ion
             return true;
         }
 
-        private static string UnGroup(string[] Lines, int TextLength, int Level)
+        private string UnGroup(TextRange Range, string[] Lines, int TextLength, int Level)
         {
             StringBuilder Builder = new StringBuilder(TextLength - Lines.Length * 2 - 27);
+            FixRangeText(Range, Builder);
 
             Level += 2;
             int End = Lines.Length - 1;
@@ -256,6 +263,32 @@ namespace Ion
             }
 
             return Builder.ToString();
+        }
+
+
+        private static string GetCommonStart(IEnumerable<string> Lines)
+        {
+            if (Lines.IsEmpty())
+            {
+                return string.Empty;
+            }
+
+            string First = Lines.First();
+            int End = Lines.Where(String => !string.IsNullOrWhiteSpace(String)).Select(String => String.Length).Min();
+            int Index = 0;
+
+            while (Index < End)
+            {
+                char Char = First[Index];
+
+                if (char.IsLetterOrDigit(Char) || Lines.Any(String => String[Index] != Char))
+                {
+                    break;
+                }
+
+                Index++;
+            }
+            return First[..Index];
         }
     }
 }

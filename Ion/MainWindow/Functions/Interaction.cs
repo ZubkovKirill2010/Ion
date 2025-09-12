@@ -1,4 +1,6 @@
 ﻿using Ion.Extensions;
+using System.Text;
+using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Documents;
@@ -82,39 +84,51 @@ namespace Ion
                 return GetAllText(Editor);
             }
 
-            TextPointer selectionStart = Editor.Selection.Start;
-            TextPointer startOfFirstLine = selectionStart.GetLineStartPosition(0);
+            TextPointer SelectionStart = Editor.Selection.Start;
+            TextPointer StartOfFirstLine = SelectionStart.GetLineStartPosition(0);
 
-            if (startOfFirstLine is null)
+            if (StartOfFirstLine is null)
             {
-                startOfFirstLine = Editor.Document.ContentStart;
+                StartOfFirstLine = Editor.Document.ContentStart;
             }
             else
             {
-                TextPointer lineStart = selectionStart.GetLineStartPosition(0);
-                if (lineStart is not null && lineStart.CompareTo(selectionStart) == 0)
+                TextPointer SineStart = SelectionStart.GetLineStartPosition(0);
+                if (SineStart is not null && SineStart.CompareTo(SelectionStart) == 0)
                 {
-                    startOfFirstLine = selectionStart;
+                    StartOfFirstLine = SelectionStart;
                 }
             }
    
-            TextPointer selectionEnd = Editor.Selection.End;
-            TextPointer endOfLastLine = selectionEnd.GetLineStartPosition(1);
+            TextPointer SelectionEnd = Editor.Selection.End;
+            TextPointer EndOfLastLine = SelectionEnd.GetLineStartPosition(1);
 
-            if (endOfLastLine is null)
+            if (EndOfLastLine is null)
             {
-                endOfLastLine = Editor.Document.ContentEnd;
+                EndOfLastLine = Editor.Document.ContentEnd;
             }
             else
             {
-                TextPointer nextLineStart = selectionEnd.GetLineStartPosition(1);
-                if (nextLineStart is not null && nextLineStart.CompareTo(selectionEnd) == 0)
+                TextPointer NextLineStart = SelectionEnd.GetLineStartPosition(1);
+                if (NextLineStart is not null && NextLineStart.CompareTo(SelectionEnd) == 0)
                 {
-                    endOfLastLine = nextLineStart;
+                    EndOfLastLine = NextLineStart;
                 }
             }
 
-            return new TextRange(startOfFirstLine, endOfLastLine);
+            return new TextRange(StartOfFirstLine, EndOfLastLine);
+        }
+
+        private static void FixRangeText(TextRange Range, StringBuilder Builder)
+        {
+            if (Range.Start.GetLineStartPosition(-1) is not null)
+            {
+                Builder.AppendLine();
+            }
+        }
+        private static string FixRangeText(TextRange Range, string String)
+        {
+            return Range.Start.GetLineStartPosition(-1) is not null ? _NewLine + String : String;
         }
 
 
