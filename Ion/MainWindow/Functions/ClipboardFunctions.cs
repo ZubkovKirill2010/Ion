@@ -26,16 +26,6 @@ namespace Ion
 
         private void Paste(object Sender, RoutedEventArgs E)
         {
-            //#Temp
-            Task.Run(async () =>
-            {
-                Log("Message1");
-                Log("Message2");
-                Log("Message3");
-                Log("Message4");
-            });
-            return;
-
             try
             {
                 InsertText(Clipboard.GetText());

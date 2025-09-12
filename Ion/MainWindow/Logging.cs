@@ -1,5 +1,4 @@
 ﻿using System.Collections.ObjectModel;
-using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Controls;
 using Zion;
@@ -68,7 +67,7 @@ namespace Ion
                     {
                         SetMessageText(string.Empty);
                     }
-                });   
+                });
             }
         }
 

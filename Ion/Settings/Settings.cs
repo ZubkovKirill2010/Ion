@@ -30,24 +30,22 @@ namespace Ion
 
         public void Save()
         {
-            using (FileStream Stream = new FileStream(_SettingsPath, FileMode.Create))
-            using (BinaryWriter Writer = new BinaryWriter(Stream))
+            using FileStream Stream = new FileStream(_SettingsPath, FileMode.Create);
+            using BinaryWriter Writer = new BinaryWriter(Stream);
+            Writer.Write((byte)_DefaultFontSize);
+            Writer.Write((byte)_FontSize);
+            Writer.Write((byte)_MenuScale);
+
+            Writer.Write(_SpellCheck);
+            Writer.Write(_DefaultTabExtension);
+
+            Writer.Write(_Email);
+            Writer.Write(_EmailPassword);
+
+            Writer.Write(_Recipients.Count);
+            foreach (string Recipient in _Recipients)
             {
-                Writer.Write((byte)_DefaultFontSize);
-                Writer.Write((byte)_FontSize);
-                Writer.Write((byte)_MenuScale);
-
-                Writer.Write(_SpellCheck);
-                Writer.Write(_DefaultTabExtension);
-
-                Writer.Write(_Email);
-                Writer.Write(_EmailPassword);
-
-                Writer.Write(_Recipients.Count);
-                foreach (string Recipient in _Recipients)
-                {
-                    Writer.Write(Recipient);
-                }
+                Writer.Write(Recipient);
             }
         }
         public static Settings Load()

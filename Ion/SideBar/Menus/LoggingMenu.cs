@@ -33,16 +33,14 @@ namespace Ion.SideBar
             }
 
             const string Seporator = "--------------->";
-            using (FileStream Stream = new FileStream(FilePath, FileMode.Create))
-            using (StreamWriter Writer = new StreamWriter(Stream))
-            {
-                Writer.WriteLine(ErrorToString(0));
+            using FileStream Stream = new FileStream(FilePath, FileMode.Create);
+            using StreamWriter Writer = new StreamWriter(Stream);
+            Writer.WriteLine(ErrorToString(0));
 
-                for (int i = 1; i < _Errors.Count; i++)
-                {
-                    Writer.WriteLine(Seporator);
-                    Writer.WriteLine(ErrorToString(i));
-                }
+            for (int i = 1; i < _Errors.Count; i++)
+            {
+                Writer.WriteLine(Seporator);
+                Writer.WriteLine(ErrorToString(i));
             }
         }
 

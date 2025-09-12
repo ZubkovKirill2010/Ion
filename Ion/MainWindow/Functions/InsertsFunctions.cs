@@ -53,6 +53,8 @@ namespace Ion
                 }
             }
 
+            Builder.Remove(Builder.Length - 1, 1);
+
             InsertText(Builder.ToString());
         }
 

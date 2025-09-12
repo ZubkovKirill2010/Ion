@@ -1,6 +1,5 @@
 ﻿using Ion.Extensions;
 using System.Text;
-using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Documents;
@@ -99,7 +98,7 @@ namespace Ion
                     StartOfFirstLine = SelectionStart;
                 }
             }
-   
+
             TextPointer SelectionEnd = Editor.Selection.End;
             TextPointer EndOfLastLine = SelectionEnd.GetLineStartPosition(1);
 

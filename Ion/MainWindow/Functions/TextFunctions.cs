@@ -13,30 +13,28 @@ namespace Ion
     {
         private static string RemoveEmptyLines(string String)
         {
-            using (StringReader Reader = new StringReader(String))
+            using StringReader Reader = new StringReader(String);
+            StringBuilder Builder = new StringBuilder();
+            string Line;
+
+            while ((Line = Reader.ReadLine()) is not null)
             {
-                StringBuilder Builder = new StringBuilder();
-                string Line;
-
-                while ((Line = Reader.ReadLine()) is not null)
+                if (!string.IsNullOrWhiteSpace(Line))
                 {
-                    if (!string.IsNullOrWhiteSpace(Line))
-                    {
-                        Builder.AppendLine(Line);
-                    }
+                    Builder.AppendLine(Line);
                 }
+            }
 
-                if (Builder.Length > 0 && Builder[Builder.Length - 1] == '\n')
+            if (Builder.Length > 0 && Builder[Builder.Length - 1] == '\n')
+            {
+                Builder.Length--;
+                if (Builder.Length > 0 && Builder[Builder.Length - 1] == '\r')
                 {
                     Builder.Length--;
-                    if (Builder.Length > 0 && Builder[Builder.Length - 1] == '\r')
-                    {
-                        Builder.Length--;
-                    }
                 }
-
-                return Builder.ToString();
             }
+
+            return Builder.ToString();
         }
 
         private static string Trim(string String)
@@ -245,7 +243,7 @@ namespace Ion
                     return Line;
                 }
             );
-            
+
             Range.Text = FixRangeText(Range, Lines.JoinTrimEnd(_NewLine));
             TextEditor.DeSelect();
         }

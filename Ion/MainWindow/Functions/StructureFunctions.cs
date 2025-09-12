@@ -1,6 +1,4 @@
 ﻿using Ion.Extensions;
-using Microsoft.VisualBasic;
-using System.Runtime.CompilerServices;
 using System.Text;
 using System.Windows;
 using System.Windows.Documents;
@@ -100,7 +98,7 @@ namespace Ion
                 TextEditor.SelectAll();
             }
 
-            var Range = GetLines();
+            TextRange Range = GetLines();
             string Text = Range.Text;
             string Result = Structure.Parse(Text).ToString();
 

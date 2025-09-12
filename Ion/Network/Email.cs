@@ -30,43 +30,39 @@ namespace Ion.Network
                 return;
             }
 
-            using (SmtpClient Client = new SmtpClient(_SmtpServer, _SmtpPort))
+            using SmtpClient Client = new SmtpClient(_SmtpServer, _SmtpPort);
+            Client.EnableSsl = true;
+            Client.Credentials = new NetworkCredential
+            (
+                Email,
+                SecurePasswordStorage.Decrypt(Password)
+            );
+
+            using MailMessage Message = new MailMessage();
+            Message.From = new MailAddress(Email);
+
+            foreach (string Recipient in Recipients)
             {
-                Client.EnableSsl = true;
-                Client.Credentials = new NetworkCredential
-                (
-                    Email,
-                    SecurePasswordStorage.Decrypt(Password)
-                );
+                Message.To.Add(Recipient);
+            }
 
-                using (MailMessage Message = new MailMessage())
-                {
-                    Message.From = new MailAddress(Email);
+            if (Message.To.Count == 0)
+            {
+                return;
+            }
 
-                    foreach (string Recipient in Recipients)
-                    {
-                        Message.To.Add(Recipient);
-                    }
+            Message.Subject = Header;
+            Message.Body = MessageText;
 
-                    if (Message.To.Count == 0)
-                    {
-                        return;
-                    }
-
-                    Message.Subject = Header;
-                    Message.Body = MessageText;
-
-                    try
-                    {
-                        Client.Send(Message);
-                        MainWindow.Log("Сообщение отправлено");
-                    }
-                    catch (Exception Exception)
-                    {
-                        MainWindow.Log($"Ошибка при отправке сообщения");
-                        MainWindow.LogError(Exception);
-                    }
-                }
+            try
+            {
+                Client.Send(Message);
+                MainWindow.Log("Сообщение отправлено");
+            }
+            catch (Exception Exception)
+            {
+                MainWindow.Log($"Ошибка при отправке сообщения");
+                MainWindow.LogError(Exception);
             }
         }
     }
