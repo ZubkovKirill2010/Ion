@@ -9,7 +9,7 @@ namespace Ion
     {
         private const int _MessageDisplayTime = 600;
         private const int _TimeBeforeClearing = 5000;
-        private const bool _ClearAfterLogging = true;
+        private const bool _ClearAfterLogging = false;
 
         private static readonly Queue<string> _Messages = new Queue<string>();
         private static TextBlock _MessageBox;

@@ -1,6 +1,4 @@
 using System.Windows;
-using System.Windows.Documents;
-using System.Windows.Threading;
 
 namespace Ion
 {

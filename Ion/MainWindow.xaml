@@ -65,10 +65,15 @@
 
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto"/>
-                    <ColumnDefinition Width="*" MinWidth="150"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*" MinWidth="100"/>
                 </Grid.ColumnDefinitions>
 
-                <Border Grid.Column="0" ClipToBounds="True">
+
+                <Button x:Name="MoveTabLeft" Grid.Column="0" Content="&lt;" Click="MoveTabsLeft"/>
+
+                <Border Grid.Column="1" ClipToBounds="True">
                     <TabControl x:Name="TabList"
                         ItemsSource="{Binding Tabs}"
                         SelectedItem="{Binding SelectedTab, Mode=TwoWay}"
@@ -132,7 +137,10 @@
                     </TabControl>
                 </Border>
 
-                <Border x:Name="DragArea" Grid.Column="1" MinWidth="150" Margin="-1 0 0 0"
+                <Button x:Name="MoveTabRight" Grid.Column="2" Content=">" Click="MoveTabsRight"/>
+                
+                
+                <Border x:Name="DragArea" Grid.Column="3" MinWidth="150" Margin="-1 0 0 0"
                     Background="#111113" MouseLeftButtonDown="DragWindow"/>
             </Grid>
 

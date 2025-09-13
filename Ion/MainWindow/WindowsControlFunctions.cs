@@ -3,6 +3,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
+using Zion;
 
 namespace Ion
 {
@@ -55,18 +56,40 @@ namespace Ion
         {
             HitTestResult Hit = VisualTreeHelper.HitTest(TabList, E.GetPosition(TabList));
 
-            if (Hit is null || Hit.VisualHit.GetType() == typeof(TabItem))
+            if ((Hit is null || Hit.VisualHit.GetType() == typeof(TabItem)) && E.ChangedButton == MouseButton.Left)
             {
-                if (E.ChangedButton == MouseButton.Left)
+                if (E.ClickCount == 2)
                 {
-                    if (E.ClickCount == 2)
+                    MaximizeWindow(this, E);
+                }
+                else if (E.ButtonState == MouseButtonState.Pressed)
+                {
+                    if (_IsMaximized)
                     {
-                        MaximizeWindow(this, E);
+                        Point Cursor = E.GetPosition(this);
+                        double MaximizedWidth = ActualWidth;
+
+                        NormalizeWindow();
+
+                        double RelativeX = Cursor.X / MaximizedWidth;
+
+                        if (RelativeX < 0.5)
+                        {
+                            double OffsetFromLeft = Cursor.X * (ActualWidth / MaximizedWidth);
+                            Left = Cursor.X - Math.Max(280, 2 * OffsetFromLeft * (ActualWidth / MaximizedWidth));
+                        }
+                        else
+                        {
+                            double OffsetFromRight = MaximizedWidth - Cursor.X;
+                            Left = Cursor.X - ActualWidth + Math.Max(140, OffsetFromRight * (ActualWidth / MaximizedWidth));
+                        }
+
+                        Top = Cursor.Y - 28;
+
+                        UpdateLayout();
                     }
-                    else if (!_IsMaximized)
-                    {
-                        DragMove();
-                    }
+
+                    DragMove();
                 }
             }
         }

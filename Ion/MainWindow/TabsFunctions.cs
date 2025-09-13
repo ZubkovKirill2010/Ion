@@ -195,5 +195,15 @@ namespace Ion
                 Exit();
             }
         }
+
+
+        private void MoveTabsLeft(object Sender, RoutedEventArgs E)
+        {
+            Log("Move tabs left");
+        }
+        private void MoveTabsRight(object Sender, RoutedEventArgs E)
+        {
+            Log("Move tabs right");
+        }
     }
 }
