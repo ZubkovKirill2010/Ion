@@ -223,7 +223,6 @@
                 <MenuItem Header="Save As..." InputGestureText="Ctrl+Shift+S" Click="SaveAs"/>
                     <Separator Style="{StaticResource SeparatorStyle}"/>
                 <MenuItem Header="Save all" InputGestureText="Alt+S" Click="SaveAll"/>
-                <MenuItem Header="Close all" InputGestureText="Alt+C" Click="CloseAll"/>
                 <Separator Style="{StaticResource SeparatorStyle}"/>
                 <MenuItem Header="Reload" InputGestureText="Ctrl+R" Click="Reload" Name="ReloadButton"/>
                 <MenuItem Header="Print..." InputGestureText="Ctrl+P" Click="Print"/>
@@ -237,7 +236,7 @@
                 <MenuItem Header="To upper" InputGestureText="Ctrl+Shift+U" Click="ToUpper"/>
                 <MenuItem Header="Capitalize" InputGestureText="Ctrl+Shift+C" Click="Capitalize"/>
                     <Separator Style="{StaticResource SeparatorStyle}"/>
-                <MenuItem Header="Do" InputGestureText="Ctrl+D" Click="Do"/>
+                <MenuItem Header="Do" InputGestureText="Ctrl+D" Click="Do" IsEnabled="False"/>
                 <MenuItem Header="Duplicate line" InputGestureText="Ctrl+Shift+D" Click="DuplicateLine"/>
                     <Separator Style="{StaticResource SeparatorStyle}"/>
                 <MenuItem Header="Highlight" InputGestureText="Alt+H" Click="Highlight"/>
@@ -272,11 +271,13 @@
                 <MenuItem Header="Check brackets" InputGestureText="Ctrl+Shift+B" Click="CheckBrackets"/>
                 <MenuItem Header="Correct spaces" InputGestureText="Ctrl+Shift+K" Click="CorrectSpaces"/>
                 <MenuItem Header="Correct punctuation" InputGestureText="Ctrl+Shift+P" Click="CorrectPunctuation"/>
+                    <Separator Style="{StaticResource SeparatorStyle}"/>
+                <MenuItem Header="Join lines" InputGestureText="Ctrl+J" Click="JoinLines"/>
             </MenuItem>
 
             <MenuItem Header="Structuring">
                 <MenuItem Header="Enumerate" InputGestureText="Ctrl+ ;" Click="Enumerate"/>
-                <MenuItem Header="De enumerate" InputGestureText="Ctrl+Shift+ ;" Click="Enumerate"/>
+                <MenuItem Header="De-enumerate" InputGestureText="Ctrl+Shift+ ;" Click="Enumerate"/>
                     <Separator Style="{StaticResource SeparatorStyle}"/>
                 <MenuItem Header="To structure" InputGestureText="Ctrl+W" Click="ToStructure"/>
                 <MenuItem Header="From structure" InputGestureText="Ctrl+Shift+W" Click="FromStructure"/>
@@ -292,15 +293,15 @@
                 <MenuItem Header="Cut" InputGestureText="Ctrl+X" Command="Cut"/>
                 <MenuItem Header="Copy" InputGestureText="Ctrl+C" Command="Copy"/>
                 <MenuItem Header="Paste" InputGestureText="Ctrl+V" Click="Paste"/>
-                <MenuItem Header="Delete" InputGestureText="Del" Click="Delete" Name="DeleteButton" IsEnabled="False"/>
             </MenuItem>
 
             <MenuItem Header="Tabs">
-                <MenuItem Header="Next tab" InputGestureText="Ctrl+Right" Click="NextTab"/>
-                <MenuItem Header="Previous tab" InputGestureText="Ctrl+Left" Click="PreviousTab"/>
+                <MenuItem Header="Next tab" InputGestureText="Alt+Right" Click="NextTab"/>
+                <MenuItem Header="Previous tab" InputGestureText="Alt+Left" Click="PreviousTab"/>
                     <Separator Style="{StaticResource SeparatorStyle}"/>
-                <MenuItem Header="Open last tab" InputGestureText="Ctrl+0" Click="OpenLastTabClick"/>
+                <MenuItem Header="Open last tab" InputGestureText="Alt+0" Click="OpenLastTabClick"/>
                     <Separator Style="{StaticResource SeparatorStyle}"/>
+                <MenuItem Header="Close current" InputGestureText="Alt+C" Click="CloseCurrentTab"/>
                 <MenuItem Header="Close saved" InputGestureText="Ctrl+Alt+C" Click="CloseSavedTabs"/>
             </MenuItem>
 

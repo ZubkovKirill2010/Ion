@@ -1,8 +1,10 @@
-﻿using System.Text.RegularExpressions;
+﻿using Ion.Extensions;
+using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Documents;
 using System.Windows.Media;
+using Zion;
 
 namespace Ion.SideBar
 {
@@ -45,7 +47,7 @@ namespace Ion.SideBar
             }
             else if (!UsingRegularExpressions.IsChecked.GetValueOrDefault())
             {
-                Pattern = Regex.Escape(Target);
+                Pattern = StringParser.Parse(Pattern);
             }
 
             return Options;
@@ -53,11 +55,12 @@ namespace Ion.SideBar
 
         protected void ClearHighlights()
         {
-            foreach (TextRange Range in _HighlightedRanges)
+            if (_HighlightedRanges.Count == 0)
             {
-                Range.ApplyPropertyValue(TextElement.BackgroundProperty, Brushes.Transparent);
+                return;
             }
-            _HighlightedRanges.Clear();
+
+            _Editor.GetAll().ApplyPropertyValue(TextElement.BackgroundProperty, Brushes.Transparent);
         }
 
         protected void Highlight(TextRange Range)

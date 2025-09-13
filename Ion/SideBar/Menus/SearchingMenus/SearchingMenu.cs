@@ -18,11 +18,6 @@ namespace Ion.SideBar
             : base(Window, Window.SearchingMenu) { }
 
 
-        //public override void Start()
-        //{
-        //    _Window.SearchingMenu_OnlySelection.IsChecked = !_Editor.Selection.IsEmpty;
-        //}
-
         public override void Apply()
         {
             ClearHighlights();

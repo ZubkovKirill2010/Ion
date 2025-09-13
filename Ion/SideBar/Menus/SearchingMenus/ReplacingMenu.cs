@@ -18,12 +18,6 @@ namespace Ion.SideBar
             : base(Window, Window.ReplacingMenu) { }
 
 
-
-        //public override void Start()
-        //{
-        //    _Window.ReplacingMenu_OnlySelection.IsChecked = !_Editor.Selection.IsEmpty;
-        //}
-
         public override void Apply()
         {
             ClearHighlights();
@@ -32,12 +26,16 @@ namespace Ion.SideBar
             string Target = _Window.ReplacingMenu_From.Text;
             string ReplaceText = _Window.ReplacingMenu_To.Text;
 
+            if (Target == ReplaceText)
+            {
+                MainWindow.Log("Старый текст совпадает с новым");
+                return;
+            }
             if (string.IsNullOrEmpty(Target))
             {
                 MainWindow.Log("Введите текст для поиска");
                 return;
             }
-
             if (_Editor.Document.IsEmpty())
             {
                 MainWindow.Log("Пустой текст");

@@ -1,3 +1,4 @@
+using Ion.Extensions;
 using System.Windows;
 using System.Windows.Documents;
 using Zion;
@@ -62,6 +63,19 @@ namespace Ion
             {
                 Range.Text = CorrectPunctuation(Range.Text);
             }
+        }
+
+        private void JoinLines(object Sender, RoutedEventArgs E)
+        {
+            TextRange Range = GetRange();
+
+            if (Range.IsEmpty)
+            {
+                return;
+            }
+
+            Range.Text = Range.Text.RemoveChars('\r', '\n');
+            TextEditor.DeSelect();
         }
     }
 }

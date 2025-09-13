@@ -21,7 +21,6 @@ namespace Ion
             _TextField = Window.TextEditor;
 
             Window.TextEditor.TextChanged += TextChanged;
-            Window.TextEditor.SelectionChanged += (Sender, E) => Window.DeleteButton.IsEnabled = !_TextField.Selection.IsEmpty;
 
             Window.TextEditor.CommandBindings.Add(new CommandBinding(ApplicationCommands.Paste, PasteText));
         }

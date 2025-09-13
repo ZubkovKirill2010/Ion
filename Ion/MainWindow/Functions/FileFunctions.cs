@@ -89,13 +89,6 @@ namespace Ion
                 Tab.SaveFile();
             }
         }
-        private void CloseAll(object Sender, RoutedEventArgs E)
-        {
-            foreach (Tab Tab in _Tabs)
-            {
-                CloseTab(Tab);
-            }
-        }
 
         private void Reload(object Sender, RoutedEventArgs E)
         {

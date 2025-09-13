@@ -34,7 +34,7 @@ namespace Ion
             AddKey("Send", Key.M, ModifierKeys.Control, Send);
 
             AddKey("SaveAll", Key.S, ModifierKeys.Alt, SaveAll);
-            AddKey("CloseAll", Key.C, ModifierKeys.Alt, CloseAll);
+            AddKey("CloseCurrentTab", Key.C, ModifierKeys.Alt, CloseCurrentTab);
         }
         private void InitalizeEditHotKeys()
         {
@@ -65,6 +65,8 @@ namespace Ion
             AddKey("CheckBrackets", Key.B, ModifierKeys.Control | ModifierKeys.Shift, CheckBrackets);
             AddKey("CorrectSpaces", Key.K, ModifierKeys.Control | ModifierKeys.Shift, CorrectSpaces);
             AddKey("CorrectPunctuation", Key.P, ModifierKeys.Control | ModifierKeys.Shift, CorrectPunctuation);
+
+            AddKey("JoinLines", Key.J, ModifierKeys.Control, JoinLines);
         }
         private void InitalizeStructuringHotKeys()
         {
@@ -141,6 +143,7 @@ namespace Ion
                 (Key.B, ModifierKeys.Control) => HandleAction(CloseSideBar, E),
                 (Key.R, ModifierKeys.Control) => HandleAction(Reload, E),
                 (Key.E, ModifierKeys.Control) => HandleAction(InsertEmail, E),
+                (Key.J, ModifierKeys.Control) => HandleAction(JoinLines, E),
                 (Key.L, ModifierKeys.Control | ModifierKeys.Shift) => HandleAction(ToLower, E),
                 (Key.C, ModifierKeys.Control | ModifierKeys.Shift) => HandleAction(Capitalize, E),
                 (Key.T, ModifierKeys.Control | ModifierKeys.Shift) => HandleAction(Trim, E),

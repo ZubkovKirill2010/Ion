@@ -126,9 +126,11 @@ namespace Ion
             Log("Функция пока не реализована");
         }
 
+
         private void Highlight(object Sender, RoutedEventArgs E)
         {
             TextRange Range = TextEditor.Selection;
+
             if (Range.IsEmpty)
             {
                 //Clear formating

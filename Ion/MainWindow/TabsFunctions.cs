@@ -107,6 +107,10 @@ namespace Ion
                 CloseTab(ClosingTab);
             }
         }
+        public void CloseCurrentTab(object Sender, RoutedEventArgs E)
+        {
+            CloseTab(SelectedTab);
+        }
 
         public void SelectTab(object Sender, SelectionChangedEventArgs E)
         {
