@@ -16,7 +16,6 @@ namespace Ion
             InitalizeInsertsHotKeys();
             InitalizePunctuationHotKeys();
             InitalizeStructuringHotKeys();
-            InitalizeClipboardHotKeys();
             InitalizeViewHotKeys();
             InitalizeTabsKeys();
         }
@@ -30,7 +29,6 @@ namespace Ion
             AddKey("SaveAs", Key.S, ModifierKeys.Control | ModifierKeys.Shift, SaveAs);
             AddKey("SaveAll", Key.S, ModifierKeys.Alt, SaveAll);
 
-            AddKey("Reload", Key.R, ModifierKeys.Control, Reload);
             AddKey("Print", Key.P, ModifierKeys.Control, Print);
             AddKey("Send", Key.T, ModifierKeys.Control, Send);
 
@@ -38,10 +36,6 @@ namespace Ion
         }
         private void InitalizeEditHotKeys()
         {
-            AddKey("ToLower", Key.L, ModifierKeys.Control | ModifierKeys.Shift, ToLower);
-            AddKey("ToUpper", Key.U, ModifierKeys.Control | ModifierKeys.Shift, ToUpper);
-            AddKey("Capitalize", Key.C, ModifierKeys.Control | ModifierKeys.Shift, Capitalize);
-
             AddKey("Find", Key.F, ModifierKeys.Control, Find);
             AddKey("Replace", Key.H, ModifierKeys.Control, Replace);
             //AddKey("GoTo", Key.G, ModifierKeys.Control, GoTo);
@@ -54,18 +48,14 @@ namespace Ion
         private void InitalizeInsertsHotKeys()
         {
             AddKey("Time/Date", Key.F5, ModifierKeys.None, InsertTimeDate);
-            AddKey("Email", Key.E, ModifierKeys.Control, InsertEmail);
         }
         private void InitalizePunctuationHotKeys()
         {
-            AddKey("Trim", Key.T, ModifierKeys.Control | ModifierKeys.Shift, Trim);
             AddKey("RemoveEmptyLines", Key.Delete, ModifierKeys.Control | ModifierKeys.Shift, RemoveEmptyLines);
 
             AddKey("CheckBrackets", Key.B, ModifierKeys.Control | ModifierKeys.Shift, CheckBrackets);
             AddKey("CorrectSpaces", Key.K, ModifierKeys.Control | ModifierKeys.Shift, CorrectSpaces);
             AddKey("CorrectPunctuation", Key.P, ModifierKeys.Control | ModifierKeys.Shift, CorrectPunctuation);
-
-            AddKey("JoinLines", Key.J, ModifierKeys.Control, JoinLines);
         }
         private void InitalizeStructuringHotKeys()
         {
@@ -77,10 +67,6 @@ namespace Ion
 
             AddKey("Group", Key.G, ModifierKeys.Control, Group);
             AddKey("Ungroup", Key.G, ModifierKeys.Control | ModifierKeys.Shift, Ungroup);
-        }
-        private void InitalizeClipboardHotKeys()
-        {
-            AddKey("Paste", Key.V, ModifierKeys.Control, Paste);
         }
         private void InitalizeViewHotKeys()
         {
@@ -140,27 +126,35 @@ namespace Ion
                 (Key.Down, ModifierKeys.Control | ModifierKeys.Alt) => HandleAction(SetCursorInEnd),
 
                 (Key.Tab, ModifierKeys.None) => HandleAction(WriteTab),
-                (Key.Enter, _) => HandleAction(() => WriteNewLine(Keyboard.Modifiers)),
                 (Key.Tab, ModifierKeys.Shift) => Handle(LevelDown),
+                (Key.Enter, _) => HandleAction(() => WriteNewLine(Keyboard.Modifiers)),
 
                 (Key.Up, ModifierKeys.Control) => Handle(UpDigit),
                 (Key.Down, ModifierKeys.Control) => Handle(DownDigit),
                 (Key.D0, ModifierKeys.Control) => Handle(NormalizeDigit),
                 (Key.NumPad0, ModifierKeys.Control) => Handle(NormalizeDigit),
 
+                (Key.L, ModifierKeys.Control | ModifierKeys.Shift) => Handle(ToLower),
+                (Key.U, ModifierKeys.Control | ModifierKeys.Shift) => Handle(ToUpper),
+                (Key.C, ModifierKeys.Control | ModifierKeys.Shift) => Handle(Capitalize),
+
                 (Key.T, ModifierKeys.Control) => Handle(ConvertChars),
                 (Key.I, ModifierKeys.Control) => Handle(GetInformation),
 
                 (Key.V, ModifierKeys.Control) => Handle(Paste),
+
                 (Key.B, ModifierKeys.Control) => Handle(CloseSideBar),
                 (Key.R, ModifierKeys.Control) => Handle(Reload),
+
                 (Key.E, ModifierKeys.Control) => Handle(InsertEmail),
-                (Key.J, ModifierKeys.Control) => Handle(JoinLines),
-                (Key.L, ModifierKeys.Control | ModifierKeys.Shift) => Handle(ToLower),
-                (Key.C, ModifierKeys.Control | ModifierKeys.Shift) => Handle(Capitalize),
+
+                (Key.J, ModifierKeys.Control) => Handle(JoinLines),                
+
                 (Key.T, ModifierKeys.Control | ModifierKeys.Shift) => Handle(Trim),
                 (Key.OemSemicolon, ModifierKeys.Control) => HandleAction(() => Enumerate(this, E)),
                 (Key.OemSemicolon, ModifierKeys.Control | ModifierKeys.Shift) => Handle(DeEnumerate),
+
+                (Key.U, ModifierKeys.Control) => true,
                 _ => false
             };
         }
