@@ -255,7 +255,7 @@
                 <MenuItem Header="Down digit" InputGestureText="Ctrl+Down" Click="DownDigit"/>
                 <MenuItem Header="Normal digit" InputGestureText="Ctrl+0" Click="NormalizeDigit"/>
                     <Separator Style="{StaticResource SeparatorStyle}"/>
-                <MenuItem Header="Convert char" InputGestureText="Ctrl+Up" Click="ConvertChars"/>
+                <MenuItem Header="Convert chars" InputGestureText="Ctrl+Up" Click="ConvertChars"/>
                 <MenuItem Header="Information" InputGestureText="Ctrl+I" Click="GetInformation"/>
                     <Separator Style="{StaticResource SeparatorStyle}"/>
                 <MenuItem Header="Find..." InputGestureText="Ctrl+F" Click="Find"/>
@@ -336,6 +336,7 @@
                 <MenuItem Header="View help"/>
                 <Separator Style="{StaticResource SeparatorStyle}"/>
                 <MenuItem Header="About editor" Click="AboutEditor"/>
+                <MenuItem Header="About chars converter" Click="AboutCharsConverter"/>
             </MenuItem>
         </Menu>
 
