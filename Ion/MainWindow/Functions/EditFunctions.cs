@@ -1,5 +1,8 @@
 using Ion.Extensions;
 using Ion.SideBar;
+using System.IO;
+using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Windows;
 using System.Windows.Documents;
@@ -11,6 +14,96 @@ namespace Ion
     public partial class MainWindow : Window
     {
         private static readonly Brush _HighlightBrush = new SolidColorBrush(System.Windows.Media.Color.FromArgb(160, 85, 55, 155));
+        private static readonly Dictionary<char, (char Min, char Max)> _Digits = new Dictionary<char, (char Min, char Max)>()
+        {
+            { '0', ('\u2080', '\u2070') },
+            { '1', ('\u2081', '\u00B9') },
+            { '2', ('\u2082', '\u00B2') },
+            { '3', ('\u2083', '\u00B3') },
+            { '4', ('\u2084', '\u2074') },
+            { '5', ('\u2085', '\u2075') },
+            { '6', ('\u2086', '\u2076') },
+            { '7', ('\u2087', '\u2077') },
+            { '8', ('\u2088', '\u2078') },
+            { '9', ('\u2089', '\u2079') },
+
+            { '\u2070', ('\u2080', '\u2070') },
+            { '\u00B9', ('\u2081', '\u00B9') },
+            { '\u00B2', ('\u2082', '\u00B2') },
+            { '\u00B3', ('\u2083', '\u00B3') },
+            { '\u2074', ('\u2084', '\u2074') },
+            { '\u2075', ('\u2085', '\u2075') },
+            { '\u2076', ('\u2086', '\u2076') },
+            { '\u2077', ('\u2087', '\u2077') },
+            { '\u2078', ('\u2088', '\u2078') },
+            { '\u2079', ('\u2089', '\u2079') },
+
+            { '\u2080', ('\u2080', '\u2070') },
+            { '\u2081', ('\u2081', '\u00B9') },
+            { '\u2082', ('\u2082', '\u00B2') },
+            { '\u2083', ('\u2083', '\u00B3') },
+            { '\u2084', ('\u2084', '\u2074') },
+            { '\u2085', ('\u2085', '\u2075') },
+            { '\u2086', ('\u2086', '\u2076') },
+            { '\u2087', ('\u2087', '\u2077') },
+            { '\u2088', ('\u2088', '\u2078') },
+            { '\u2089', ('\u2089', '\u2079') }
+        };
+        private static readonly Dictionary<char, char> _NormalizedDigits = new Dictionary<char, char>()
+        {
+            { '\u2070', '0' },
+            { '\u00B9', '1' },
+            { '\u00B2', '2' },
+            { '\u00B3', '3' },
+            { '\u2074', '4' },
+            { '\u2075', '5' },
+            { '\u2076', '6' },
+            { '\u2077', '7' },
+            { '\u2078', '8' },
+            { '\u2079', '9' },
+
+            { '\u2080', '0'},
+            { '\u2081', '1'},
+            { '\u2082', '2'},
+            { '\u2083', '3'},
+            { '\u2084', '4'},
+            { '\u2085', '5'},
+            { '\u2086', '6'},
+            { '\u2087', '7'},
+            { '\u2088', '8'},
+            { '\u2089', '9'}
+        };
+        private static readonly (string, char)[] _KeyWords =
+        [
+            ("+-", '\u00B1'),
+            ("~=", '\u2248'),
+            ("!=", '\u2260'),
+            ("<=", '\u2264'),
+            (">=", '\u2265'),
+            ("->", '\u2192'),
+            ("<-", '\u2190'),
+
+            ("sqrt4", '\u221C'),
+            ("sqrt3", '\u221B'),
+            ("sqrt", '\u221A'),
+
+            ("null", '\u2205'),
+
+            ("pi", '\u03C0'),
+            ("deg", '\u00B0'),
+            ("angle", '\u2220'),
+
+            ("infinity", '\u221E'),
+            ("sum", '\u2211'),
+
+            ("copyr", '\u00A9'),
+            ("rego", '\u00AE'),
+            ("tm", '\u2122'),
+
+            ("alpha", '\u03B1'),
+            ("beta", '\u03B2'),
+            ("gamma", '\u03B3')
+        ];
 
         private void ToLower(object Sender, RoutedEventArgs E)
         {
@@ -126,6 +219,76 @@ namespace Ion
             Log("Функция пока не реализована");
         }
 
+        private void ConvertChars(object Sender, RoutedEventArgs E)
+        {
+            if (TextEditor.Selection.IsEmpty)
+            {
+                TextEditor.SelectAll();
+            }
+
+            TextRange Range = TextEditor.Selection;
+
+            Range.Text = ConvertChars(Range.Text);
+            TextEditor.DeSelect();
+        }
+
+        private void GetInformation(object Sender, RoutedEventArgs E)
+        {
+            TextRange Range = TextEditor.Selection;
+
+            if (Range.IsEmpty)
+            {
+                var Tab = _SelectedTab;
+
+                if (Tab._CurrentFile is not null)
+                {
+                    FileInfo Info = new FileInfo(Tab._CurrentFile);
+
+                    if (Info.Exists)
+                    {
+                        Log
+                        (
+                            $"File: '{Tab._CurrentFile}'  |  Date of creation: '{Info.CreationTime}'  |  Date of writing: '{Info.LastWriteTime}'"
+                        );
+                    }
+                    else
+                    {
+                        Log("'Удалённый файл'");
+                    }
+                }
+                else
+                {
+                    Log("'Не сохранённый файл'");
+                }
+                return;
+            }
+
+            string Text = Range.Text;
+            int Length = Text.Length;
+            int Lines = Text.CountOf('\n') + 1;
+
+            if (Range.End.CompareTo(TextEditor.Document.ContentEnd) == 0)
+            {
+                Length -= _NewLine.Length;
+                Lines--;
+            }
+
+            if (Length == 1)
+            {
+                char Char = Text[0];
+                Log
+                (
+                    $"Character: '{Char}'  |  Decimal: '{(int)Char}'  |  Unicode: '{(int)Char:X4}'  |  Hex: '{(int)Char:X}'"
+                );
+            }
+            else
+            {
+                Log
+                (
+                    $"Characters: '{Length}'  |  Lines: '{Lines}'"
+                );
+            }
+        }
 
         private void Highlight(object Sender, RoutedEventArgs E)
         {
@@ -154,9 +317,96 @@ namespace Ion
             _SideBar.OpenMenu(SideBarType.Replacing);
         }
 
+        private void UpDigit(object Sender, RoutedEventArgs E)
+        {
+            var Range = TextEditor.Selection;
+            if (Range.IsEmpty)
+            {
+                Log("Пустое выделение");
+                return;
+            }
+            Range.Text = Range.Text.ConvertAll(Char => _Digits.TryGetValue(Char, out var Pair) ? Pair.Max : Char);
+        }
+        private void DownDigit(object Sender, RoutedEventArgs E)
+        {
+            var Range = TextEditor.Selection;
+            if (Range.IsEmpty)
+            {
+                Log("Пустое выделение");
+                return;
+            }
+            Range.Text = Range.Text.ConvertAll(Char => _Digits.TryGetValue(Char, out var Pair) ? Pair.Min : Char);
+        }
+        private void NormalizeDigit(object Sender, RoutedEventArgs E)
+        {
+            var Range = TextEditor.Selection;
+            if (Range.IsEmpty)
+            {
+                Log("Пустое выделение");
+                return;
+            }
+            Range.Text = Range.Text.ConvertAll(Char => _NormalizedDigits.TryGetValue(Char, out var Normal) ? Normal : Char);
+        }
+
+
         //private void GoTo(object Sender, RoutedEventArgs E)
         //{
         //    _SideBar.OpenMenu(SideBarType.GoTo);
         //}
+
+        private string ConvertChars(string String)
+        {
+            String = StringParser.Parse(String);
+
+            int Start = 0,
+                Index = 0;
+
+            StringBuilder Builder = new StringBuilder(String.Length);
+
+            while (Index < String.Length)
+            {
+                bool KeyNotFounded = true;
+
+                if (String[Index] == '^')
+                {
+                    Start = Index + 1;
+                    Index = String.Skip(Start, char.IsDigit);
+
+                    Builder.Append(String[Start..Index].ConvertAll(Char => _Digits[Char].Max));
+                    Index += Index - Start;
+                    continue;
+                }
+
+                foreach ((string, char) Key in _KeyWords)
+                {
+                    if (String.Begins(Index, Key.Item1, true))
+                    {
+                        Builder.Append(Key.Item2);
+                        Index += Key.Item1.Length;
+
+                        KeyNotFounded = false;
+                        break;
+                    }
+                }
+
+                if (KeyNotFounded)
+                {
+                    Builder.Append(String[Index]);
+                    Index++;
+                }                
+            }
+
+            return Builder.ToString();
+        }
+
+
+        private void SetCursorInStart()
+        {
+            TextEditor.CaretPosition = TextEditor.Document.ContentStart;
+        }
+        private void SetCursorInEnd()
+        {
+            TextEditor.CaretPosition = TextEditor.Document.ContentEnd;
+        }
     }
 }

@@ -28,12 +28,12 @@ namespace Ion
 
             AddKey("Save", Key.S, ModifierKeys.Control, Save);
             AddKey("SaveAs", Key.S, ModifierKeys.Control | ModifierKeys.Shift, SaveAs);
+            AddKey("SaveAll", Key.S, ModifierKeys.Alt, SaveAll);
 
             AddKey("Reload", Key.R, ModifierKeys.Control, Reload);
             AddKey("Print", Key.P, ModifierKeys.Control, Print);
-            AddKey("Send", Key.M, ModifierKeys.Control, Send);
+            AddKey("Send", Key.T, ModifierKeys.Control, Send);
 
-            AddKey("SaveAll", Key.S, ModifierKeys.Alt, SaveAll);
             AddKey("CloseCurrentTab", Key.C, ModifierKeys.Alt, CloseCurrentTab);
         }
         private void InitalizeEditHotKeys()
@@ -46,7 +46,7 @@ namespace Ion
             AddKey("Replace", Key.H, ModifierKeys.Control, Replace);
             //AddKey("GoTo", Key.G, ModifierKeys.Control, GoTo);
 
-            AddKey("Highlight", Key.H, ModifierKeys.Alt, Highlight);
+            AddKey("Highlight", Key.M, ModifierKeys.Control, Highlight);
 
             AddKey("Do", Key.D, ModifierKeys.Control, Do);
             AddKey("DuplicateLine", Key.D, ModifierKeys.Control | ModifierKeys.Shift, DuplicateLine);
@@ -55,7 +55,6 @@ namespace Ion
         {
             AddKey("Time/Date", Key.F5, ModifierKeys.None, InsertTimeDate);
             AddKey("Email", Key.E, ModifierKeys.Control, InsertEmail);
-            AddKey("Separator", Key.I, ModifierKeys.Control, InsertSeparator);
         }
         private void InitalizePunctuationHotKeys()
         {
@@ -133,22 +132,35 @@ namespace Ion
 
         private void RichTextBoxKeyDown(object sender, KeyEventArgs E)
         {
+            bool Handle(RoutedEventHandler Action) => HandleAction(Action, E);
+
             E.Handled = (E.Key, Keyboard.Modifiers) switch
             {
+                (Key.Up, ModifierKeys.Control | ModifierKeys.Alt) => HandleAction(SetCursorInStart),
+                (Key.Down, ModifierKeys.Control | ModifierKeys.Alt) => HandleAction(SetCursorInEnd),
+
                 (Key.Tab, ModifierKeys.None) => HandleAction(WriteTab),
                 (Key.Enter, _) => HandleAction(() => WriteNewLine(Keyboard.Modifiers)),
-                (Key.I, ModifierKeys.Control) => HandleAction(InsertSeparator, E),
-                (Key.Tab, ModifierKeys.Shift) => HandleAction(LevelDown, E),
-                (Key.V, ModifierKeys.Control) => HandleAction(Paste, E),
-                (Key.B, ModifierKeys.Control) => HandleAction(CloseSideBar, E),
-                (Key.R, ModifierKeys.Control) => HandleAction(Reload, E),
-                (Key.E, ModifierKeys.Control) => HandleAction(InsertEmail, E),
-                (Key.J, ModifierKeys.Control) => HandleAction(JoinLines, E),
-                (Key.L, ModifierKeys.Control | ModifierKeys.Shift) => HandleAction(ToLower, E),
-                (Key.C, ModifierKeys.Control | ModifierKeys.Shift) => HandleAction(Capitalize, E),
-                (Key.T, ModifierKeys.Control | ModifierKeys.Shift) => HandleAction(Trim, E),
+                (Key.Tab, ModifierKeys.Shift) => Handle(LevelDown),
+
+                (Key.Up, ModifierKeys.Control) => Handle(UpDigit),
+                (Key.Down, ModifierKeys.Control) => Handle(DownDigit),
+                (Key.D0, ModifierKeys.Control) => Handle(NormalizeDigit),
+                (Key.NumPad0, ModifierKeys.Control) => Handle(NormalizeDigit),
+
+                (Key.T, ModifierKeys.Control) => Handle(ConvertChars),
+                (Key.I, ModifierKeys.Control) => Handle(GetInformation),
+
+                (Key.V, ModifierKeys.Control) => Handle(Paste),
+                (Key.B, ModifierKeys.Control) => Handle(CloseSideBar),
+                (Key.R, ModifierKeys.Control) => Handle(Reload),
+                (Key.E, ModifierKeys.Control) => Handle(InsertEmail),
+                (Key.J, ModifierKeys.Control) => Handle(JoinLines),
+                (Key.L, ModifierKeys.Control | ModifierKeys.Shift) => Handle(ToLower),
+                (Key.C, ModifierKeys.Control | ModifierKeys.Shift) => Handle(Capitalize),
+                (Key.T, ModifierKeys.Control | ModifierKeys.Shift) => Handle(Trim),
                 (Key.OemSemicolon, ModifierKeys.Control) => HandleAction(() => Enumerate(this, E)),
-                (Key.OemSemicolon, ModifierKeys.Control | ModifierKeys.Shift) => HandleAction(DeEnumerate, E),
+                (Key.OemSemicolon, ModifierKeys.Control | ModifierKeys.Shift) => Handle(DeEnumerate),
                 _ => false
             };
         }

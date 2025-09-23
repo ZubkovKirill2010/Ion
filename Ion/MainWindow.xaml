@@ -71,7 +71,7 @@
                 </Grid.ColumnDefinitions>
 
 
-                <Button x:Name="MoveTabLeft" Grid.Column="0" Content="&lt;" Click="MoveTabsLeft"/>
+                <Button x:Name="MoveTabLeft" Grid.Column="0" Visibility="Collapsed" Content="&lt;" Click="MoveTabsLeft"/>
 
                 <Border Grid.Column="1" ClipToBounds="True">
                     <TabControl x:Name="TabList"
@@ -137,9 +137,9 @@
                     </TabControl>
                 </Border>
 
-                <Button x:Name="MoveTabRight" Grid.Column="2" Content=">" Click="MoveTabsRight"/>
+                <Button x:Name="MoveTabRight" Grid.Column="2" Visibility="Collapsed" Content=">" Click="MoveTabsRight"/>
                 
-                
+
                 <Border x:Name="DragArea" Grid.Column="3" MinWidth="150" Margin="-1 0 0 0"
                     Background="#111113" MouseLeftButtonDown="DragWindow"/>
             </Grid>
@@ -228,13 +228,12 @@
                 <MenuItem Header="Open..." InputGestureText="Ctrl+O" Click="Open"/>
                     <Separator Style="{StaticResource SeparatorStyle}"/>
                 <MenuItem Header="Save" InputGestureText="Ctrl+S" Click="Save"/>
-                <MenuItem Header="Save As..." InputGestureText="Ctrl+Shift+S" Click="SaveAs"/>
-                    <Separator Style="{StaticResource SeparatorStyle}"/>
+                <MenuItem Header="Save as..." InputGestureText="Ctrl+Shift+S" Click="SaveAs"/>
                 <MenuItem Header="Save all" InputGestureText="Alt+S" Click="SaveAll"/>
                 <Separator Style="{StaticResource SeparatorStyle}"/>
                 <MenuItem Header="Reload" InputGestureText="Ctrl+R" Click="Reload" Name="ReloadButton"/>
                 <MenuItem Header="Print..." InputGestureText="Ctrl+P" Click="Print"/>
-                <MenuItem Header="Send" InputGestureText="Ctrl+M" Click="Send"/>
+                <MenuItem Header="Send" InputGestureText="Ctrl+T" Click="Send"/>
                     <Separator Style="{StaticResource SeparatorStyle}"/>
                 <MenuItem Header="Exit" InputGestureText="Alt+F4" Click="Exit"/>
             </MenuItem>
@@ -247,10 +246,17 @@
                 <MenuItem Header="Do" InputGestureText="Ctrl+D" Click="Do" IsEnabled="False"/>
                 <MenuItem Header="Duplicate line" InputGestureText="Ctrl+Shift+D" Click="DuplicateLine"/>
                     <Separator Style="{StaticResource SeparatorStyle}"/>
-                <MenuItem Header="Highlight" InputGestureText="Alt+H" Click="Highlight"/>
+                <MenuItem Header="Highlight" InputGestureText="Ctrl+M" Click="Highlight"/>
                     <Separator Style="{StaticResource SeparatorStyle}"/>
                 <MenuItem Header="Level up" InputGestureText="Tab" Click="LevelUp"/>
                 <MenuItem Header="Level down" InputGestureText="Shift+Tab" Click="LevelDown"/>
+                    <Separator Style="{StaticResource SeparatorStyle}"/>
+                <MenuItem Header="Up digit" InputGestureText="Ctrl+Up" Click="UpDigit"/>
+                <MenuItem Header="Down digit" InputGestureText="Ctrl+Down" Click="DownDigit"/>
+                <MenuItem Header="Normal digit" InputGestureText="Ctrl+0" Click="NormalizeDigit"/>
+                    <Separator Style="{StaticResource SeparatorStyle}"/>
+                <MenuItem Header="Convert char" InputGestureText="Ctrl+Up" Click="ConvertChars"/>
+                <MenuItem Header="Information" InputGestureText="Ctrl+I" Click="GetInformation"/>
                     <Separator Style="{StaticResource SeparatorStyle}"/>
                 <MenuItem Header="Find..." InputGestureText="Ctrl+F" Click="Find"/>
                 <MenuItem Header="Replace..." InputGestureText="Ctrl+H" Click="Replace"/>
@@ -266,8 +272,7 @@
                 <MenuItem Header="Calendar" Click="InsertCalendar"/>
                     <Separator Style="{StaticResource SeparatorStyle}"/>
                 <MenuItem Header="Email" InputGestureText="Ctrl+E" Click="InsertEmail"/>
-                <MenuItem Header="Separator" InputGestureText="Ctrl+I" Click="InsertSeparator"/>
-                    <Separator Style="{StaticResource SeparatorStyle}"/>
+                <Separator Style="{StaticResource SeparatorStyle}"/>
                 <MenuItem Header="SpecialChars"  Click="SpecialChars"/>
 
             </MenuItem>

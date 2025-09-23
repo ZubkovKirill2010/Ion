@@ -64,36 +64,27 @@ namespace Ion
             InsertText(Email.Length == 0 ? "{Укажите почту в настройках}" : Email);
         }
 
-        private void InsertSeparator(object Sender, RoutedEventArgs E)
-        {
-            InsertText("-------------->");
-        }
-
         private void SpecialChars(object Sender, RoutedEventArgs E)
         {
             string Text =
-@"──────
-━━━━━━
-╌╌╌╌╌╌
-╍╍╍╍╍╍
-┄┄┄┄┄┄
-┅┅┅┅┅┅
-┈┈┈┈┈┈
-┉┉┉┉┉┉
-
+@"─
+━
+╌
+╍
+┄
+┅
+┈
+┉
 │┃╎╏┆┇┊┋
-│┃╎╏┆┇┊┋
-
 ┌┐┍┑┎┒┏┓╭╮
 └┘┕┙┖┚┗┛╰╯
-
 ├ ┤┝ ┥┞ ┦┟ ┧
-
 ┼ ┽ ┾ ┿ ╂ ╋
-
 ╱ ╲ ╳
-
-◈ ◆ ◇ ■ □ ▣ ▤ ▥ ▦ ● ○ ◎ ★ ☆";
+◈ ◆ ◇ ■ □ ▣ ▤ ▥ ▦ ● ○ ◎ ★ ☆
+✔ ✕ ✖ ✗ ✘
+← → ↑ ↓
+± √ ∛ ∜";
 
             ConstTab Tab = new ConstTab(Text)
             {
