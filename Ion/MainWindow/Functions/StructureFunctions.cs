@@ -10,6 +10,12 @@ namespace Ion
     {
         private void Enumerate(object Sender, RoutedEventArgs E)
         {
+            if (TextEditor.Document.IsEmpty())
+            {
+                Log("Пустой документ");
+                return;
+            }
+
             if (TextEditor.Selection.IsEmpty)
             {
                 TextEditor.SelectAll();

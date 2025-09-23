@@ -62,7 +62,7 @@ namespace Ion
             return new TextRange
             (
                 Caret.GetLineStartPosition(0),
-                (Caret.GetLineStartPosition(1) ?? TextEditor.Document.ContentEnd).GetPositionAtOffset(-_NewLine.Length)
+                Caret.GetLineEndPosition()
             );
         }
 
@@ -76,7 +76,7 @@ namespace Ion
                 new TextRange
                 (
                     Selection.Start.GetLineStartPosition(0) ?? Editor.Document.ContentStart,
-                    (Selection.End.GetLineStartPosition(1) ?? Editor.Document.ContentEnd).GetPositionAtOffset(-_NewLine.Length)
+                    Selection.End.GetLineEndPosition()
                 );
         }
 

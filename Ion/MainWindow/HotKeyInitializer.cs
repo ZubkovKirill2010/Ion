@@ -1,5 +1,6 @@
 ﻿using HotKeyManagement;
 using System.Windows;
+using System.Windows.Controls.Primitives;
 using System.Windows.Input;
 
 namespace Ion
@@ -122,16 +123,16 @@ namespace Ion
 
             E.Handled = (E.Key, Keyboard.Modifiers) switch
             {
-                (Key.Up, ModifierKeys.Control | ModifierKeys.Alt)   => HandleAction(SetCursorInStart),
+                (Key.Up, ModifierKeys.Control | ModifierKeys.Alt) => HandleAction(SetCursorInStart),
                 (Key.Down, ModifierKeys.Control | ModifierKeys.Alt) => HandleAction(SetCursorInEnd),
 
-                (Key.Tab, ModifierKeys.None)      => HandleAction(WriteTab),
-                (Key.Tab, ModifierKeys.Shift)     => Handle(LevelDown),
+                (Key.Tab, ModifierKeys.None) => HandleAction(WriteTab),
+                (Key.Tab, ModifierKeys.Shift) => Handle(LevelDown),
                 (Key.Enter, _) => HandleAction(() => WriteNewLine(Keyboard.Modifiers)),
 
-                (Key.Up, ModifierKeys.Control)      => Handle(UpDigit),
-                (Key.Down, ModifierKeys.Control)    => Handle(DownDigit),
-                (Key.D0, ModifierKeys.Control)      => Handle(NormalizeDigit),
+                (Key.Up, ModifierKeys.Control) => Handle(UpDigit),
+                (Key.Down, ModifierKeys.Control) => Handle(DownDigit),
+                (Key.D0, ModifierKeys.Control) => Handle(NormalizeDigit),
                 (Key.NumPad0, ModifierKeys.Control) => Handle(NormalizeDigit),
 
                 (Key.L, ModifierKeys.Control | ModifierKeys.Shift) => Handle(ToLower),
@@ -148,10 +149,10 @@ namespace Ion
 
                 (Key.E, ModifierKeys.Control) => Handle(InsertEmail),
 
-                (Key.J, ModifierKeys.Control) => Handle(JoinLines),                
+                (Key.J, ModifierKeys.Control) => Handle(JoinLines),
 
-                (Key.T, ModifierKeys.Control | ModifierKeys.Shift)            => Handle(Trim),
-                (Key.OemSemicolon, ModifierKeys.Control) => HandleAction(()   => Enumerate(this, E)),
+                (Key.T, ModifierKeys.Control | ModifierKeys.Shift) => Handle(Trim),
+                (Key.OemSemicolon, ModifierKeys.Control) => HandleAction(() => Enumerate(this, E)),
                 (Key.OemSemicolon, ModifierKeys.Control | ModifierKeys.Shift) => Handle(DeEnumerate),
 
                 (Key.U, ModifierKeys.Control) => true,

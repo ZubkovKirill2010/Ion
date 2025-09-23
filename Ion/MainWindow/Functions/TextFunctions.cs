@@ -217,19 +217,13 @@ namespace Ion
         {
             if (TextEditor.Selection.IsEmpty)
             {
-                TextEditor.SelectAll();
+                Log("Пустое выделение");
+                return;
             }
 
             TextRange Range = GetLines();
 
-            if (Range.IsEmpty)
-            {
-                Log("Пустой текст");
-                return;
-            }
-
-            string[] Lines = 
-            Array.ConvertAll
+            string[] Lines = Array.ConvertAll
             (
                 Range.Text.Split(_NewLine, StringSplitOptions.None),
                 Line =>
@@ -264,42 +258,31 @@ namespace Ion
 
         private void WriteNewLine(ModifierKeys Modifier)
         {
-            if (TextEditor.Document.Blocks.Count == 0)
-            {
-                Dispatcher.Invoke(() =>
-                {
-                    TextEditor.Document.Blocks.Add(new Paragraph(new Run(_NewLine)));
-                    TextEditor.CaretPosition = TextEditor.Document.ContentEnd;
-                }, DispatcherPriority.Input);
-                return;
-            }
-
             TextRange Range = GetLine();
-            string String = Range.Text;
+            string Insert = _NewLine + GetStart(Range.Text);
 
-            if (String.Length == 0)
+            switch (Modifier)
             {
-                AppendText(_NewLine);
-                return;
+                case ModifierKeys.Control:
+
+                    TextPointer LineStart = TextEditor.CaretPosition.GetLineStartPosition(0);
+                    
+                    TextEditor.CaretPosition = LineStart;
+                    InsertText(Insert);
+                    TextEditor.CaretPosition = LineStart.GetPositionAtOffset(-_NewLine.Length) ?? TextEditor.Document.ContentStart;
+                    break;
+
+                case ModifierKeys.Shift:
+
+                    TextEditor.CaretPosition = TextEditor.CaretPosition.GetLineEndPosition();
+                    InsertText(Insert);
+                    break;
+
+                default:
+
+                    InsertText(Insert);
+                    break;
             }
-
-            string Prefix = GetStart(String);
-
-
-            InsertText(_NewLine + Prefix);
-            //#Update
-            //switch (Modifier)
-            //{
-            //    case ModifierKeys.Control:
-            //        break;
-
-            //    case ModifierKeys.Shift:
-            //        break;
-
-            //    default:
-            //        InsertText(_NewLine + Prefix);
-            //        break;
-            //}
         }
 
 
