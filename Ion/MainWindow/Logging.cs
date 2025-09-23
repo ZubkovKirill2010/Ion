@@ -7,9 +7,9 @@ namespace Ion
 {
     public partial class MainWindow : Window
     {
-        private const int _MessageDisplayTime = 600;
+        private const int _MessageDisplayTime = 700;
         private const int _TimeBeforeClearing = 5000;
-        private const bool _ClearAfterLogging = false;
+        private const bool _ClearAfterLogging = true;
 
         private static readonly Queue<string> _Messages = new Queue<string>();
         private static TextBlock _MessageBox;

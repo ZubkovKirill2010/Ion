@@ -225,7 +225,7 @@
                     </MenuItem>
 
                 </MenuItem>
-                <MenuItem Header="Open..." InputGestureText="Ctrl+O" Click="Open"/>
+                <MenuItem Header="Open" InputGestureText="Ctrl+O" Click="Open"/>
                     <Separator Style="{StaticResource SeparatorStyle}"/>
                 <MenuItem Header="Save" InputGestureText="Ctrl+S" Click="Save"/>
                 <MenuItem Header="Save as..." InputGestureText="Ctrl+Shift+S" Click="SaveAs"/>
@@ -261,8 +261,6 @@
                 <MenuItem Header="Find..." InputGestureText="Ctrl+F" Click="Find"/>
                 <MenuItem Header="Replace..." InputGestureText="Ctrl+H" Click="Replace"/>
                 <!--<MenuItem Header="Go to..." InputGestureText="Ctrl+G" Click="GoTo"/>-->
-                    <Separator Style="{StaticResource SeparatorStyle}"/>
-                <MenuItem Header="Select All" InputGestureText="Ctrl+A" Command="SelectAll"/>
             </MenuItem>
 
             <MenuItem Header="Inserts">
@@ -306,6 +304,8 @@
                 <MenuItem Header="Cut" InputGestureText="Ctrl+X" Command="Cut"/>
                 <MenuItem Header="Copy" InputGestureText="Ctrl+C" Command="Copy"/>
                 <MenuItem Header="Paste" InputGestureText="Ctrl+V" Click="Paste"/>
+                    <Separator Style="{StaticResource SeparatorStyle}"/>
+                <MenuItem Header="Select All" InputGestureText="Ctrl+A" Command="SelectAll"/>
             </MenuItem>
 
             <MenuItem Header="Tabs">

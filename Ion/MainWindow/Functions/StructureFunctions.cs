@@ -27,7 +27,6 @@ namespace Ion
             string[] Lines = Text.SplitIntoLines();
 
             StringBuilder Builder = new StringBuilder(Text.Length + Lines.Length * 4);
-            FixRangeText(Range, Builder);
 
             string CommonStart = GetCommonStart(Enumerable.Where(Lines, String => !string.IsNullOrWhiteSpace(String)));
 
@@ -67,7 +66,6 @@ namespace Ion
             string[] Lines = Text.SplitIntoLines();
 
             StringBuilder Builder = new StringBuilder(Text.Length + Lines.Length * 4);
-            FixRangeText(Range, Builder);
 
             string CommonStart = GetCommonStart(Enumerable.Where(Lines, String => !string.IsNullOrWhiteSpace(String)));
             int Start = CommonStart.Length + 1;
@@ -112,7 +110,7 @@ namespace Ion
                 return;
             }
 
-            TextEditor.Selection.Text = FixRangeText(Range, Result).TrimEnd();
+            TextEditor.Selection.Text = Result.TrimEnd();
             TextEditor.DeSelect();
         }
         private void FromStructure(object Sender, RoutedEventArgs E)
@@ -171,7 +169,7 @@ namespace Ion
 
             string[] Lines = Text.SplitIntoLines().TrimEmptyLines();
             StringBuilder Builder = new StringBuilder(Text.Length + Lines.Length * 2 + 27);
-            FixRangeText(Range, Builder);
+            
 
             Builder.AppendLine("╭──────┤ Header");
             if (Lines.Length > 0)
@@ -250,7 +248,7 @@ namespace Ion
         private string UnGroup(TextRange Range, string[] Lines, int TextLength, int Level)
         {
             StringBuilder Builder = new StringBuilder(TextLength - Lines.Length * 2 - 27);
-            FixRangeText(Range, Builder);
+            
 
             Level += 2;
             int End = Lines.Length - 1;

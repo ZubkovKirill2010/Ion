@@ -57,77 +57,43 @@ namespace Ion
 
         private TextRange GetLine()
         {
-            return GetLine(out _);
+            var Caret = TextEditor.CaretPosition;
+
+            return new TextRange
+            (
+                Caret.GetLineStartPosition(0),
+                Caret.GetLineStartPosition(1)?.GetPositionAtOffset(-_NewLine.Length) ?? TextEditor.Document.ContentEnd
+            );
+
+            //return GetLine(out _);
         }
 
-        private TextRange GetLine(out TextPointer EndOfLine)
-        {
-            RichTextBox Editor = TextEditor;
+        //private TextRange GetLine(out TextPointer EndOfLine)
+        //{
+        //    RichTextBox Editor = TextEditor;
 
-            TextPointer CaretPosition = Editor.CaretPosition;
-            TextPointer StartOfLine = CaretPosition.GetLineStartPosition(0);
-            EndOfLine = CaretPosition.GetLineStartPosition(1) ?? Editor.Document.ContentEnd;
+        //    TextPointer CaretPosition = Editor.CaretPosition;
+        //    TextPointer StartOfLine = CaretPosition.GetLineStartPosition(0);
+        //    EndOfLine = CaretPosition.GetLineStartPosition(1) ?? Editor.Document.ContentEnd;
 
-            EndOfLine = EndOfLine.GetPositionAtOffset(-_NewLine.Length);
+        //    EndOfLine = EndOfLine.GetPositionAtOffset(-_NewLine.Length);
 
-            return new TextRange(StartOfLine, EndOfLine);
-        }
+        //    return new TextRange(StartOfLine, EndOfLine);
+        //}
 
 
         private TextRange GetLines()
         {
-            RichTextBox Editor = TextEditor;
+            var Editor = TextEditor;
+            var Selection = Editor.Selection;
 
-            if (Editor.Selection.IsEmpty)
-            {
-                return GetAllText(Editor);
-            }
-
-            TextPointer SelectionStart = Editor.Selection.Start;
-            TextPointer StartOfFirstLine = SelectionStart.GetLineStartPosition(0);
-
-            if (StartOfFirstLine is null)
-            {
-                StartOfFirstLine = Editor.Document.ContentStart;
-            }
-            else
-            {
-                TextPointer SineStart = SelectionStart.GetLineStartPosition(0);
-                if (SineStart is not null && SineStart.CompareTo(SelectionStart) == 0)
-                {
-                    StartOfFirstLine = SelectionStart;
-                }
-            }
-
-            TextPointer SelectionEnd = Editor.Selection.End;
-            TextPointer EndOfLastLine = SelectionEnd.GetLineStartPosition(1);
-
-            if (EndOfLastLine is null)
-            {
-                EndOfLastLine = Editor.Document.ContentEnd;
-            }
-            else
-            {
-                TextPointer NextLineStart = SelectionEnd.GetLineStartPosition(1);
-                if (NextLineStart is not null && NextLineStart.CompareTo(SelectionEnd) == 0)
-                {
-                    EndOfLastLine = NextLineStart;
-                }
-            }
-
-            return new TextRange(StartOfFirstLine, EndOfLastLine);
-        }
-
-        private static void FixRangeText(TextRange Range, StringBuilder Builder)
-        {
-            if (Range.Start.GetLineStartPosition(-1) is not null)
-            {
-                Builder.AppendLine();
-            }
-        }
-        private static string FixRangeText(TextRange Range, string String)
-        {
-            return Range.Start.GetLineStartPosition(-1) is not null ? _NewLine + String : String;
+            return Selection.IsEmpty
+            ? GetLine()
+            : new TextRange
+            (
+                Selection.Start.GetLineStartPosition(0) ?? Editor.Document.ContentStart,
+                Selection.End.GetLineStartPosition(1)?.GetPositionAtOffset(-_NewLine.Length) ?? Editor.Document.ContentEnd
+            );
         }
 
 

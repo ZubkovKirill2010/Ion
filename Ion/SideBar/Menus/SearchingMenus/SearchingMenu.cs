@@ -1,5 +1,6 @@
 ﻿using Ion.Extensions;
 using System.Text.RegularExpressions;
+using System.Windows;
 using System.Windows.Documents;
 using System.Windows.Media;
 
@@ -18,11 +19,15 @@ namespace Ion.SideBar
             : base(Window, Window.SearchingMenu) { }
 
 
+        public override void Start()
+        {
+            _Window.SearchingMenu_Target.Focus();
+        }
+
         public override void Apply()
         {
-            ClearHighlights();
-
             string Target = _Window.SearchingMenu_Target.Text;
+
             if (string.IsNullOrEmpty(Target))
             {
                 MainWindow.Log("Введите текст для поиска");
@@ -48,12 +53,12 @@ namespace Ion.SideBar
 
             if (_Window.SearchingMenu_UsingUnicodeChars.IsChecked.GetValueOrDefault())
             {
-                Target = Regex.Unescape(Target);
+                Pattern = Regex.Unescape(Pattern);
             }
 
             try
             {
-                Regex Regex = new Regex(Target, Options);
+                Regex Regex = new Regex(Pattern, Options);
                 List<Match> Matches = Regex.Matches(Text).Cast<Match>().ToList();
                 _MatchesCount = Matches.Count;
 

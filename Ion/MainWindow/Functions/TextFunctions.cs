@@ -204,13 +204,13 @@ namespace Ion
                 return;
             }
 
-            string[] Lines = Range.Text.Split(_NewLine, StringSplitOptions.None).ConvertAll
+            string[] Lines = Array.ConvertAll
             (
+                Range.Text.Split(_NewLine, StringSplitOptions.None),
                 Line => string.IsNullOrEmpty(Line) ? Line : '\t' + Line
             );
 
-            Range.Text = FixRangeText(Range, Lines.JoinTrimEnd(_NewLine));
-            TextEditor.DeSelect();
+            Range.Text = Lines.JoinTrimEnd(_NewLine);
         }
 
         private void LevelDown(object sender, RoutedEventArgs e)
@@ -228,8 +228,10 @@ namespace Ion
                 return;
             }
 
-            string[] Lines = Range.Text.Split(_NewLine, StringSplitOptions.None).ConvertAll
+            string[] Lines = 
+            Array.ConvertAll
             (
+                Range.Text.Split(_NewLine, StringSplitOptions.None),
                 Line =>
                 {
                     if (Line.StartsWith("\t"))
@@ -244,8 +246,7 @@ namespace Ion
                 }
             );
 
-            Range.Text = FixRangeText(Range, Lines.JoinTrimEnd(_NewLine));
-            TextEditor.DeSelect();
+            Range.Text = Lines.JoinTrimEnd(_NewLine);
         }
 
 

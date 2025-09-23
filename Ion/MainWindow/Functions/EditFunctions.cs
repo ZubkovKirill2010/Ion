@@ -1,5 +1,6 @@
 using Ion.Extensions;
 using Ion.SideBar;
+using System;
 using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
@@ -16,6 +17,8 @@ namespace Ion
         private static readonly Brush _HighlightBrush = new SolidColorBrush(System.Windows.Media.Color.FromArgb(160, 85, 55, 155));
         private static readonly Dictionary<char, (char Min, char Max)> _Digits = new Dictionary<char, (char Min, char Max)>()
         {
+            { '-', ('\u208B', '\u207B') },
+            { '+', ('\u208A', '\u207A') },
             { '0', ('\u2080', '\u2070') },
             { '1', ('\u2081', '\u00B9') },
             { '2', ('\u2082', '\u00B2') },
@@ -27,6 +30,8 @@ namespace Ion
             { '8', ('\u2088', '\u2078') },
             { '9', ('\u2089', '\u2079') },
 
+            { '\u207B', ('\u208B', '\u207B') },
+            { '\u207A', ('\u208A', '\u207A') },
             { '\u2070', ('\u2080', '\u2070') },
             { '\u00B9', ('\u2081', '\u00B9') },
             { '\u00B2', ('\u2082', '\u00B2') },
@@ -38,6 +43,8 @@ namespace Ion
             { '\u2078', ('\u2088', '\u2078') },
             { '\u2079', ('\u2089', '\u2079') },
 
+            { '\u208A', ('\u208A', '\u207A') },
+            { '\u208B', ('\u208B', '\u207B') },
             { '\u2080', ('\u2080', '\u2070') },
             { '\u2081', ('\u2081', '\u00B9') },
             { '\u2082', ('\u2082', '\u00B2') },
@@ -51,6 +58,8 @@ namespace Ion
         };
         private static readonly Dictionary<char, char> _NormalizedDigits = new Dictionary<char, char>()
         {
+            { '\u207B', '-' },
+            { '\u207A', '+' },
             { '\u2070', '0' },
             { '\u00B9', '1' },
             { '\u00B2', '2' },
@@ -62,16 +71,18 @@ namespace Ion
             { '\u2078', '8' },
             { '\u2079', '9' },
 
-            { '\u2080', '0'},
-            { '\u2081', '1'},
-            { '\u2082', '2'},
-            { '\u2083', '3'},
-            { '\u2084', '4'},
-            { '\u2085', '5'},
-            { '\u2086', '6'},
-            { '\u2087', '7'},
-            { '\u2088', '8'},
-            { '\u2089', '9'}
+            { '\u208B', '-' },
+            { '\u208A', '+' },
+            { '\u2080', '0' },
+            { '\u2081', '1' },
+            { '\u2082', '2' },
+            { '\u2083', '3' },
+            { '\u2084', '4' },
+            { '\u2085', '5' },
+            { '\u2086', '6' },
+            { '\u2087', '7' },
+            { '\u2088', '8' },
+            { '\u2089', '9' }
         };
         private static readonly (string, char)[] _KeyWords =
         [
@@ -82,6 +93,9 @@ namespace Ion
             (">=", '\u2265'),
             ("->", '\u2192'),
             ("<-", '\u2190'),
+
+            ("up", '\u2191'),
+            ("down", '\u2193'),
 
             ("sqrt4", '\u221C'),
             ("sqrt3", '\u221B'),
@@ -196,17 +210,15 @@ namespace Ion
 
         private void DuplicateLine(object Sender, RoutedEventArgs E)
         {
-            string Line = GetLine(out TextPointer EndOfLine).Text;
+            var Range = GetLine();
 
-            if (Line is null)
+            if (Range.IsEmpty)
             {
                 return;
             }
 
-            TextEditor.CaretPosition = EndOfLine;
-
-            AppendText(_NewLine);
-            AppendText(Line);
+            TextEditor.CaretPosition = Range.End;
+            AppendText(_NewLine + Range.Text.TrimEnd());
         }
         private void RemoveEmptyLines(object Sender, RoutedEventArgs E)
         {
@@ -216,7 +228,7 @@ namespace Ion
 
         private void Do(object Sender, RoutedEventArgs E)
         {
-            Log("Функция пока не реализована");
+            Log("Функция не реализована");
         }
 
         private void ConvertChars(object Sender, RoutedEventArgs E)
@@ -278,7 +290,7 @@ namespace Ion
                 char Char = Text[0];
                 Log
                 (
-                    $"Character: '{Char}'  |  Decimal: '{(int)Char}'  |  Unicode: '{(int)Char:X4}'  |  Hex: '{(int)Char:X}'"
+                    $"Character: '{Char}'  |  Decimal: '{(int)Char}'  |  Unicode: '{(int)Char:X4}'"
                 );
             }
             else
@@ -370,10 +382,10 @@ namespace Ion
                 if (String[Index] == '^')
                 {
                     Start = Index + 1;
-                    Index = String.Skip(Start, char.IsDigit);
+                    Index = String.Skip(Start, Char => Char == '-' || Char == '+' || char.IsDigit(Char));
 
                     Builder.Append(String[Start..Index].ConvertAll(Char => _Digits[Char].Max));
-                    Index += Index - Start;
+                    Index += Index - Start - 1;
                     continue;
                 }
 

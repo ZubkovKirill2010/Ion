@@ -17,6 +17,10 @@ namespace Ion.SideBar
         public ReplacingMenu(MainWindow Window)
             : base(Window, Window.ReplacingMenu) { }
 
+        public override void Start()
+        {
+            _Window.ReplacingMenu_From.Focus();
+        }
 
         public override void Apply()
         {
@@ -78,7 +82,7 @@ namespace Ion.SideBar
                     ReplaceAndHighlightMatch(Batch, ReplaceText);
                 }
 
-                MainWindow.Log($"Заменено: {_MatchesCount}");
+                MainWindow.Log($"Заменено: {_MatchesCount / 2}");
             }
             catch (ArgumentException Exception)
             {

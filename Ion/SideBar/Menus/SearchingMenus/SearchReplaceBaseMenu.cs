@@ -41,13 +41,14 @@ namespace Ion.SideBar
 
             Pattern = Target;
 
+            if (!UsingRegularExpressions.IsChecked.GetValueOrDefault())
+            {
+                Pattern = Regex.Escape(Target);
+            }
+
             if (WholeWord.IsChecked.GetValueOrDefault())
             {
-                Pattern = $"\\b{Regex.Escape(Target)}\\b";
-            }
-            else if (!UsingRegularExpressions.IsChecked.GetValueOrDefault())
-            {
-                Pattern = StringParser.Parse(Pattern);
+                Pattern = $"\\b{Pattern}\\b";
             }
 
             return Options;
