@@ -207,10 +207,10 @@ namespace Ion
             string[] Lines = Array.ConvertAll
             (
                 Range.Text.Split(_NewLine, StringSplitOptions.None),
-                Line => string.IsNullOrEmpty(Line) ? Line : '\t' + Line
+                Line => string.IsNullOrWhiteSpace(Line) ? string.Empty : '\t' + Line
             );
 
-            Range.Text = Lines.JoinTrimEnd(_NewLine);
+            Range.Text = string.Join(_NewLine, Lines);
         }
 
         private void LevelDown(object sender, RoutedEventArgs e)
