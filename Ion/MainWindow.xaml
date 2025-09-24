@@ -192,8 +192,6 @@
                     </MenuItem>
 
                     <MenuItem Header="Programming languages" Style="{StaticResource ResourceKey=SubMenuItemStyle}">
-                        <MenuItem Header=".bcm" InputGestureText="Binary code markup" Click="New"/>
-                        <Separator Style="{StaticResource SeparatorStyle}"/>
                         <MenuItem Header=".cs" InputGestureText="C# source code" Click="New"/>
                         <MenuItem Header=".cpp" InputGestureText="C++ source code" Click="New"/>
                         <MenuItem Header=".java" InputGestureText="Java source code" Click="New"/>
@@ -205,7 +203,7 @@
                         <MenuItem Header=".rs" InputGestureText="Rust source file" Click="New"/>
                         <MenuItem Header=".lua" InputGestureText="Lua script" Click="New"/>
                         <MenuItem Header=".rb" InputGestureText="Ruby script" Click="New"/>
-                        <Separator Style="{StaticResource SeparatorStyle}"/>
+                            <Separator Style="{StaticResource SeparatorStyle}"/>
                         <MenuItem Header=".html" InputGestureText="HyperText Markup Language" Click="New"/>
                         <MenuItem Header=".css" InputGestureText="Cascading Style Sheets" Click="New"/>
                         <MenuItem Header=".sh" InputGestureText="Bash shell script" Click="New"/>
@@ -233,7 +231,7 @@
                 <Separator Style="{StaticResource SeparatorStyle}"/>
                 <MenuItem Header="Reload" InputGestureText="Ctrl+R" Click="Reload" Name="ReloadButton"/>
                 <MenuItem Header="Print..." InputGestureText="Ctrl+P" Click="Print"/>
-                <MenuItem Header="Send" InputGestureText="Ctrl+T" Click="Send"/>
+                <MenuItem Header="Send" InputGestureText="Ctrl+T" Click="Send" IsEnabled="False"/>
                     <Separator Style="{StaticResource SeparatorStyle}"/>
                 <MenuItem Header="Exit" InputGestureText="Alt+F4" Click="Exit"/>
             </MenuItem>
