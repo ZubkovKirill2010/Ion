@@ -16,7 +16,7 @@ namespace Ion.Tabs
             {
                 SetDocument
                 (
-                    File.ReadAllText(_CurrentFile, Encoding.ASCII)
+                    File.ReadAllText(_CurrentFile)
                 );
                 _IsSaved = true;
             }
