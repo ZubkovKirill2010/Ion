@@ -6,10 +6,14 @@ namespace Ion
 {
     public partial class MainWindow : Window
     {
+        private const string _Version = "0.1.0";
+
         private void AboutEditor(object Sender, RoutedEventArgs E)
         {
             string Text =
-@"Информация о редакторе";
+@$"Ion (Beta)
+Версия {_Version}
+GitHub разработчика: https://github.com/ZubkovKirill2010";
 
             ConstTab Tab = new ConstTab(Text)
             {

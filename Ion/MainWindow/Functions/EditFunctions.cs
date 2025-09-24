@@ -229,10 +229,6 @@ namespace Ion
         private void Do(object Sender, RoutedEventArgs E)
         {
             Log("Функция не реализована");
-
-            var Range = GetLines();
-            
-            Range.ApplyPropertyValue(TextElement.BackgroundProperty, _HighlightBrush);
         }
 
         private void ConvertChars(object Sender, RoutedEventArgs E)

@@ -1,5 +1,6 @@
 ﻿using System.IO;
 using System.Windows.Documents;
+using System.Text;
 
 namespace Ion.Tabs
 {
@@ -15,7 +16,7 @@ namespace Ion.Tabs
             {
                 SetDocument
                 (
-                    File.ReadAllText(_CurrentFile)
+                    File.ReadAllText(_CurrentFile, Encoding.ASCII)
                 );
                 _IsSaved = true;
             }
