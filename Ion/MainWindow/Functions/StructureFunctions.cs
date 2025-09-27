@@ -12,7 +12,7 @@ namespace Ion
         {
             if (TextEditor.Document.IsEmpty())
             {
-                Log("Пустой документ");
+                Log("Translater._Current._EmptyDocument");
                 return;
             }
 
@@ -25,7 +25,7 @@ namespace Ion
 
             if (Range.IsEmpty)
             {
-                Log("Пустой текст");
+                Log(Translater._Current._EmptyText);
                 return;
             }
 
@@ -64,7 +64,7 @@ namespace Ion
 
             if (Range.IsEmpty)
             {
-                Log("Пустой текст");
+                Log(Translater._Current._EmptyText);
                 return;
             }
 
@@ -167,7 +167,7 @@ namespace Ion
 
             if (Range.IsEmpty)
             {
-                Log("Пустой текст");
+                Log(Translater._Current._EmptyText);
                 return;
             }
 
@@ -207,7 +207,7 @@ namespace Ion
 
             if (Range.IsEmpty)
             {
-                Log("Пустой текст");
+                Log(Translater._Current._EmptyText);
                 return;
             }
 

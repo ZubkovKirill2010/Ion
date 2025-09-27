@@ -212,8 +212,6 @@
                     </MenuItem>
 
                     <MenuItem Header="Structure data" Style="{StaticResource ResourceKey=SubMenuItemStyle}">
-                        <MenuItem Header=".struct" InputGestureText="Text structure" Click="New"/>
-                        <Separator Style="{StaticResource SeparatorStyle}"/>
                         <MenuItem Header=".json" InputGestureText="JavaScript Object Notation" Click="New"/>
                         <MenuItem Header=".xaml" InputGestureText="eXtensible Application Markup Language" Click="New"/>
                         <MenuItem Header=".xml" InputGestureText="eXtensible Markup Language" Click="New"/>

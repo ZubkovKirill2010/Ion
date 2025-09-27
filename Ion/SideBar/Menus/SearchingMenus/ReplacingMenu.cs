@@ -10,9 +10,9 @@ namespace Ion.SideBar
         protected override SolidColorBrush _HighlightingBrush { get; init; }
             = new SolidColorBrush(Color.FromArgb(100, 236, 35, 239));
 
-        public override string _Header => "Замена";
-        public override string _CancelButtonText => "Выйти";
-        public override string _ApplyButtonText => "Заменить";
+        public override string _Header => Translater._Current._Replacement;
+        public override string _CancelButtonText => Translater._Current._Exit;
+        public override string _ApplyButtonText => Translater._Current._Replace;
 
         public ReplacingMenu(MainWindow Window)
             : base(Window, Window.ReplacingMenu) { }
@@ -32,17 +32,17 @@ namespace Ion.SideBar
 
             if (Target == ReplaceText)
             {
-                MainWindow.Log("Старый текст совпадает с новым");
+                MainWindow.Log(Translater._Current._OldTextEqualNew);
                 return;
             }
             if (string.IsNullOrEmpty(Target))
             {
-                MainWindow.Log("Введите текст для поиска");
+                MainWindow.Log(Translater._Current._EnterSearchText);
                 return;
             }
             if (_Editor.Document.IsEmpty())
             {
-                MainWindow.Log("Пустой текст");
+                MainWindow.Log(Translater._Current._EmptyText);
                 return;
             }
 
@@ -72,7 +72,7 @@ namespace Ion.SideBar
 
                 if (Matches.Count == 0)
                 {
-                    MainWindow.Log("Совпадений не найдено");
+                    MainWindow.Log(Translater._Current._MatchesNotFound);
                     return;
                 }
 
@@ -82,16 +82,16 @@ namespace Ion.SideBar
                     ReplaceAndHighlightMatch(Batch, ReplaceText);
                 }
 
-                MainWindow.Log($"Заменено: {_MatchesCount / 2}");
+                MainWindow.Log($"{Translater._Current._Replaced}: {_MatchesCount / 2}");
             }
             catch (ArgumentException Exception)
             {
-                MainWindow.Log("Ошибка в регулярном выражении");
+                MainWindow.Log(Translater._Current._RegexError);
                 MainWindow.LogError(Exception);
             }
             catch (Exception Exception)
             {
-                MainWindow.Log("При замене произошла ошибка");
+                MainWindow.Log(Translater._Current._ReplaceError);
                 MainWindow.LogError(Exception);
             }
         }

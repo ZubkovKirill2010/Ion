@@ -33,7 +33,7 @@
         <Setter Property="BorderBrush" Value="#636363"/>
 
         <Setter Property="Margin" Value="8 0 2 8"/>
-        <Setter Property="Content" Value="Отмена"/>
+        <Setter Property="Content" Value="Cancel"/>
     </Style>
 
     <Style x:Key="ApplyButtonStyle" BasedOn="{StaticResource SettingsButtonStyle}" TargetType="Button">
@@ -41,7 +41,7 @@
         <Setter Property="BorderBrush" Value="#23938e"/>
 
         <Setter Property="Margin" Value="2 0 5 8"/>
-        <Setter Property="Content" Value="Применить"/>
+        <Setter Property="Content" Value="Apply"/>
     </Style>
 
 </ResourceDictionary>

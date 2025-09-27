@@ -18,11 +18,13 @@ namespace Ion
 
         public int _MenuScale = 14;
 
+        public string _Language = string.Empty;
+
         public bool _SpellCheck = false;
         public string _DefaultTabExtension = ".txt";
 
         public string _Email = string.Empty;
-        public List<string> _Recipients = new List<string>();
+        public List<string> _Recipients = new List<string>(0);
 
         public string _EmailPassword = string.Empty;
 
@@ -30,22 +32,22 @@ namespace Ion
 
         public void Save()
         {
-            using FileStream Stream = new FileStream(_SettingsPath, FileMode.Create);
-            using BinaryWriter Writer = new BinaryWriter(Stream);
-            Writer.Write((byte)_DefaultFontSize);
-            Writer.Write((byte)_FontSize);
-            Writer.Write((byte)_MenuScale);
-
-            Writer.Write(_SpellCheck);
-            Writer.Write(_DefaultTabExtension);
-
-            Writer.Write(_Email);
-            Writer.Write(_EmailPassword);
-
-            Writer.Write(_Recipients.Count);
-            foreach (string Recipient in _Recipients)
+            using (FileStream Stream = new FileStream(_SettingsPath, FileMode.Create))
+            using (BinaryWriter Writer = new BinaryWriter(Stream))
             {
-                Writer.Write(Recipient);
+                Writer.Write((byte)_DefaultFontSize);
+                Writer.Write((byte)_FontSize);
+                Writer.Write((byte)_MenuScale);
+
+                Writer.Write(_Language ?? string.Empty);
+
+                Writer.Write(_SpellCheck);
+                Writer.Write(_DefaultTabExtension);
+
+                Writer.Write(_Email);
+                Writer.Write(_EmailPassword);
+
+                Writer.Write(_Recipients);
             }
         }
         public static Settings Load()
@@ -67,19 +69,21 @@ namespace Ion
                         _FontSize = Reader.ReadByte(),
                         _MenuScale = Reader.ReadByte(),
 
+                        _Language = Reader.ReadString(),
+
                         _SpellCheck = Reader.ReadBoolean(),
                         _DefaultTabExtension = Reader.ReadString(),
 
                         _Email = Reader.ReadString(),
                         _EmailPassword = Reader.ReadString(),
 
-                        _Recipients = Reader.ReadList(Reader => Reader.ReadString(), Reader.ReadInt32(), 1)
+                        _Recipients = Reader.ReadList(Reader => Reader.ReadString())
                     };
                 }
             }
             catch
             {
-                //#temp
+                //#Temp
                 Settings Default = new Settings();
                 Default.Save();
                 return Default;

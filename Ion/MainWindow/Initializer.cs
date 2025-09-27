@@ -6,6 +6,9 @@
         {
             DataContext = this;
 
+            Task.Run(() => Translater.Initialize(_Settings._Language)).GetAwaiter().GetResult();
+            Translater.Initialize(this);
+
             InitializeComponent();
             InitializeWindowParameters();
             InitializeHotKeys();

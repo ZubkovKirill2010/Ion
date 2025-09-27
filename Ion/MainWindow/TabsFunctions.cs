@@ -117,7 +117,7 @@ namespace Ion
             if (TabList.SelectedItem is Tab SelectedTab)
             {
                 SelectTab(SelectedTab);
-                Log(SelectedTab._CurrentFile ?? "Не сохранённый файл");
+                Log(SelectedTab._CurrentFile ?? Translater._Current._NotSavedFile);
             }
             else
             {
@@ -128,7 +128,7 @@ namespace Ion
 
         public void OpenTab(int Index)
         {
-            SelectTab(int.Clamp(Index, 0, Tabs.Count - 1));
+            SelectTab(Math.Clamp(Index, 0, Tabs.Count - 1));
         }
         public void OpenLastTab()
         {

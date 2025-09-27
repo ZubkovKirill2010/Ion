@@ -11,9 +11,9 @@ namespace Ion.SideBar
         protected override SolidColorBrush _HighlightingBrush { get; init; }
             = new SolidColorBrush(Color.FromArgb(100, 16, 232, 30));
 
-        public override string _Header => "Поиск";
-        public override string _CancelButtonText => "Выйти";
-        public override string _ApplyButtonText => "Искать";
+        public override string _Header => Translater._Current._Search;
+        public override string _CancelButtonText => Translater._Current._Exit;
+        public override string _ApplyButtonText => Translater._Current._Search;
 
         public SearchingMenu(MainWindow Window)
             : base(Window, Window.SearchingMenu) { }
@@ -30,13 +30,13 @@ namespace Ion.SideBar
 
             if (string.IsNullOrEmpty(Target))
             {
-                MainWindow.Log("Введите текст для поиска");
+                MainWindow.Log(Translater._Current._EnterSearchText);
                 return;
             }
 
             if (_Editor.Document.IsEmpty())
             {
-                MainWindow.Log("Пустой текст");
+                MainWindow.Log(Translater._Current._EmptyText);
                 return;
             }
 
@@ -64,7 +64,7 @@ namespace Ion.SideBar
 
                 if (_MatchesCount == 0)
                 {
-                    MainWindow.Log("Совпадений не найдено");
+                    MainWindow.Log(Translater._Current._MatchesNotFound);
                     return;
                 }
 
@@ -135,16 +135,16 @@ namespace Ion.SideBar
                     }
                 }
 
-                MainWindow.Log($"Найдено совпадений: {_MatchesCount}");
+                MainWindow.Log($"{Translater._Current._MatchesFound}: {_MatchesCount}");
             }
             catch (ArgumentException Exception)
             {
-                MainWindow.Log("Ошибка в регулярном выражении");
+                MainWindow.Log(Translater._Current._RegexError);
                 MainWindow.LogError(Exception);
             }
             catch (Exception Exception)
             {
-                MainWindow.Log("При поиске произошла ошибка");
+                MainWindow.Log(Translater._Current._ErrorInSearch);
                 MainWindow.LogError(Exception);
             }
         }

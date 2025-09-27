@@ -22,13 +22,13 @@ namespace Ion.Tabs
             }
             catch (Exception Exception)
             {
-                MainWindow.Log($"Ошибка при чтении файла \"{_CurrentFile}\"");
+                MainWindow.Log($"{Translater._Current._SavingError} \"{_CurrentFile}\"");
                 MainWindow.LogError(Exception);
             }
         }
 
 
         protected override string? GetFilePath()
-            => GetFilePath("Текстовые файлы (*.txt)|*.txt|Файлы C# (*.cs)|*.cs|Все файлы (*.*)|*.*", ".txt");
+            => GetFilePath("Text files (*.txt)|*.txt|Файлы C# (*.cs)|*.cs|Все файлы (*.*)|*.*", ".txt");
     }
 }

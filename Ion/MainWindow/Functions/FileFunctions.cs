@@ -17,20 +17,15 @@ namespace Ion
             {
                 Tab NewTab = Tab.GetEditor(Item.Header.ToString() ?? string.Empty);
                 AddTab(NewTab);
-                Log($"Новая вкладки ({NewTab.GetType().Name})");
-            }
-            else
-            {
-                Log("Неверный вызов функции New");
             }
         }
         private void Open(object Sender, RoutedEventArgs E)
         {
             OpenFileDialog Dialog = new OpenFileDialog
             {
-                Title = "Открыть файл",
+                Title = Translater._Current._OpenFile,
                 InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments),
-                Filter = "Все файлы (*.*)|*.*|Bcm файлы (*.bcm)|*.bcm|Текстовые файлы (*.txt)|*.txt|Файлы C# (*.cs)|*.cs",
+                Filter = "All files (*.*)|*.*|Bcm файлы (*.bcm)|*.bcm|Text files (*.txt)|*.txt|Files C# (*.cs)|*.cs",
                 DefaultExt = ""
             };
 
@@ -40,7 +35,7 @@ namespace Ion
 
                 if (!File.Exists(FilePath))
                 {
-                    Log($"Файл \"{FilePath}\" не существует");
+                    Log($"{Translater._Current._File} \"{FilePath}\" {Translater._Current._NotExists}");
                     return;
                 }
 
@@ -48,26 +43,19 @@ namespace Ion
                 {
                     string Extension = Path.GetExtension(FilePath);
 
-                    try
-                    {
-                        Tab NewTab = Tab.GetEditor(Extension);
+                    Tab NewTab = Tab.GetEditor(Extension);
 
-                        NewTab._CurrentFile = FilePath;
-                        NewTab.ReadFile();
-                        NewTab._IsSaved = true;
+                    NewTab._CurrentFile = FilePath;
+                    NewTab.ReadFile();
+                    NewTab._IsSaved = true;
 
-                        AddTab(NewTab);
+                    AddTab(NewTab);
 
-                        TextEditor.CaretPosition = TextEditor.Document.ContentEnd;
-                    }
-                    catch (Exception Exception)
-                    {
-                        Log($"Ошибка при создании вкладки: {Exception}");
-                    }
+                    TextEditor.CaretPosition = TextEditor.Document.ContentEnd;
                 }
                 catch (Exception Exception)
                 {
-                    Log($"Ошибка при чтении файла \"{FilePath}\": {Exception}");
+                    Log($"{Translater._Current._LoadingError} \"{FilePath}\": {Exception}");
                 }
             }
         }
@@ -96,7 +84,7 @@ namespace Ion
 
             if (SelectedTab._CurrentFile is not null || !File.Exists(SelectedTab._CurrentFile))
             {
-                Log("Нельзя перезагрузить не сохранённый файл");
+                Log(Translater._Current._ReloadError);
                 return;
             }
 
@@ -112,11 +100,11 @@ namespace Ion
                 try
                 {
                     IDocumentPaginatorSource Document = TextEditor.Document;
-                    Dialog.PrintDocument(Document.DocumentPaginator, "Печать документа");
+                    Dialog.PrintDocument(Document.DocumentPaginator, Translater._Current._PrintingDocument);
                 }
                 catch
                 {
-                    Log($"Ошибка печати");
+                    Log(Translater._Current._PrintingError);
                 }
             }
         }

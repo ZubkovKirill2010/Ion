@@ -228,7 +228,7 @@ namespace Ion
 
         private void Do(object Sender, RoutedEventArgs E)
         {
-            Log("Функция не реализована");
+            Log("Function not released");
         }
 
         private void ConvertChars(object Sender, RoutedEventArgs E)
@@ -265,12 +265,12 @@ namespace Ion
                     }
                     else
                     {
-                        Log("'Удалённый файл'");
+                        Log("File: 'Удалённый файл'");
                     }
                 }
                 else
                 {
-                    Log("'Не сохранённый файл'");
+                    Log("File: 'Не сохранённый файл'");
                 }
                 return;
             }
@@ -334,7 +334,7 @@ namespace Ion
             var Range = TextEditor.Selection;
             if (Range.IsEmpty)
             {
-                Log("Пустое выделение");
+                Log("Translater._Current._EmptySelection");
                 return;
             }
             Range.Text = Range.Text.ConvertAll(Char => _Digits.TryGetValue(Char, out var Pair) ? Pair.Max : Char);
@@ -344,7 +344,7 @@ namespace Ion
             var Range = TextEditor.Selection;
             if (Range.IsEmpty)
             {
-                Log("Пустое выделение");
+                Log("Translater._Current._EmptySelection");
                 return;
             }
             Range.Text = Range.Text.ConvertAll(Char => _Digits.TryGetValue(Char, out var Pair) ? Pair.Min : Char);
@@ -354,7 +354,7 @@ namespace Ion
             var Range = TextEditor.Selection;
             if (Range.IsEmpty)
             {
-                Log("Пустое выделение");
+                Log("Translater._Current._EmptySelection");
                 return;
             }
             Range.Text = Range.Text.ConvertAll(Char => _NormalizedDigits.TryGetValue(Char, out var Normal) ? Normal : Char);

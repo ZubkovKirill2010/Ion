@@ -1,8 +1,8 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
-    <TargetFramework>net9.0-windows</TargetFramework>
+    <TargetFramework>net9.0-windows10.0.26100.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <UseWPF>true</UseWPF>
@@ -11,14 +11,32 @@
     <ProduceReferenceAssembly>True</ProduceReferenceAssembly>
     <GenerateDocumentationFile>False</GenerateDocumentationFile>
     <SignAssembly>False</SignAssembly>
+    <SupportedOSPlatformVersion>7.0</SupportedOSPlatformVersion>
+    <StartupObject>Ion.App</StartupObject>
+    <AssemblyName>Ion</AssemblyName>
+    <RootNamespace>Ion</RootNamespace>
+    <Version>0.1.0</Version>
+    <Authors>Zubkov Kirill</Authors>
+    <PackageTags>text;editor;ion;struct;structure</PackageTags>
+    <PackageOutputPath>bin\Realease</PackageOutputPath>
+    <NeutralLanguage>ru</NeutralLanguage>
+    <IncludeSymbols>False</IncludeSymbols>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <DebugType>full</DebugType>
+    <GenerateAssemblyInfo>False</GenerateAssemblyInfo>
+    <WarningsAsErrors>NU1605</WarningsAsErrors>
+    <IsPublishable>False</IsPublishable>
+    <WarningLevel>9999</WarningLevel>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
     <DebugType>none</DebugType>
+    <GenerateAssemblyInfo>False</GenerateAssemblyInfo>
+    <WarningsAsErrors>NU1605</WarningsAsErrors>
+    <IsPublishable>False</IsPublishable>
+    <WarningLevel>9999</WarningLevel>
   </PropertyGroup>
 
   <ItemGroup>
@@ -39,9 +57,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Reference Include="BinaryCodeMarkup">
-      <HintPath>..\..\Library\BinaryCodeMarkup\BinaryCodeMarkup\bin\Debug\net9.0\BinaryCodeMarkup.dll</HintPath>
-    </Reference>
     <Reference Include="HotKeyManagement">
       <HintPath>..\..\Library\HotKeyManagement\bin\Debug\net9.0-windows\HotKeyManagement.dll</HintPath>
     </Reference>
@@ -57,4 +72,13 @@
     <Resource Include="Resources\TabList\Graphics\Close.png" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Content Include="Assets\**">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Assets\" />
+  </ItemGroup>
 </Project>

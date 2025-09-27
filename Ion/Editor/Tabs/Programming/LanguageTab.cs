@@ -1,5 +1,6 @@
 ﻿using System.IO;
 using System.Windows.Documents;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace Ion.Tabs
 {
@@ -12,18 +13,18 @@ namespace Ion.Tabs
 
         protected override void Save()
         {
-            MainWindow.Log($"Начало сохранения файла \"{_CurrentFile}\"");
+            MainWindow.Log($"{Translater._Current._StartOfSaving} \"{_CurrentFile}\"");
             Task.Run(async () =>
             {
                 try
                 {
                     await File.WriteAllTextAsync(_CurrentFile, GetText());
                     _IsSaved = true;
-                    MainWindow.Log($"Файл \"{_CurrentFile}\" успешно сохранён");
+                    MainWindow.Log($"{Translater._Current._File} \"{_CurrentFile}\" {Translater._Current._FileSaved}");
                 }
                 catch
                 {
-                    MainWindow.Log($"Ошибка при сохранении \"{_CurrentFile}\"");
+                    MainWindow.Log($"{Translater._Current._SavingError} \"{_CurrentFile}\"");
                 }
             });
         }
@@ -47,6 +48,6 @@ namespace Ion.Tabs
 
 
         protected override string? GetFilePath()
-            => GetFilePath("Текстовые файлы (*.txt)|*.txt|Файлы C# (*.cs)|*.cs|Все файлы (*.*)|*.*", ".txt");
+            => GetFilePath("Text files (*.txt)|*.txt|Файлы C# (*.cs)|*.cs|Все файлы (*.*)|*.*", ".txt");
     }
 }

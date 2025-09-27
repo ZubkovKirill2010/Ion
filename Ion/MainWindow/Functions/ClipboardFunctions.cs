@@ -12,7 +12,7 @@ namespace Ion
             }
             catch (Exception Exception)
             {
-                Log("Ошибка при вставке текста");
+                Log(Translater._Current._InsertError);
                 LogError(Exception);
             }
         }

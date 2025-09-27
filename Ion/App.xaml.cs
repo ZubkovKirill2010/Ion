@@ -39,7 +39,7 @@ namespace Ion
         private void HandleException(Exception? Exception)
         {
             Ion.MainWindow.LogError(Exception ?? new Exception("Null exception"));
-            Ion.MainWindow.Log($"Произошла неизвестная ошибка типа {Exception?.GetType().FullName}");
+            Ion.MainWindow.Log($"{Translater._Current._UnknowException} '{Exception?.GetType().FullName}'");
         }
     }
 }

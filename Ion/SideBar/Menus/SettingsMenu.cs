@@ -5,9 +5,9 @@
         public readonly MainWindow _Window;
         public readonly Settings _Settings;
 
-        public override string _Header => "Настройки";
-        public override string _CancelButtonText => "Отмена";
-        public override string _ApplyButtonText => "Применить";
+        public override string _Header => Translater._Current._Settings;
+        public override string _CancelButtonText => Translater._Current._Cancel;
+        public override string _ApplyButtonText => Translater._Current._Apply;
 
         public SettingsMenu(MainWindow Window) : base(Window.SettingsMenu)
         {

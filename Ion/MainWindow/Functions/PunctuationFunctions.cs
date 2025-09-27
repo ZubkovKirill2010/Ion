@@ -13,7 +13,7 @@ namespace Ion
 
             if (Range.IsEmpty)
             {
-                Log("Пустой текст");
+                Log(Translater._Current._EmptyText);
             }
             else
             {
@@ -27,13 +27,13 @@ namespace Ion
 
             if (string.IsNullOrWhiteSpace(Text))
             {
-                Log("Пустой текст");
+                Log(Translater._Current._EmptyText);
             }
             else
             {
                 Log
                 (
-                    $"Скобки расставлены {(Text.CheckBrackets() ? string.Empty : "не")} верно"
+                    $"{Translater._Current._BracketsPlaces} {(Text.CheckBrackets() ? string.Empty : Translater._Current._Not)} {Translater._Current._Right}"
                 );
             }
 
@@ -44,7 +44,7 @@ namespace Ion
 
             if (Range.IsEmpty)
             {
-                Log("Пустой текст");
+                Log(Translater._Current._EmptyText);
             }
             else
             {
@@ -57,7 +57,7 @@ namespace Ion
 
             if (Range.IsEmpty)
             {
-                Log("Пустой текст");
+                Log(Translater._Current._EmptyText);
             }
             else
             {

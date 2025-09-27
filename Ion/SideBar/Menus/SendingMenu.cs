@@ -8,9 +8,9 @@ namespace Ion.SideBar
         private readonly MainWindow _Window;
         private readonly RichTextBox _TextField;
 
-        public override string _Header => "Отправить";
-        public override string _CancelButtonText => "Отмена";
-        public override string _ApplyButtonText => "Отправить";
+        public override string _Header => Translater._Current._Send;
+        public override string _CancelButtonText => Translater._Current._Cancel;
+        public override string _ApplyButtonText => Translater._Current._Send;
 
         public SendingMenu(MainWindow Window) : base(Window.SendingMenu)
         {

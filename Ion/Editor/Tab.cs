@@ -18,9 +18,7 @@ namespace Ion.Tabs
         (
             new Dictionary<string, Func<Tab>>()
             {
-                { ".txt", () => new TxtTab() },
-                { ".bcm", () => new BCMTab() },
-                //{ ".cs", () => new CSharpTab() }
+                { ".txt", () => new TxtTab() }
             }
         );
 
@@ -60,7 +58,7 @@ namespace Ion.Tabs
             }
         }
 
-        private string _HeaderField = "Без имени";
+        private string _HeaderField = Translater._Current._WithoutName;
         public string _Header
         {
             get => _HeaderField;
@@ -104,7 +102,7 @@ namespace Ion.Tabs
 
         protected virtual void Save()
         {
-            MainWindow.Log($"Сохранение файла \"{_CurrentFile}\"");
+            MainWindow.Log($"{Translater._Current._StartOfSaving} \"{_CurrentFile}\"");
 
             Task.Run(async () =>
             {
@@ -112,11 +110,11 @@ namespace Ion.Tabs
                 {
                     await File.WriteAllTextAsync(_CurrentFile, GetText());
                     _IsSaved = true;
-                    MainWindow.Log($"Файл \"{_CurrentFile}\" сохранён");
+                    MainWindow.Log($"{Translater._Current._File} \"{_CurrentFile}\" {Translater._Current._FileSaved}");
                 }
                 catch (Exception Exception)
                 {
-                    MainWindow.Log($"Ошибка при сохранении \"{_CurrentFile}\"");
+                    MainWindow.Log($"{Translater._Current._SavingError} \"{_CurrentFile}\"");
                     MainWindow.LogError(Exception);
                 }
             });
@@ -144,7 +142,7 @@ namespace Ion.Tabs
         {
             SaveFileDialog Dialog = new SaveFileDialog
             {
-                Title = "Сохранить файл",
+                Title = Translater._Current._SaveFile,
                 Filter = Filter,
                 DefaultExt = DefaultExtension,
                 InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments)
@@ -160,7 +158,7 @@ namespace Ion.Tabs
         {
             SaveFileDialog Dialog = new SaveFileDialog
             {
-                Title = "Сохранить файл",
+                Title = Translater._Current._SaveFile,
                 InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments)
             };
 
@@ -214,7 +212,7 @@ namespace Ion.Tabs
 
         private void UpdateHeader()
         {
-            _Header = Path.GetFileName(_CurrentFile) ?? "Без имени";
+            _Header = Path.GetFileName(_CurrentFile) ?? Translater._Current._WithoutName;
         }
 
         protected void OnPropertyChanged([CallerMemberName] string? PropertyName = null)
