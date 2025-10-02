@@ -1,6 +1,5 @@
 ﻿using HotKeyManagement;
 using System.Windows;
-using System.Windows.Controls.Primitives;
 using System.Windows.Input;
 
 namespace Ion
@@ -19,6 +18,7 @@ namespace Ion
             InitalizeStructuringHotKeys();
             InitalizeViewHotKeys();
             InitalizeTabsKeys();
+            InitializeNumbersKeys();
         }
 
         private void InitalizeFileHotKeys()
@@ -102,14 +102,17 @@ namespace Ion
             AddKey("NextTab", Key.Right, ModifierKeys.Alt, NextTab);
             AddKey("PreviousTab", Key.Left, ModifierKeys.Alt, PreviousTab);
             AddKey("OpenLastTab", Key.D0, ModifierKeys.Alt, OpenLastTab);
-
+        }
+        private void InitializeNumbersKeys()
+        {
             for (int i = 0; i < 9; i++)
             {
-                int TabIndex = i;
-                AddKey($"OpenTab[{TabIndex}]", (Key)(TabIndex + 35), ModifierKeys.Alt, () => OpenTab(TabIndex));
+                int Index = i;
+                Key Key = (Key)(Index + 35);
+
+                AddKey($"OpenTab[{Index}]", Key, ModifierKeys.Alt, () => OpenTab(Index));
             }
         }
-
 
         private void AddKey(string Name, Key Key, ModifierKeys Modifiers, RoutedEventHandler Handler)
             => LocalHotKeys.AddKey(Name, Key, Modifiers, Handler);

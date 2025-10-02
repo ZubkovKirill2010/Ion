@@ -31,7 +31,7 @@ namespace Ion
 
             Tab.Initialize(this);
 
-            string[] Arguments = App._Arguments;
+            string[]? Arguments = App._Arguments;
 
             if (Arguments.IsNullOrEmpty())
             {
@@ -39,12 +39,11 @@ namespace Ion
             }
             else
             {
-                foreach (string File in Arguments.Where(String => String is not null))
+                foreach (string File in Arguments.NotNullable())
                 {
                     Open(File);
                 }
             }
-            Arguments = null;
 
             Dispatcher.BeginInvoke
             (

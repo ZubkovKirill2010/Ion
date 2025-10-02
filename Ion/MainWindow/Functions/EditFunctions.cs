@@ -8,6 +8,7 @@ using System.Text;
 using System.Windows;
 using System.Windows.Documents;
 using System.Windows.Media;
+using Windows.UI.Text;
 using Zion;
 
 namespace Ion
@@ -116,7 +117,8 @@ namespace Ion
 
             ("alpha", '\u03B1'),
             ("beta", '\u03B2'),
-            ("gamma", '\u03B3')
+            ("gamma", '\u03B3'),
+            ("delta", '\u0394'),
         ];
 
         private void ToLower(object Sender, RoutedEventArgs E)
@@ -308,12 +310,10 @@ namespace Ion
 
             if (Range.IsEmpty)
             {
-                //Clear formating
                 TextEditor.GetAll().ApplyPropertyValue(TextElement.BackgroundProperty, Brushes.Transparent);
             }
             else
             {
-                //Highlight
                 Range.ApplyPropertyValue(TextElement.BackgroundProperty, _HighlightBrush);
                 TextEditor.DeSelect();
                 TextEditor.CaretPosition = Range.End;
@@ -331,33 +331,15 @@ namespace Ion
 
         private void UpDigit(object Sender, RoutedEventArgs E)
         {
-            var Range = TextEditor.Selection;
-            if (Range.IsEmpty)
-            {
-                Log("Translater._Current._EmptySelection");
-                return;
-            }
-            Range.Text = Range.Text.ConvertAll(Char => _Digits.TryGetValue(Char, out var Pair) ? Pair.Max : Char);
+            ConvertDigits(Char => _Digits.GetValue(Char, Char, Pair => Pair.Max));
         }
         private void DownDigit(object Sender, RoutedEventArgs E)
         {
-            var Range = TextEditor.Selection;
-            if (Range.IsEmpty)
-            {
-                Log("Translater._Current._EmptySelection");
-                return;
-            }
-            Range.Text = Range.Text.ConvertAll(Char => _Digits.TryGetValue(Char, out var Pair) ? Pair.Min : Char);
+            ConvertDigits(Char => _Digits.GetValue(Char, Char, Pair => Pair.Min));
         }
         private void NormalizeDigit(object Sender, RoutedEventArgs E)
         {
-            var Range = TextEditor.Selection;
-            if (Range.IsEmpty)
-            {
-                Log("Translater._Current._EmptySelection");
-                return;
-            }
-            Range.Text = Range.Text.ConvertAll(Char => _NormalizedDigits.TryGetValue(Char, out var Normal) ? Normal : Char);
+            ConvertDigits(Char =>  _NormalizedDigits.GetValue(Char, Char));
         }
 
 
@@ -419,6 +401,24 @@ namespace Ion
         private void SetCursorInEnd()
         {
             TextEditor.CaretPosition = TextEditor.Document.ContentEnd;
+        }
+
+        private void ConvertDigits(Func<char, char> Converter)
+        {
+            var Range = TextEditor.GetSelection();
+
+            if (Range is null)
+            {
+                var Caret = TextEditor.CaretPosition;
+                Range = new TextRange(Caret.GetPositionAtOffset(-1), Caret);
+            }
+            if (Range.IsEmpty)
+            {
+                Log(Translater._Current._EmptySelection);
+            }
+
+            Range.Text = Range.Text.ConvertAll(Converter);
+            TextEditor.CaretPosition = Range.End;
         }
     }
 }

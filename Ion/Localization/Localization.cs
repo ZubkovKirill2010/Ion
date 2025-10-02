@@ -45,7 +45,7 @@ namespace Ion
         public string _Replacement { get; set; } = "Replacement";
         public string _Send { get; set; } = "Send";
         public string _Search { get; set; } = "Search";
-        public string _Replace { get; set; } = "Search";
+        public string _Replace { get; set; } = "Replace";
         public string _Exit { get; set; } = "Exit";
 
         public string _Replaced { get; set; } = "Replaced";

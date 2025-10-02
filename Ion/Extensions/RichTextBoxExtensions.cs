@@ -25,5 +25,11 @@ namespace Ion.Extensions
         {
             TextBox.Selection.Select(TextBox.CaretPosition, TextBox.CaretPosition);
         }
+
+        public static TextRange? GetSelection(this RichTextBox TextBox)
+        {
+            var Selection = TextBox.Selection;
+            return Selection.IsEmpty ? null : new TextRange(Selection.Start, Selection.End);
+        }
     }
 }
