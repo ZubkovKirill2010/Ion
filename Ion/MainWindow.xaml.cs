@@ -1,4 +1,5 @@
 ﻿using Ion.Tabs;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.IO;
 using System.Runtime.CompilerServices;
@@ -25,9 +26,12 @@ namespace Ion
         {
             Initialize();
 
+            StatusBar.WriteError("Test");
+            StatusBar.WriteError("Test1");
+            StatusBar.WriteError("Test2");
+            
             _Editor = new TextEditor(this);
             _SideBar = new SideBar.SideBar(this);
-            _MessageBox = MessageBox;
 
             Tab.Initialize(this);
 
@@ -72,7 +76,7 @@ namespace Ion
         }
 
 
-        protected void OnPropertyChanged([CallerMemberName] string PropertyName = null)
+        protected void OnPropertyChanged([CallerMemberName] string? PropertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(PropertyName));
         }

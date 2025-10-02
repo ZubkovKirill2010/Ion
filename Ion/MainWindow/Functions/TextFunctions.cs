@@ -200,7 +200,7 @@ namespace Ion
 
             if (Range.IsEmpty)
             {
-                Log(Translater._Current._EmptyText);
+                StatusBar.Write(Translater._Current._EmptyText);
                 return;
             }
 
@@ -217,7 +217,7 @@ namespace Ion
         {
             if (TextEditor.Selection.IsEmpty)
             {
-                Log("Translater._Current._EmptySelection");
+                StatusBar.Write("Translater._Current._EmptySelection");
                 return;
             }
 

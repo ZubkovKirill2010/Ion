@@ -230,7 +230,7 @@ namespace Ion
 
         private void Do(object Sender, RoutedEventArgs E)
         {
-            Log("Function not released");
+            StatusBar.Write("Function not released");
         }
 
         private void ConvertChars(object Sender, RoutedEventArgs E)
@@ -260,19 +260,19 @@ namespace Ion
 
                     if (Info.Exists)
                     {
-                        Log
+                        StatusBar.Write
                         (
                             $"File: '{Tab._CurrentFile}'  |  Date of creation: '{Info.CreationTime}'  |  Date of writing: '{Info.LastWriteTime}'"
                         );
                     }
                     else
                     {
-                        Log("File: 'Удалённый файл'");
+                        StatusBar.Write("File: 'Удалённый файл'");
                     }
                 }
                 else
                 {
-                    Log("File: 'Не сохранённый файл'");
+                    StatusBar.Write("File: 'Не сохранённый файл'");
                 }
                 return;
             }
@@ -290,14 +290,14 @@ namespace Ion
             if (Length == 1)
             {
                 char Char = Text[0];
-                Log
+                StatusBar.Write
                 (
                     $"Character: '{Char}'  |  Decimal: '{(int)Char}'  |  Unicode: '{(int)Char:X4}'"
                 );
             }
             else
             {
-                Log
+                StatusBar.Write
                 (
                     $"Characters: '{Length}'  |  Lines: '{Lines}'"
                 );
@@ -414,7 +414,7 @@ namespace Ion
             }
             if (Range.IsEmpty)
             {
-                Log(Translater._Current._EmptySelection);
+                StatusBar.Write(Translater._Current._EmptySelection);
             }
 
             Range.Text = Range.Text.ConvertAll(Converter);

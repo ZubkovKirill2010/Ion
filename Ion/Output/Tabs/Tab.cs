@@ -102,7 +102,7 @@ namespace Ion.Tabs
 
         protected virtual void Save()
         {
-            MainWindow.Log($"{Translater._Current._StartOfSaving} \"{_CurrentFile}\"");
+            StatusBar.Write($"{Translater._Current._StartOfSaving} \"{_CurrentFile}\"");
 
             Task.Run(async () =>
             {
@@ -110,12 +110,12 @@ namespace Ion.Tabs
                 {
                     await File.WriteAllTextAsync(_CurrentFile, GetText());
                     _IsSaved = true;
-                    MainWindow.Log($"{Translater._Current._File} \"{_CurrentFile}\" {Translater._Current._FileSaved}");
+                    StatusBar.Write($"{Translater._Current._File} \"{_CurrentFile}\" {Translater._Current._FileSaved}");
                 }
                 catch (Exception Exception)
                 {
-                    MainWindow.Log($"{Translater._Current._SavingError} \"{_CurrentFile}\"");
-                    MainWindow.LogError(Exception);
+                    StatusBar.Write($"{Translater._Current._SavingError} \"{_CurrentFile}\"");
+                    StatusBar.WriteError(Exception);
                 }
             });
         }
@@ -191,7 +191,7 @@ namespace Ion.Tabs
             _Document = TextToDocument(Text);
         }
 
-        protected static void Log(object? Message) => MainWindow.Log(Message);
+        protected static void Log(object? Message) => StatusBar.Write(Message);
 
 
         public static Tab GetEditor(string Extension)

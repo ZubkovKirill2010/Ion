@@ -35,7 +35,7 @@ namespace Ion
 
                 if (!File.Exists(FilePath))
                 {
-                    Log($"{Translater._Current._File} \"{FilePath}\" {Translater._Current._NotExists}");
+                    StatusBar.Write($"{Translater._Current._File} \"{FilePath}\" {Translater._Current._NotExists}");
                     return;
                 }
 
@@ -55,7 +55,7 @@ namespace Ion
                 }
                 catch (Exception Exception)
                 {
-                    Log($"{Translater._Current._LoadingError} \"{FilePath}\": {Exception}");
+                    StatusBar.Write($"{Translater._Current._LoadingError} \"{FilePath}\": {Exception}");
                 }
             }
         }
@@ -84,7 +84,7 @@ namespace Ion
 
             if (SelectedTab._CurrentFile is not null || !File.Exists(SelectedTab._CurrentFile))
             {
-                Log(Translater._Current._ReloadError);
+                StatusBar.Write(Translater._Current._ReloadError);
                 return;
             }
 
@@ -104,7 +104,7 @@ namespace Ion
                 }
                 catch
                 {
-                    Log(Translater._Current._PrintingError);
+                    StatusBar.Write(Translater._Current._PrintingError);
                 }
             }
         }

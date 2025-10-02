@@ -22,17 +22,17 @@
 //        #region File
 //        protected override void Save()
 //        {
-//            MainWindow.Log($"Сохранение файла \"{_CurrentFile}\"");
+//            StatusBar.Write($"Сохранение файла \"{_CurrentFile}\"");
 //            try
 //            {
 //                GetCode().Save(_CurrentFile);
 
 //                _IsSaved = true;
-//                MainWindow.Log($"Файл \"{_CurrentFile}\" сохранён");
+//                StatusBar.Write($"Файл \"{_CurrentFile}\" сохранён");
 //            }
 //            catch (Exception ex)
 //            {
-//                MainWindow.Log($"Ошибка при сохранении \"{_CurrentFile}\" : {ex}");
+//                StatusBar.Write($"Ошибка при сохранении \"{_CurrentFile}\" : {ex}");
 //            }
 //        }
 
@@ -51,7 +51,7 @@
 
 //        public override void ReadFile()
 //        {
-//            MainWindow.Log($"Чтение файла \"{_CurrentFile}\"");
+//            StatusBar.Write($"Чтение файла \"{_CurrentFile}\"");
 
 //            try
 //            {
@@ -65,7 +65,7 @@
 //            }
 //            catch
 //            {
-//                MainWindow.Log($"Ошибка при чтении файла \"{_CurrentFile}\"");
+//                StatusBar.Write($"Ошибка при чтении файла \"{_CurrentFile}\"");
 //            }
 //        }
 
@@ -85,7 +85,7 @@
 //                string[] Lines = Text.Split(Environment.NewLine);
 //                int LineIndex = Exception._LineIndex;
 
-//                MainWindow.Log($"{(LineIndex.IsClamp(0, Lines.Length - 1) ? "?" : Lines[LineIndex])}. {Exception.Message}");
+//                StatusBar.Write($"{(LineIndex.IsClamp(0, Lines.Length - 1) ? "?" : Lines[LineIndex])}. {Exception.Message}");
 
 //                return new Code(Text);
 //            }
@@ -96,7 +96,7 @@
 //        public override void TextChanged(object Sender, TextChangedEventArgs E)
 //        {
 //            //Region CurrentRegion = GetCurrentRegion();
-//            //MainWindow.Log(CurrentRegion);
+//            //StatusBar.Write(CurrentRegion);
 
 //            //switch (CurrentRegion)
 //            //{

@@ -32,17 +32,17 @@ namespace Ion.SideBar
 
             if (Target == ReplaceText)
             {
-                MainWindow.Log(Translater._Current._OldTextEqualNew);
+                StatusBar.Write(Translater._Current._OldTextEqualNew);
                 return;
             }
             if (string.IsNullOrEmpty(Target))
             {
-                MainWindow.Log(Translater._Current._EnterSearchText);
+                StatusBar.Write(Translater._Current._EnterSearchText);
                 return;
             }
             if (_Editor.Document.IsEmpty())
             {
-                MainWindow.Log(Translater._Current._EmptyText);
+                StatusBar.Write(Translater._Current._EmptyText);
                 return;
             }
 
@@ -72,7 +72,7 @@ namespace Ion.SideBar
 
                 if (Matches.Count == 0)
                 {
-                    MainWindow.Log(Translater._Current._MatchesNotFound);
+                    StatusBar.Write(Translater._Current._MatchesNotFound);
                     return;
                 }
 
@@ -82,17 +82,17 @@ namespace Ion.SideBar
                     ReplaceAndHighlightMatch(Batch, ReplaceText);
                 }
 
-                MainWindow.Log($"{Translater._Current._Replaced}: {_MatchesCount / 2}");
+                StatusBar.Write($"{Translater._Current._Replaced}: {_MatchesCount / 2}");
             }
             catch (ArgumentException Exception)
             {
-                MainWindow.Log(Translater._Current._RegexError);
-                MainWindow.LogError(Exception);
+                StatusBar.Write(Translater._Current._RegexError);
+                StatusBar.WriteError(Exception);
             }
             catch (Exception Exception)
             {
-                MainWindow.Log(Translater._Current._ReplaceError);
-                MainWindow.LogError(Exception);
+                StatusBar.Write(Translater._Current._ReplaceError);
+                StatusBar.WriteError(Exception);
             }
         }
 

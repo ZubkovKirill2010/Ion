@@ -12,7 +12,7 @@ namespace Ion
         {
             if (TextEditor.Document.IsEmpty())
             {
-                Log("Translater._Current._EmptyDocument");
+                StatusBar.Write("Translater._Current._EmptyDocument");
                 return;
             }
 
@@ -25,7 +25,7 @@ namespace Ion
 
             if (Range.IsEmpty)
             {
-                Log(Translater._Current._EmptyText);
+                StatusBar.Write(Translater._Current._EmptyText);
                 return;
             }
 
@@ -64,7 +64,7 @@ namespace Ion
 
             if (Range.IsEmpty)
             {
-                Log(Translater._Current._EmptyText);
+                StatusBar.Write(Translater._Current._EmptyText);
                 return;
             }
 
@@ -111,8 +111,7 @@ namespace Ion
 
             if (LastLinesCount - 1 > NewLinesCount)
             {
-                Log($"Ошибка преобразования структуры");
-                LogError($"Ошибка преобразования структуры [To] : {LastLinesCount}/{NewLinesCount}");
+                StatusBar.Write(Translater._Current._StructureParsingError);
                 return;
             }
 
@@ -147,8 +146,7 @@ namespace Ion
 
             if (LastLinesCount - 1 > NewLinesCount)
             {
-                Log($"Ошибка преобразования структуры");
-                LogError($"Ошибка преобразования структуры [From] : {LastLinesCount}/{NewLinesCount}");
+                StatusBar.Write(Translater._Current._StructureParsingError);
                 return;
             }
 
@@ -167,7 +165,7 @@ namespace Ion
 
             if (Range.IsEmpty)
             {
-                Log(Translater._Current._EmptyText);
+                StatusBar.Write(Translater._Current._EmptyText);
                 return;
             }
 
@@ -207,7 +205,7 @@ namespace Ion
 
             if (Range.IsEmpty)
             {
-                Log(Translater._Current._EmptyText);
+                StatusBar.Write(Translater._Current._EmptyText);
                 return;
             }
 
@@ -216,7 +214,7 @@ namespace Ion
 
             if (!IsGroup(Lines, out int Level))
             {
-                //Log("Нельзя разгруппировать не группу");
+                //StatusBar.Write("Нельзя разгруппировать не группу");
                 return;
             }
 

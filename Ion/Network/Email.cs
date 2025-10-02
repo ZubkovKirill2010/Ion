@@ -12,7 +12,7 @@ namespace Ion.Network
         {
             if (Recipients.Length == 0)
             {
-                MainWindow.Log("Укажите получателей");
+                StatusBar.Write("Укажите получателей");
                 return;
             }
 
@@ -21,12 +21,12 @@ namespace Ion.Network
 
             if (Email.Length == 0)
             {
-                MainWindow.Log("Для отправки письма укажите свою почту в настройках");
+                StatusBar.Write("Для отправки письма укажите свою почту в настройках");
                 return;
             }
             else if (Password.Length == 0)
             {
-                MainWindow.Log("Для отправки письма укажите пароль приложения почту в настройках");
+                StatusBar.Write("Для отправки письма укажите пароль приложения почту в настройках");
                 return;
             }
 
@@ -57,12 +57,12 @@ namespace Ion.Network
             try
             {
                 Client.Send(Message);
-                MainWindow.Log("Сообщение отправлено");
+                StatusBar.Write("Сообщение отправлено");
             }
             catch (Exception Exception)
             {
-                MainWindow.Log($"Ошибка при отправке сообщения");
-                MainWindow.LogError(Exception);
+                StatusBar.Write($"Ошибка при отправке сообщения");
+                StatusBar.WriteError(Exception);
             }
         }
     }

@@ -38,8 +38,8 @@ namespace Ion
 
         private void HandleException(Exception? Exception)
         {
-            Ion.MainWindow.LogError(Exception ?? new Exception("Null exception"));
-            Ion.MainWindow.Log($"{Translater._Current._UnknowException} '{Exception?.GetType().FullName}'");
+            StatusBar.WriteError(Exception ?? new Exception("Null exception"));
+            StatusBar.Write($"{Translater._Current._UnknowException} '{Exception?.GetType().FullName}'");
         }
     }
 }

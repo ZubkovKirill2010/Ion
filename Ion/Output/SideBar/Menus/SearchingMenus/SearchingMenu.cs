@@ -30,13 +30,13 @@ namespace Ion.SideBar
 
             if (string.IsNullOrEmpty(Target))
             {
-                MainWindow.Log(Translater._Current._EnterSearchText);
+                StatusBar.Write(Translater._Current._EnterSearchText);
                 return;
             }
 
             if (_Editor.Document.IsEmpty())
             {
-                MainWindow.Log(Translater._Current._EmptyText);
+                StatusBar.Write(Translater._Current._EmptyText);
                 return;
             }
 
@@ -64,7 +64,7 @@ namespace Ion.SideBar
 
                 if (_MatchesCount == 0)
                 {
-                    MainWindow.Log(Translater._Current._MatchesNotFound);
+                    StatusBar.Write(Translater._Current._MatchesNotFound);
                     return;
                 }
 
@@ -135,17 +135,17 @@ namespace Ion.SideBar
                     }
                 }
 
-                MainWindow.Log($"{Translater._Current._MatchesFound}: {_MatchesCount}");
+                StatusBar.Write($"{Translater._Current._MatchesFound}: {_MatchesCount}");
             }
             catch (ArgumentException Exception)
             {
-                MainWindow.Log(Translater._Current._RegexError);
-                MainWindow.LogError(Exception);
+                StatusBar.Write(Translater._Current._RegexError);
+                StatusBar.WriteError(Exception);
             }
             catch (Exception Exception)
             {
-                MainWindow.Log(Translater._Current._ErrorInSearch);
-                MainWindow.LogError(Exception);
+                StatusBar.Write(Translater._Current._ErrorInSearch);
+                StatusBar.WriteError(Exception);
             }
         }
     }

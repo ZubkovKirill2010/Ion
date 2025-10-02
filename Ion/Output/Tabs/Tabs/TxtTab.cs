@@ -22,8 +22,8 @@ namespace Ion.Tabs
             }
             catch (Exception Exception)
             {
-                MainWindow.Log($"{Translater._Current._SavingError} \"{_CurrentFile}\"");
-                MainWindow.LogError(Exception);
+                StatusBar.Write($"{Translater._Current._SavingError} \"{_CurrentFile}\"");
+                StatusBar.WriteError(Exception);
             }
         }
 

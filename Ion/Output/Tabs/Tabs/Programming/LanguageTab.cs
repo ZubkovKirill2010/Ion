@@ -13,18 +13,18 @@ namespace Ion.Tabs
 
         protected override void Save()
         {
-            MainWindow.Log($"{Translater._Current._StartOfSaving} \"{_CurrentFile}\"");
+            StatusBar.Write($"{Translater._Current._StartOfSaving} \"{_CurrentFile}\"");
             Task.Run(async () =>
             {
                 try
                 {
                     await File.WriteAllTextAsync(_CurrentFile, GetText());
                     _IsSaved = true;
-                    MainWindow.Log($"{Translater._Current._File} \"{_CurrentFile}\" {Translater._Current._FileSaved}");
+                    StatusBar.Write($"{Translater._Current._File} \"{_CurrentFile}\" {Translater._Current._FileSaved}");
                 }
                 catch
                 {
-                    MainWindow.Log($"{Translater._Current._SavingError} \"{_CurrentFile}\"");
+                    StatusBar.Write($"{Translater._Current._SavingError} \"{_CurrentFile}\"");
                 }
             });
         }

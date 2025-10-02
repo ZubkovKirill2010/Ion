@@ -117,7 +117,7 @@ namespace Ion
             if (TabList.SelectedItem is Tab SelectedTab)
             {
                 SelectTab(SelectedTab);
-                Log(SelectedTab._CurrentFile ?? Translater._Current._NotSavedFile);
+                StatusBar.Write(SelectedTab._CurrentFile ?? Translater._Current._NotSavedFile);
             }
             else
             {
@@ -199,11 +199,11 @@ namespace Ion
 
         private void MoveTabsLeft(object Sender, RoutedEventArgs E)
         {
-            Log("Move tabs left");
+            StatusBar.Write("Move tabs left");
         }
         private void MoveTabsRight(object Sender, RoutedEventArgs E)
         {
-            Log("Move tabs right");
+            StatusBar.Write("Move tabs right");
         }
     }
 }

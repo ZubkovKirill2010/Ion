@@ -79,7 +79,7 @@ namespace Ion
             }
             catch (Exception Exception)
             {
-                MainWindow.LogError(Exception);
+                StatusBar.WriteError(Exception);
                 return new Localization();
             }
         }

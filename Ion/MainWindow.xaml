@@ -450,7 +450,7 @@
                             <ListView x:Name="ErrorListView" Focusable="False" VerticalAlignment="Top"
                                 Style="{StaticResource ErrorListViewStyle}"
                                 ItemContainerStyle="{StaticResource ErrorListItemStyle}"
-                                ItemsSource="{Binding ErrorLogs, RelativeSource={RelativeSource AncestorType=Window}}"
+                                ItemsSource="{Binding ErrorLogs}"
                                 MaxHeight="300">
                                 <ListView.ItemTemplate>
                                     <DataTemplate>

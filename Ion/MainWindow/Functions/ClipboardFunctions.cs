@@ -12,8 +12,8 @@ namespace Ion
             }
             catch (Exception Exception)
             {
-                Log(Translater._Current._InsertError);
-                LogError(Exception);
+                StatusBar.Write(Translater._Current._InsertError);
+                StatusBar.WriteError(Exception);
             }
         }
     }
