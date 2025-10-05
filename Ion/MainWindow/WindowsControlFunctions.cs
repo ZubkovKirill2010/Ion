@@ -1,4 +1,5 @@
 ﻿using HotKeyManagement;
+using System.Diagnostics;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -26,6 +27,7 @@ namespace Ion
 
         private void InitializeWindowParameters()
         {
+            Debug.WriteLine("Инитиализация параметров окна");
             _NormalThinkes = WindowChrome.ResizeBorderThickness;
             _NormalCornerRadius = WindowChrome.CornerRadius;
 
@@ -44,7 +46,7 @@ namespace Ion
             HotKeyInterceptor.OverwriteGlobalHotKey
             (
                 GlobalHotKey.Alt_F4,
-                Exit
+                _Hub.Exit
             );
 
             StateChanged += OnStateChanged;
@@ -139,6 +141,7 @@ namespace Ion
 
         public void MaximizeWindow()
         {
+            Debug.WriteLine("Максимизация окна");
             if (_IsMaximized)
             {
                 return;
@@ -197,7 +200,7 @@ namespace Ion
 
         public void OnClosing(object Sender, EventArgs E)
         {
-            Exit();
+            _Hub.Exit();
         }
     }
 }

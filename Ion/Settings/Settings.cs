@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System.Diagnostics;
+using System.IO;
 using Zion;
 
 namespace Ion
@@ -52,6 +53,7 @@ namespace Ion
         }
         public static Settings Load()
         {
+            Debug.WriteLine("Loading settings");
             if (!File.Exists(_SettingsPath))
             {
                 Settings Default = new Settings();

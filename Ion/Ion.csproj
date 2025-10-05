@@ -40,9 +40,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="MainWindow\Functions\**" />
     <Compile Remove="Resources\TabList\Resources\**" />
+    <EmbeddedResource Remove="MainWindow\Functions\**" />
     <EmbeddedResource Remove="Resources\TabList\Resources\**" />
+    <None Remove="MainWindow\Functions\**" />
     <None Remove="Resources\TabList\Resources\**" />
+    <Page Remove="MainWindow\Functions\**" />
     <Page Remove="Resources\TabList\Resources\**" />
   </ItemGroup>
 

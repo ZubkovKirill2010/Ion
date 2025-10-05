@@ -1,6 +1,6 @@
-﻿using Ion.Tabs;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.IO;
 using System.Runtime.CompilerServices;
 using System.Windows;
@@ -17,35 +17,28 @@ namespace Ion
 
         public event PropertyChangedEventHandler? PropertyChanged;
 
-        public readonly Settings _Settings = Settings.Load();
+        public Hub _Hub { get; }
+        public Settings _Settings => _Hub._Settings;
 
-        public SideBar.SideBar _SideBar { get; private set; }
-        public TextEditor _Editor { get; private set; }
+        public SideBar _SideBar => _Hub._SideBar;
+        public TextEditor _Editor => _Hub._Editor;
 
         public MainWindow()
         {
+            _Hub = new Hub(this);
             Initialize();
-
-            StatusBar.WriteError("Test");
-            StatusBar.WriteError("Test1");
-            StatusBar.WriteError("Test2");
-            
-            _Editor = new TextEditor(this);
-            _SideBar = new SideBar.SideBar(this);
-
-            Tab.Initialize(this);
 
             string[]? Arguments = App._Arguments;
 
             if (Arguments.IsNullOrEmpty())
             {
-                AddTab(Tab.GetEditor(_Settings._DefaultTabExtension));
+                _Hub._TabManager.AddTab(Tab.GetEditor(_Settings._DefaultTabExtension));
             }
             else
             {
                 foreach (string File in Arguments.NotNullable())
                 {
-                    Open(File);
+                    _Hub._Menus._FileMenu.Open(File);
                 }
             }
 
@@ -61,6 +54,7 @@ namespace Ion
 
         public void ApplySettings()
         {
+            Debug.WriteLine("Applying settings");
             Menu.FontSize = _Settings._MenuScale;
             TextEditor.FontSize = _Settings._FontSize;
         }
@@ -75,6 +69,19 @@ namespace Ion
             await Application.Current.Dispatcher.InvokeAsync(Action);
         }
 
+
+        private void AddTab(object Sender, RoutedEventArgs E)
+        {
+            _Hub._TabManager.AddTab(Sender, E);
+        }
+        private void CloseTab(object Sender, RoutedEventArgs E)
+        {
+            _Hub._TabManager.CloseTab(Sender, E);
+        }
+        private void Exit(object Sender, RoutedEventArgs E)
+        {
+            _Hub.Exit(Sender, E);
+        }
 
         protected void OnPropertyChanged([CallerMemberName] string? PropertyName = null)
         {

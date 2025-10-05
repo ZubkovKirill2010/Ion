@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System.Diagnostics;
+using System.IO;
 
 namespace Ion
 {
@@ -11,6 +12,7 @@ namespace Ion
 
         public static async Task Initialize(string? Language)
         {
+            Debug.WriteLine("Загрузка переводов");
             _Current = await Localization.LoadFromAsync(Language);
             _Language = Language;
         }
