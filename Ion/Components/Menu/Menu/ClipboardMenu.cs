@@ -10,6 +10,7 @@ namespace Ion
             AddKey(Paste, Key.V, ModifierKeys.Control, true);
         }
 
+
         private void Paste(object Sender, RoutedEventArgs E)
         {
             try

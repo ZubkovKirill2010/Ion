@@ -1,7 +1,4 @@
-﻿using System.Collections.ObjectModel;
-using System.ComponentModel;
-using System.Diagnostics;
-using System.Runtime.CompilerServices;
+﻿using System.Diagnostics;
 using System.Windows;
 using System.Windows.Controls;
 using Zion;
@@ -32,6 +29,10 @@ namespace Ion
             Window.ErrorListView.ItemsSource = _ErrorList.ErrorLogs;
         }
 
+        public static void Write(string? String)
+        {
+            _Messages.Add(String ?? "null");
+        }
         public static void Write(object? Object)
         {
             _Messages.Add(Object.ToNotNullString());

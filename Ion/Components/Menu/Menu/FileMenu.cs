@@ -1,12 +1,9 @@
 using Microsoft.Win32;
-using System.Collections.ObjectModel;
-using System.Diagnostics;
 using System.IO;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Documents;
 using System.Windows.Input;
-using Windows.UI.WebUI;
 
 namespace Ion
 {
@@ -26,6 +23,7 @@ namespace Ion
 
             AddKey(_Hub.Exit);
         }
+
 
         private void New(object Sender, RoutedEventArgs E)
         {
@@ -67,7 +65,7 @@ namespace Ion
 
                     _Hub._TabManager.AddTab(NewTab);
 
-                    TextEditor.CaretPosition = TextEditor.Document.ContentEnd;
+                    _Editor.CaretPosition = _Editor.Document.ContentEnd;
                 }
                 catch (Exception Exception)
                 {
@@ -78,12 +76,12 @@ namespace Ion
 
         private void Save(object Sender, RoutedEventArgs E)
         {
-            _Editor.Save();
+            _TextEditor.Save();
             _Window.ReloadButton.IsEnabled = true;
         }
         private void SaveAs(object Sender, RoutedEventArgs E)
         {
-            _Editor.SaveAs();
+            _TextEditor.SaveAs();
         }
 
         private void SaveAll(object Sender, RoutedEventArgs E)
@@ -105,7 +103,7 @@ namespace Ion
             }
 
             SelectedTab.ReadFile();
-            _Editor.SetDocument(SelectedTab._Document);
+            _TextEditor.SetDocument(SelectedTab._Document);
         }
         private void Print(object Sender, RoutedEventArgs E)
         {
@@ -115,7 +113,7 @@ namespace Ion
             {
                 try
                 {
-                    IDocumentPaginatorSource Document = TextEditor.Document;
+                    IDocumentPaginatorSource Document = _Editor.Document;
                     Dialog.PrintDocument(Document.DocumentPaginator, Translater._Current._PrintingDocument);
                 }
                 catch
@@ -126,34 +124,7 @@ namespace Ion
         }
         private void Send(object Sender, RoutedEventArgs E)
         {
-            _SideBar.OpenMenu(SideBarType.Sending);
-        }
-
-        private void Exit(object Sender, RoutedEventArgs E)
-        {
-            Exit();
-        }
-        private void Exit()
-        {
-            ObservableCollection<Tab> Tabs = _Hub._TabManager.Tabs;
-
-            if (Tabs.Count != 0)
-            {
-                int LastCount = 0;
-
-                while (Tabs.Count >= 0)
-                {
-                    LastCount = _Hub._TabManager.Count;
-                    _Hub._TabManager.CloseTab(Tabs[Tabs.Count - 1]);
-
-                    if (Tabs.Count == LastCount)
-                    {
-                        return;
-                    }
-                }
-            }
-
-            Environment.Exit(0);
+            OpenMenu(SideBarType.Sending);
         }
 
 

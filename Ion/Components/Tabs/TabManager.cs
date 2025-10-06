@@ -45,12 +45,12 @@ namespace Ion
         {
             Debug.WriteLine("New TabManager");
 
+            MainWindow Window = Hub._Window;
+
             _Hub = Hub;
             _Tabs = new ObservableCollection<Tab>();
             _Editor = Editor;
-            _TabList = new TabControl();
-
-            MainWindow Window = Hub._Window;
+            _TabList = Window.TabList;
 
             Window.TabList.ItemsSource = _Tabs;
             Window.TabList.SelectionChanged += SelectTab;
@@ -184,9 +184,9 @@ namespace Ion
             _Editor.SetDocument(Tab._Document);
             _TabList.SelectedItem = Tab;
 
-            //ReloadButton.IsEnabled = Tab.IsSaved();
-            //#Reload button
-            //TextEditor.Focus();
+            _Hub._Window.ReloadButton.IsEnabled = Tab.IsSaved();
+            //# Reload button
+            _Editor.Focus();
         }
 
 

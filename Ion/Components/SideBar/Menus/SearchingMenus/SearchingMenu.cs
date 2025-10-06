@@ -1,6 +1,5 @@
 ﻿using Ion.Extensions;
 using System.Text.RegularExpressions;
-using System.Windows;
 using System.Windows.Documents;
 using System.Windows.Media;
 

@@ -5,11 +5,11 @@ namespace Ion
 {
     public sealed class Hub
     {
-        public MainWindow _Window     { get; }
-        public Settings   _Settings   { get; }
-        public Menus      _Menus      { get; private set; }
-        public TextEditor _Editor     { get; private set; }
-        public SideBar    _SideBar    { get; private set; }
+        public MainWindow _Window { get; }
+        public Settings _Settings { get; }
+        public Menus _Menus { get; private set; }
+        public TextEditor _Editor { get; private set; }
+        public SideBar _SideBar { get; private set; }
         public TabManager _TabManager { get; private set; }
 
         public Hub(MainWindow Window)
@@ -41,7 +41,7 @@ namespace Ion
         }
         public void Exit()
         {
-            var Tabs = _TabManager;
+            TabManager Tabs = _TabManager;
 
             if (Tabs.Count != 0)
             {

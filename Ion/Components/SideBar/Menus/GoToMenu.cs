@@ -15,7 +15,7 @@
 
 //        public GoToMenu(MainWindow Window) : base(Window.GoToMenu)
 //        {
-//            _TextBox = Window.TextEditor;
+//            _TextBox = Window._Editor;
 //            _IndexBox = Window.GoTo_LineIndex;
 
 //            _IndexBox.PreviewTextInput += IndexTextChanged;

@@ -47,8 +47,11 @@ namespace Ion
         public void Save() => _CurrentTab.SaveFile();
         public void SaveAs() => _CurrentTab.SaveAs();
 
+        private bool Temp;
+
         public void SetDocument(FlowDocument Document)
         {
+            Debug.WriteLine("Set Document");
             Document.LineHeight = _MinLineHeight;
 
             _TextChanged = false;
@@ -71,13 +74,6 @@ namespace Ion
         public void AddHotKey(RoutedEventHandler Event, Key Key, ModifierKeys Modifiers)
         {
             int HotKey = ToHotKey(Key, Modifiers);
-
-            if (_Functions.ContainsKey(HotKey))
-            {
-                Debug.Fail($"TextEditor: HotKey already exists : {Key} | {Modifiers}");
-                return;
-            }
-
             _Functions.Add(HotKey, Event);
         }
 

@@ -120,7 +120,7 @@
 
 //        private Region GetCurrentRegion()
 //        {
-//            TextPointer CaretPosition = _TextEditor._TextField.CaretPosition;
+//            TextPointer CaretPosition = _Editor._TextField.CaretPosition;
 
 //            TextPointer CurrentLineStart = CaretPosition.GetLineStartPosition(0);
 //            TextPointer CurrentPosition = CurrentLineStart;

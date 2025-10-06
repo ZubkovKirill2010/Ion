@@ -1,6 +1,5 @@
 ﻿using System.IO;
 using System.Windows.Documents;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace Ion
 {

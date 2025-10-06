@@ -1,10 +1,8 @@
-﻿using System.Collections.ObjectModel;
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
 using System.Runtime.CompilerServices;
 using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Threading;
 using Zion;
 
@@ -12,7 +10,7 @@ namespace Ion
 {
     public partial class MainWindow : Window, INotifyPropertyChanged
     {
-        public  static readonly string _AssetsPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Assets");
+        public static readonly string _AssetsPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Assets");
         private static readonly string _NewLine = Environment.NewLine;
 
         public event PropertyChangedEventHandler? PropertyChanged;

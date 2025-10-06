@@ -24,18 +24,13 @@ namespace Ion
 
         private void Enumerate(object Sender, RoutedEventArgs E)
         {
-            if (TextEditor.Document.IsEmpty())
+            if (DocumentIsEmpty())
             {
-                StatusBar.Write("Translater._Current._EmptyDocument");
+                StatusBar.Write(Translater._Current._EmptyDocument);
                 return;
             }
 
-            if (TextEditor.Selection.IsEmpty)
-            {
-                TextEditor.SelectAll();
-            }
-
-            TextRange Range = GetLines();
+            TextRange Range = GetSelectedLinesOrAll();
 
             if (Range.IsEmpty)
             {
@@ -65,16 +60,10 @@ namespace Ion
             }
 
             Range.Text = Builder.ToString().TrimEnd();
-            TextEditor.DeSelect();
         }
         private void DeEnumerate(object Sender, RoutedEventArgs E)
         {
-            if (TextEditor.Selection.IsEmpty)
-            {
-                TextEditor.SelectAll();
-            }
-
-            TextRange Range = GetLines();
+            TextRange Range = GetSelectedLinesOrAll();
 
             if (Range.IsEmpty)
             {
@@ -106,17 +95,13 @@ namespace Ion
             }
 
             Range.Text = Builder.ToString().TrimEnd();
-            TextEditor.DeSelect();
+            _Editor.DeSelect();
         }
 
         private void ToStructure(object Sender, RoutedEventArgs E)
         {
-            if (TextEditor.Selection.IsEmpty)
-            {
-                TextEditor.SelectAll();
-            }
+            TextRange Range = GetSelectedLinesOrAll();
 
-            TextRange Range = GetLines();
             string Text = Range.Text;
             string Result = Structure.Parse(Text).ToString();
 
@@ -129,17 +114,13 @@ namespace Ion
                 return;
             }
 
-            TextEditor.Selection.Text = Result.TrimEnd();
-            TextEditor.DeSelect();
+            _Editor.Selection.Text = Result.TrimEnd();
+            _Editor.DeSelect();
         }
         private void FromStructure(object Sender, RoutedEventArgs E)
         {
-            TextSelection Selection = TextEditor.Selection;
-            if (Selection.IsEmpty)
-            {
-                TextEditor.SelectAll();
-            }
-            string Text = GetRange().Text;
+            TextRange Range = GetSelectionOrAll();
+            string Text = Range.Text;
 
             StringBuilder Builder = new StringBuilder(Text.Length);
 
@@ -164,18 +145,12 @@ namespace Ion
                 return;
             }
 
-            Selection.Text = Result.TrimEnd();
-            TextEditor.DeSelect();
+            Range.Text = Result.TrimEnd();
         }
 
         private void Group(object Sender, RoutedEventArgs E)
         {
-            if (TextEditor.Selection.IsEmpty)
-            {
-                TextEditor.SelectAll();
-            }
-
-            TextRange Range = GetLines();
+            TextRange Range = GetSelectedLinesOrAll();
 
             if (Range.IsEmpty)
             {
@@ -204,16 +179,16 @@ namespace Ion
             Builder.Append("\u2570\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2518");
 
             Range.Text = Builder.ToString().TrimEnd();
-            TextEditor.DeSelect();
+            _Editor.DeSelect();
         }
         private void Ungroup(object Sender, RoutedEventArgs E)
         {
-            if (TextEditor.Selection.IsEmpty)
+            if (_Editor.Selection.IsEmpty)
             {
-                TextEditor.SelectAll();
+                _Editor.SelectAll();
             }
 
-            TextRange Range = GetLines();
+            TextRange Range = GetSelectedLines();
 
             if (Range.IsEmpty)
             {
@@ -231,7 +206,7 @@ namespace Ion
             }
 
             Range.Text = UnGroup(Range, Lines, Text.Length, Level).TrimEnd();
-            TextEditor.DeSelect();
+            _Editor.DeSelect();
         }
 
 

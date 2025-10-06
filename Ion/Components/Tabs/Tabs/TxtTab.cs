@@ -1,6 +1,5 @@
 ﻿using System.IO;
 using System.Windows.Documents;
-using System.Text;
 
 namespace Ion
 {

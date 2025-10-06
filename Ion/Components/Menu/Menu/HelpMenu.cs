@@ -31,7 +31,7 @@ GitHub  https://github.com/ZubkovKirill2010";
 
         private void AboutCharsConverter(object Sender, RoutedEventArgs E)
         {
-            var Structure = new Structure<string>("Conversions")
+            Structure<string> Structure = new Structure<string>("Conversions")
             {
                 new Structure<string>("\"n^1234\" \u2192 \"n\u00B9\u00B2\u00B3\u0074\""),
                 new Structure<string>("Key-value", EditMenu._KeyWords.ConvertAll(Pair => $"'{Pair.Item1}' - '{Pair.Item2}'"))

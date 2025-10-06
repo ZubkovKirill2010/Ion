@@ -1,6 +1,5 @@
 ﻿using HotKeyManagement;
 using Ion.Extensions;
-using System.CodeDom;
 using System.Diagnostics;
 using System.Windows;
 using System.Windows.Controls;
@@ -15,11 +14,11 @@ namespace Ion
     {
         protected static readonly string _NewLine = Environment.NewLine;
 
-        protected static Hub _Hub               { get; private set; }
-        protected static MainWindow _Window     { get; private set; }
-        protected static RichTextBox TextEditor { get; private set; }
-        protected static SideBar _SideBar       { get; private set; }
-        protected static TextEditor _Editor     { get; private set; }
+        protected static Hub _Hub { get; private set; }
+        protected static MainWindow _Window { get; private set; }
+        protected static RichTextBox _Editor { get; private set; }
+        protected static SideBar _SideBar { get; private set; }
+        protected static TextEditor _TextEditor { get; private set; }
 
         private static Dictionary<string, RoutedEventHandler>? _Functions;
 
@@ -33,34 +32,25 @@ namespace Ion
 
             _Hub = Hub;
             _Window = Window;
-            TextEditor = Window.TextEditor;
+            _Editor = Window.TextEditor;
             _SideBar = Window._SideBar;
 
-            _Editor = Hub._Editor;
+            _TextEditor = Hub._Editor;
         }
 
 
         public static void BindFunctions()
         {
-            Debug.WriteLine("Binding functions");
-
-            Debug.WriteLine("Registered functions:");
-            foreach (string Key in _Functions.Keys)
-            {
-                Debug.WriteLine('\t' + Key ?? "null");
-            }
-            Debug.WriteLine("--->");
-
             RoutedEventHandler GetEvent(string String)
             {
-                if (_Functions.TryGetValue(String, out var Function))
+                if (_Functions.TryGetValue(String, out RoutedEventHandler? Function))
                 {
                     return Function;
                 }
                 throw new Exception($"Function \"{String}\" not registered");
             }
 
-            foreach (var Item in _Window.Menu.Items)
+            foreach (object? Item in _Window.Menu.Items)
             {
                 if (Item is MenuItem Menu)
                 {
@@ -120,13 +110,13 @@ namespace Ion
         {
             AddHotKey(Name, (S, E) => Event(), Key, Modifiers, OverrideKeyDown);
         }
-        protected void AddHotKey(string Name,RoutedEventHandler Event, Key Key, ModifierKeys Modifiers, bool OverrideKeyDown = false)
+        protected void AddHotKey(string Name, RoutedEventHandler Event, Key Key, ModifierKeys Modifiers, bool OverrideKeyDown = false)
         {
             Debug.WriteLine($"AddHotKey : {Name}");
 
             if (OverrideKeyDown)
             {
-                _Editor.AddHotKey(Event, Key, Modifiers);
+                _TextEditor.AddHotKey(Event, Key, Modifiers);
             }
             else
             {
@@ -141,15 +131,15 @@ namespace Ion
             (
                 () =>
                 {
-                    if (TextEditor.Selection.IsEmpty)
+                    if (_Editor.Selection.IsEmpty)
                     {
                         AppendText(Text);
                     }
                     else
                     {
-                        TextEditor.Selection.Text = Text;
+                        _Editor.Selection.Text = Text;
                     }
-                    TextEditor.Focus();
+                    _Editor.Focus();
                 },
                 DispatcherPriority.Input
             );
@@ -161,29 +151,44 @@ namespace Ion
             (
                 () =>
                 {
-                    TextRange Range = new TextRange(TextEditor.CaretPosition, TextEditor.CaretPosition);
+                    TextRange Range = new TextRange(_Editor.CaretPosition, _Editor.CaretPosition);
                     Range.Text = Text;
-                    TextEditor.CaretPosition = Range.End;
-                    TextEditor.Focus();
+                    _Editor.CaretPosition = Range.End;
+                    _Editor.Focus();
                 },
                 DispatcherPriority.Input
             );
         }
 
 
-        protected TextRange GetRange()
+        protected TextRange GetAll()
         {
-            RichTextBox Editor = TextEditor;
-
-            return Editor.Selection.IsEmpty ?
-                GetAllText() :
-                Editor.Selection;
+            return _Editor.GetAll();
         }
 
-
-        protected TextRange GetLine()
+        protected TextRange GetSelectionOrAll()
         {
-            var Caret = TextEditor.CaretPosition;
+            TextRange Selection = _Editor.GetSelection();
+            return Selection.IsEmpty ? _Editor.GetAll() : Selection;
+        }
+
+        protected TextRange GetSelectedLinesOrAll()
+        {
+            RichTextBox Editor = _Editor;
+            TextRange Selection = GetSelectedLines();
+
+            return Selection.IsEmpty ?
+            GetAll() :
+            new TextRange
+            (
+                Selection.Start.GetLineStartPosition(0) ?? Editor.Document.ContentStart,
+                Selection.End.GetLineEndPosition()
+            );
+        }
+
+        protected TextRange GetCurrentLine()
+        {
+            TextPointer Caret = _Editor.CaretPosition;
 
             return new TextRange
             (
@@ -192,31 +197,51 @@ namespace Ion
             );
         }
 
-        protected TextRange GetLines()
+        protected TextRange GetSelectedLines()
         {
-            var Editor = TextEditor;
-            var Selection = Editor.Selection;
+            RichTextBox Editor = _Editor;
+            TextSelection Selection = Editor.Selection;
 
             return Selection.IsEmpty ?
-                GetLine() :
-                new TextRange
-                (
-                    Selection.Start.GetLineStartPosition(0) ?? Editor.Document.ContentStart,
-                    Selection.End.GetLineEndPosition()
-                );
+            GetCurrentLine() :
+            new TextRange
+            (
+                Selection.Start.GetLineStartPosition(0) ?? Editor.Document.ContentStart,
+                Selection.End.GetLineEndPosition()
+            );
         }
 
-        protected TextRange GetAllText()
+
+        protected bool TryGetSelection(out TextRange Selection)
         {
-            var Editor = _Editor._TextField;
+            Selection = _Editor.GetSelection();
+            return !Selection.IsEmpty;
+        }
 
-            FlowDocument Document = Editor.Document;
-            if (Document.IsEmpty())
-            {
-                return new TextRange(Editor.CaretPosition, Editor.CaretPosition);
-            }
 
-            return new TextRange(Document.ContentStart, Document.ContentEnd);
+        protected void ConvertText(Func<string, string> Converter)
+        {
+            TextRange Range = GetSelectionOrAll();
+            Range.Text = Converter(Range.Text);
+            _Editor.DeSelect();
+        }
+        protected void ConvertText(Func<TextRange> GetRange, Func<string, string> Converter)
+        {
+            TextRange Range = GetRange();
+            Range.Text = Converter(Range.Text);
+            _Editor.DeSelect();
+        }
+
+
+        protected void OpenMenu(SideBarType Menu)
+        {
+            _SideBar.OpenMenu(Menu);
+        }
+
+
+        protected bool DocumentIsEmpty()
+        {
+            return _Editor.Document.IsEmpty();
         }
     }
 }

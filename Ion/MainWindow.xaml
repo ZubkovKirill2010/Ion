@@ -250,7 +250,9 @@
                 <MenuItem Header="Down digit"     InputGestureText="Ctrl+Down"    Tag="DownDigit"/>
                 <MenuItem Header="Normal digit"   InputGestureText="Ctrl+0"       Tag="NormalizeDigit"/>
                     <Separator Style="{StaticResource SeparatorStyle}"/>
-                <MenuItem Header="Convert chars"  InputGestureText="Ctrl+Up"      Tag="ConvertChars"/>
+                <MenuItem Header="ToUnicode"      InputGestureText="Ctrl+U"      Tag="ToUnicode"/>
+                <MenuItem Header="Convert chars"  InputGestureText="Ctrl+T"      Tag="ConvertChars"/>
+                    <Separator Style="{StaticResource SeparatorStyle}"/>
                 <MenuItem Header="Information"    InputGestureText="Ctrl+I"       Tag="GetInformation"/>
                     <Separator Style="{StaticResource SeparatorStyle}"/>
                 <MenuItem Header="Find..."        InputGestureText="Ctrl+F"       Tag="Find"/>

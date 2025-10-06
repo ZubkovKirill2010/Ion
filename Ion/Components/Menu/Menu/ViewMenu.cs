@@ -33,8 +33,8 @@ namespace Ion
             AddKey(CloseSideBar, Key.B, ModifierKeys.Control);
 
 
-            AddHotKey("MoveUp", TextEditor.LineUp, Key.Up, ModifierKeys.Alt);
-            AddHotKey("MoveDown", TextEditor.LineDown, Key.Down, ModifierKeys.Alt);
+            AddHotKey("MoveUp", _Editor.LineUp, Key.Up, ModifierKeys.Alt);
+            AddHotKey("MoveDown", _Editor.LineDown, Key.Down, ModifierKeys.Alt);
             AddHotKey("MoveToStart", MoveToStart, Key.Up, ModifierKeys.Control | ModifierKeys.Alt);
             AddHotKey("MoveToEnd", MoveToEnd, Key.Down, ModifierKeys.Control | ModifierKeys.Alt);
 
@@ -53,17 +53,17 @@ namespace Ion
 
         private void SetDefaultZoom(object Sender, RoutedEventArgs E)
         {
-            TextEditor.FontSize = _Settings._FontSize;
+            _Editor.FontSize = _Settings._FontSize;
         }
 
         private void AddZoom(int Zoom)
         {
-            int CurrentZoom = (int)TextEditor.FontSize;
+            int CurrentZoom = (int)_Editor.FontSize;
             Zoom = Math.Clamp(CurrentZoom + Zoom, _MinZoom, _MaxZoom);
 
             if (CurrentZoom != Zoom)
             {
-                TextEditor.FontSize = Zoom;
+                _Editor.FontSize = Zoom;
 
                 _ZoomInButton.IsEnabled = Zoom != _MinZoom;
                 _ZoomOutButton.IsEnabled = Zoom != _MaxZoom;
@@ -71,21 +71,21 @@ namespace Ion
         }
 
         private void OpenSettingsMenu(object Sender, RoutedEventArgs E)
-            => _SideBar.OpenMenu(SideBarType.Settings);
+            => OpenMenu(SideBarType.Settings);
 
         private void OpenLoggingMenu(object Sender, RoutedEventArgs E)
-            => _SideBar.OpenMenu(SideBarType.Logging);
+            => OpenMenu(SideBarType.Logging);
 
 
         private void MoveToStart()
         {
-            TextEditor.CaretPosition = TextEditor.Document.ContentStart;
-            TextEditor.ScrollToHome();
+            _Editor.CaretPosition = _Editor.Document.ContentStart;
+            _Editor.ScrollToHome();
         }
         private void MoveToEnd()
         {
-            TextEditor.CaretPosition = TextEditor.Document.ContentEnd;
-            TextEditor.ScrollToEnd();
+            _Editor.CaretPosition = _Editor.Document.ContentEnd;
+            _Editor.ScrollToEnd();
         }
 
 
