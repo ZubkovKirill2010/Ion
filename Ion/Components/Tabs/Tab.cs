@@ -1,4 +1,5 @@
-﻿using Microsoft.Win32;
+﻿using Ion.Extensions;
+using Microsoft.Win32;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.IO;
@@ -179,11 +180,7 @@ namespace Ion
 
         protected string GetText()
         {
-            return new TextRange
-            (
-                _TextEditor._TextField.Document.ContentStart,
-                _TextEditor._TextField.Document.ContentEnd
-            ).Text;
+            return _Document.GetAll().Text;
         }
 
         protected void SetDocument(string Text)

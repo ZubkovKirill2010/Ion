@@ -18,5 +18,10 @@ namespace Ion.Extensions
         {
             return Document.ContentStart.GetPositionAtOffset(1).GetLineStartPosition(LineIndex) ?? Document.ContentEnd;
         }
+
+        public static TextRange GetAll(this FlowDocument Document)
+        {
+            return new TextRange(Document.ContentStart, Document.ContentEnd);
+        }
     }
 }
