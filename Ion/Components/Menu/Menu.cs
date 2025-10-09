@@ -13,6 +13,7 @@ namespace Ion
     public abstract class Menu
     {
         protected static readonly string _NewLine = Environment.NewLine;
+        private static Dictionary<string, RoutedEventHandler>? _Functions;
 
         protected static Hub _Hub { get; private set; }
         protected static MainWindow _Window { get; private set; }
@@ -20,7 +21,11 @@ namespace Ion
         protected static SideBar _SideBar { get; private set; }
         protected static TextEditor _TextEditor { get; private set; }
 
-        private static Dictionary<string, RoutedEventHandler>? _Functions;
+        protected static TextRange _Selection => _Editor.GetSelection();
+        protected static TextPointer _ContentStart => _Editor.Document.ContentStart;
+        protected static TextPointer _ContentEnd => _Editor.Document.ContentEnd;
+        protected static bool _TextSelected => !_Editor.Selection.IsEmpty;
+
 
         public static void Initialize(Hub Hub)
         {
@@ -164,6 +169,11 @@ namespace Ion
         protected TextRange GetAll()
         {
             return _Editor.GetAll();
+        }
+
+        protected TextRange GetSelection()
+        {
+            return _Editor.GetSelection();
         }
 
         protected TextRange GetSelectionOrAll()

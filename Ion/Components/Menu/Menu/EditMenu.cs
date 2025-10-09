@@ -1,17 +1,22 @@
 using Ion.Extensions;
 using System.Diagnostics;
 using System.IO;
+using System.Printing;
 using System.Text;
 using System.Windows;
 using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
+using System.Windows.Threading;
+using Windows.Gaming.Input.ForceFeedback;
 using Zion;
 
 namespace Ion
 {
     public sealed class EditMenu : Menu
     {
+        private bool _LineMoving;
+
         private static readonly Brush _HighlightBrush = new SolidColorBrush(System.Windows.Media.Color.FromArgb(160, 85, 55, 155));
         private static readonly Dictionary<char, (char Min, char Max)> _Digits = new Dictionary<char, (char Min, char Max)>()
         {
@@ -101,7 +106,6 @@ namespace Ion
 
             ("null", '\u2205'),
 
-            ("pi", '\u03C0'),
             ("deg", '\u00B0'),
             ("angle", '\u2220'),
 
@@ -112,10 +116,15 @@ namespace Ion
             ("rego", '\u00AE'),
             ("tm", '\u2122'),
 
+            ("pi", '\u03C0'),
             ("alpha", '\u03B1'),
             ("beta", '\u03B2'),
+            ("lamda", '\u03BB'),
             ("gamma", '\u03B3'),
             ("delta", '\u0394'),
+            ("omega", '\u03C9'),
+            ("nu", '\u03BD'),
+            ("eta", '\u03B7')
         ];
 
 
@@ -129,7 +138,7 @@ namespace Ion
             AddKey(Replace, Key.H, ModifierKeys.Control);
             AddKey(Highlight, Key.M, ModifierKeys.Control);
             AddKey(Do, Key.D, ModifierKeys.Control);
-            AddKey(DuplicateLine, Key.M, ModifierKeys.Control | ModifierKeys.Shift);
+            AddKey(DuplicateLine, Key.D, ModifierKeys.Control | ModifierKeys.Shift);
 
             AddKey(ConvertChars, Key.T, ModifierKeys.Control, true);
             AddKey(GetInformation, Key.I, ModifierKeys.Control, true);
@@ -145,6 +154,9 @@ namespace Ion
             AddKey(NormalizeDigit, Key.D0, ModifierKeys.Control, true);
 
             AddHotKey("NormalizeDigit_NumPad", NormalizeDigit, Key.NumPad0, ModifierKeys.Control, true);
+
+            AddKey(RaiseLine, Key.Up, ModifierKeys.Alt | ModifierKeys.Shift);
+            AddKey(LowerLine, Key.Down, ModifierKeys.Alt | ModifierKeys.Shift);
         }
 
 
@@ -361,6 +373,119 @@ namespace Ion
         }
 
 
+        private void RaiseLine(object sender, RoutedEventArgs e)
+        {
+            if (_LineMoving)
+            {
+                return;
+            }
+
+            _LineMoving = true;
+
+            TextRange CurrentLine = GetSelectedLines();
+            TextPointer StartOfUpLine = CurrentLine.Start.GetLineStartPosition(-1);
+            
+            int CaretOffset = CurrentLine.Start.GetOffsetToPosition(_Editor.CaretPosition);
+
+            if (StartOfUpLine is null)
+            {
+                _LineMoving = false;
+                return;
+            }
+
+            string LineText = CurrentLine.Text;
+
+            _Window.Dispatcher.BeginInvoke
+            (
+                () =>
+                {
+                    _Editor.BeginChange();
+
+                    new TextRange
+                    (
+                        CurrentLine.Start.GetPositionAtOffset(-_NewLine.Length - 1),
+                        CurrentLine.End
+                    ).Text = string.Empty;
+
+                    _Editor.CaretPosition = StartOfUpLine;
+
+                    TextRange Range = new TextRange(_Editor.CaretPosition, _Editor.CaretPosition);
+                    Range.Text = LineText + _NewLine;
+
+                    _Editor.CaretPosition = StartOfUpLine.GetPositionAtOffset(CaretOffset);
+                    _Editor.Focus();
+
+                    _Editor.EndChange();
+                    _LineMoving = false;
+                },
+                DispatcherPriority.Input
+            );
+        }
+
+        private void LowerLine(object sender, RoutedEventArgs e)
+        {
+            if (_LineMoving)
+            {
+                return;
+            }
+
+            _LineMoving = true;
+
+            TextRange CurrentLine = GetCurrentLine();
+            TextPointer StartOfDownLine = CurrentLine.Start.GetLineStartPosition(2);
+
+            int CaretOffset = CurrentLine.Start.GetOffsetToPosition(_Editor.CaretPosition);
+            bool IsEnd = false;
+
+            if (StartOfDownLine is null)
+            {
+                if (CurrentLine.Start.GetLineStartPosition(1) is null)
+                {
+                    _LineMoving = false;
+                    return;
+                }
+
+                StartOfDownLine = _ContentEnd;
+                IsEnd = true;
+            }
+
+            string LineText = CurrentLine.Text;
+
+            _Window.Dispatcher.BeginInvoke
+            (
+                () =>
+                {
+                    _Editor.BeginChange();
+
+                    new TextRange
+                    (
+                        CurrentLine.Start,
+                        CurrentLine.End.GetPositionAtOffset(+_NewLine.Length + 1) ?? CurrentLine.End
+                    ).Text = string.Empty;
+
+                    _Editor.CaretPosition = StartOfDownLine;
+
+                    TextRange Range = new TextRange(_Editor.CaretPosition, _Editor.CaretPosition);
+
+                    if (IsEnd)
+                    {
+                        Range.Text = _NewLine + LineText;
+                        _Editor.CaretPosition = StartOfDownLine.GetPositionAtOffset(CaretOffset - LineText.Length);
+                    }
+                    else
+                    {
+                        Range.Text = LineText + _NewLine;
+                        _Editor.CaretPosition = StartOfDownLine.GetLineStartPosition(0).GetPositionAtOffset(CaretOffset);
+                    }
+
+                    _Editor.Focus();
+                    _Editor.EndChange();
+                    _LineMoving = false;
+                },
+                DispatcherPriority.Input
+            );
+        }
+
 
         private string ConvertChars(string String)
         {
@@ -409,15 +534,26 @@ namespace Ion
 
         private void ConvertDigits(Func<char, char> Converter)
         {
-            if (TryGetSelection(out TextRange Selection))
+            TextRange Range = GetSelection();
+            if (Range.IsEmpty)
             {
-                Selection.Text = Selection.Text.ConvertAll(Converter);
-                _Editor.CaretPosition = Selection.End;
+                TextPointer Caret = _Editor.CaretPosition;
+
+                Range = new TextRange
+                (
+                    Caret.GetPositionAtOffset(-1) ?? _Editor.Document.ContentStart,
+                    Caret
+                );
+
+                if (Range.IsEmpty)
+                {
+                    StatusBar.Write(Translater._Current._EmptySelection);
+                    return;
+                }
             }
-            else
-            {
-                StatusBar.Write(Translater._Current._EmptySelection);
-            }
+
+            Range.Text = Range.Text.ConvertAll(Converter);
+            _Editor.CaretPosition = Range.End;
         }
 
         private string ToUnicode(string String)

@@ -10,7 +10,7 @@ namespace Ion
         public override void Initialize()
         {
             AddKey((S, E) => WriteNewLine(Keyboard.Modifiers), Key.Enter, ModifierKeys.None);
-
+            
             AddKey(SetCursorInStart, Key.Up, ModifierKeys.Control | ModifierKeys.Alt);
             AddKey(SetCursorInEnd, Key.Down, ModifierKeys.Control | ModifierKeys.Alt);
         }
@@ -19,10 +19,12 @@ namespace Ion
         {
             _Editor.CaretPosition = _Editor.Document.ContentStart;
         }
+
         private void SetCursorInEnd()
         {
             _Editor.CaretPosition = _Editor.Document.ContentEnd;
         }
+
 
 
         private void WriteNewLine(ModifierKeys Modifier)
