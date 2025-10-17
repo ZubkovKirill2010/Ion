@@ -5,7 +5,7 @@ namespace Ion
 {
     public sealed class HelpMenu : Menu
     {
-        private const string _Version = "0.1.0";
+        private const string _Version = "0.1.1";
 
 
         public override void Initialize()

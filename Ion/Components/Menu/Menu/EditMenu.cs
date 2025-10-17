@@ -1,14 +1,11 @@
 using Ion.Extensions;
-using System.Diagnostics;
 using System.IO;
-using System.Printing;
 using System.Text;
 using System.Windows;
 using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Threading;
-using Windows.Gaming.Input.ForceFeedback;
 using Zion;
 
 namespace Ion
@@ -162,11 +159,11 @@ namespace Ion
 
         private void ToLower(object Sender, RoutedEventArgs E)
         {
-            ConvertText(String => String.ToUpper());
+            ConvertText(String => String.ToLower());
         }
         private void ToUpper(object Sender, RoutedEventArgs E)
         {
-            ConvertText(String => String.ToLower());
+            ConvertText(String => String.ToUpper());
         }
         private void Capitalize(object Sender, RoutedEventArgs E)
         {

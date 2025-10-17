@@ -47,8 +47,6 @@ namespace Ion
         public void Save() => _CurrentTab.SaveFile();
         public void SaveAs() => _CurrentTab.SaveAs();
 
-        private bool Temp;
-
         public void SetDocument(FlowDocument Document)
         {
             Debug.WriteLine("Set Document");

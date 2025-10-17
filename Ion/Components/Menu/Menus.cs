@@ -10,6 +10,7 @@ namespace Ion
         public PunctuationMenu _PunctuationMenu { get; } = new PunctuationMenu();
         public StructuringMenu _StructuringMenu { get; } = new StructuringMenu();
         public ClipboardMenu _ClipboardMenu { get; } = new ClipboardMenu();
+        public TextFunctions _TextMenu { get; } = new TextFunctions();
         public ViewMenu _ViewMenu { get; } = new ViewMenu();
         public TabsMenu _TabsMenu { get; } = new TabsMenu();
         public HelpMenu _HelpMenu { get; } = new HelpMenu();
@@ -24,6 +25,7 @@ namespace Ion
             _PunctuationMenu.Initialize();
             _StructuringMenu.Initialize();
             _ClipboardMenu.Initialize();
+            _TextMenu.Initialize();
             _ViewMenu.Initialize();
             _TabsMenu.Initialize();
             _HelpMenu.Initialize();

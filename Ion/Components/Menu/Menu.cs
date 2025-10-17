@@ -1,6 +1,7 @@
 ﻿using HotKeyManagement;
 using Ion.Extensions;
 using System.Diagnostics;
+using System.Reflection;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Documents;
@@ -98,13 +99,31 @@ namespace Ion
 
         protected void AddKey(RoutedEventHandler Event)
         {
-            Debug.WriteLine($"AddKey : {Event.Method.Name}");
-            _Functions.Add(Event.Method.Name, Event);
+            string MethodName = Event.Method.Name;
+
+            Debug.WriteLine($"AddKey : {MethodName}");
+            
+            if (_Functions.ContainsKey(MethodName))
+            {
+                Debug.WriteLine($"!!!ERROR!!! Key \"{MethodName}\" alreay exists");
+                return;
+            }
+
+            _Functions.Add(MethodName, Event);
         }
         protected void AddKey(Action Action, Key Key, ModifierKeys Modifiers, bool OverrideKeyDown = false)
         {
-            AddKey((S, E) => Action());
-            AddHotKey(Action.Method.Name, Action, Key, Modifiers, OverrideKeyDown);
+            string MethodName = Action.Method.Name;
+
+            Debug.WriteLine($"AddKey : {MethodName} (_Action)");
+
+            if (_Functions.ContainsKey(MethodName))
+            {
+                Debug.WriteLine($"!!!ERROR!!! Key (Action) \"{MethodName}\" alreay exists");
+                return;
+            }
+
+            _Functions.Add(MethodName, (S, E) => Action());
         }
         protected void AddKey(RoutedEventHandler Event, Key Key, ModifierKeys Modifiers, bool OverrideKeyDown = false)
         {
