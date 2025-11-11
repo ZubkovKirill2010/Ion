@@ -1,5 +1,4 @@
 ﻿using Ion.Extensions;
-using System.Collections.Generic;
 using System.Windows.Documents;
 using System.Windows.Input;
 using Zion;

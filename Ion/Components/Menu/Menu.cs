@@ -1,7 +1,6 @@
 ﻿using HotKeyManagement;
 using Ion.Extensions;
 using System.Diagnostics;
-using System.Reflection;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Documents;
@@ -102,7 +101,7 @@ namespace Ion
             string MethodName = Event.Method.Name;
 
             Debug.WriteLine($"AddKey : {MethodName}");
-            
+
             if (_Functions.ContainsKey(MethodName))
             {
                 Debug.WriteLine($"!!!ERROR!!! Key \"{MethodName}\" alreay exists");

@@ -180,7 +180,7 @@ namespace Ion
 
         protected string GetText()
         {
-            return _Document.GetAll().Text;
+            return _Document.GetAll().Text.TrimEnd('\r', '\n');
         }
 
         protected void SetDocument(string Text)

@@ -11,7 +11,8 @@ namespace Ion
     {
         public override void Initialize()
         {
-            AddKey(New, Key.N, ModifierKeys.Control);
+            AddHotKey("NewTab", _Hub._TabManager.AddTab, Key.N, ModifierKeys.Control);
+
             AddKey(Open, Key.O, ModifierKeys.Control);
             AddKey(Save, Key.S, ModifierKeys.Control);
             AddKey(SaveAs, Key.S, ModifierKeys.Control | ModifierKeys.Shift);
@@ -25,7 +26,7 @@ namespace Ion
         }
 
 
-        private void New(object Sender, RoutedEventArgs E)
+        public void New(object Sender, RoutedEventArgs E)
         {
             if (Sender is MenuItem Item)
             {

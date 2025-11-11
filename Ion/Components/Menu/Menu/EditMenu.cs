@@ -86,42 +86,43 @@ namespace Ion
         };
         public static readonly (string, char)[] _KeyWords =
         [
-            ("+-", '\u00B1'),
-            ("~=", '\u2248'),
-            ("!=", '\u2260'),
-            ("<=", '\u2264'),
-            (">=", '\u2265'),
-            ("->", '\u2192'),
-            ("<-", '\u2190'),
+            ("+-",    '\u00B1'),
+            ("~=",    '\u2248'),
+            ("!=",    '\u2260'),
+            ("<=",    '\u2264'),
+            (">=",    '\u2265'),
+            ("->",    '\u2192'),
+            ("<-",    '\u2190'),
 
-            ("up", '\u2191'),
-            ("down", '\u2193'),
+            ("up",    '\u2191'),
+            ("down",  '\u2193'),
 
             ("sqrt4", '\u221C'),
             ("sqrt3", '\u221B'),
-            ("sqrt", '\u221A'),
+            ("sqrt",  '\u221A'),
 
-            ("null", '\u2205'),
+            ("null",  '\u2205'),
 
-            ("deg", '\u00B0'),
+            ("deg",   '\u00B0'),
             ("angle", '\u2220'),
 
             ("infinity", '\u221E'),
-            ("sum", '\u2211'),
+            ("sum",      '\u2211'),
 
             ("copyr", '\u00A9'),
-            ("rego", '\u00AE'),
-            ("tm", '\u2122'),
+            ("rego",  '\u00AE'),
+            ("tm",    '\u2122'),
 
-            ("pi", '\u03C0'),
+            ("pi",    '\u03C0'),
             ("alpha", '\u03B1'),
-            ("beta", '\u03B2'),
+            ("beta",  '\u03B2'),
             ("lamda", '\u03BB'),
             ("gamma", '\u03B3'),
             ("delta", '\u0394'),
             ("omega", '\u03C9'),
-            ("nu", '\u03BD'),
-            ("eta", '\u03B7')
+            ("nu",    '\u03BD'),
+            ("eta",   '\u03B7'),
+            ("in",    '\u2208')
         ];
 
 
@@ -139,7 +140,7 @@ namespace Ion
 
             AddKey(ConvertChars, Key.T, ModifierKeys.Control, true);
             AddKey(GetInformation, Key.I, ModifierKeys.Control, true);
-            
+
             AddKey(ToUnicode, Key.U, ModifierKeys.Control);
 
             AddKey(Event: WriteTab, Key.Tab, ModifierKeys.None, true);
@@ -381,7 +382,7 @@ namespace Ion
 
             TextRange CurrentLine = GetSelectedLines();
             TextPointer StartOfUpLine = CurrentLine.Start.GetLineStartPosition(-1);
-            
+
             int CaretOffset = CurrentLine.Start.GetOffsetToPosition(_Editor.CaretPosition);
 
             if (StartOfUpLine is null)
